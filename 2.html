@@ -34,29 +34,6 @@
             margin: 15px;
             width: 280px;
             text-align: left;
-            cursor: pointer;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-            position: relative;
-        }
-        .card-content {
-            backface-visibility: hidden;
-        }
-        .card-back {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            padding: 20px;
-            text-align: left;
-            transform: rotateY(180deg);
-        }
-        .card.flipped {
-            transform: rotateY(180deg);
         }
         .card h2 {
             color: #78BE20;
@@ -75,6 +52,7 @@
         <!-- Visitenkarten -->
         <script>
             const visitenkarten = [
+            
                 {name: "Albert Einstein", herkunft: "Deutschland", wohnort: "Bern, Schweiz", tel: "+49-3929-2371", adresse: "Wissenschaftsstraße 42", sprachen: "Deutsch, Englisch", hobbys: "Physik, Geige spielen"},
                 {name: "Marie Curie", herkunft: "Polen", wohnort: "Paris, Frankreich", tel: "+35-5035-2287", adresse: "Curie-Allee 7", sprachen: "Polnisch, Französisch", hobbys: "Chemie, Lesen"},
                 {name: "Leonardo da Vinci", herkunft: "Italien", wohnort: "Florenz, Italien", tel: "+96-5768-9720", adresse: "Renaissanceplatz 15", sprachen: "Italienisch, Latein", hobbys: "Malen, Anatomie"},
@@ -98,9 +76,7 @@
                 const card = document.createElement('div');
                 card.className = 'card';
 
-                const cardFront = document.createElement('div');
-                cardFront.className = 'card-content';
-                cardFront.innerHTML = `
+                card.innerHTML = `
                     <h2>${v.name}</h2>
                     <p><strong>Herkunft:</strong> ${v.herkunft}</p>
                     <p><strong>Wohnort:</strong> ${v.wohnort}</p>
@@ -110,31 +86,16 @@
                     <p><strong>Hobbys:</strong> ${v.hobbys}</p>
                 `;
 
-                const cardBack = document.createElement('div');
-                cardBack.className = 'card-back';
-                cardBack.innerHTML = `
-                    <h2>Station 1</h2>
-                    <p>1. Wie heißt du? / Wie heißen Sie?<br>(${v.name})</p>
-                    <p>2. Woher kommst du? / Woher kommen Sie?<br>(${v.herkunft})</p>
-                    <p>3. Wo wohnst du? / Wo wohnen Sie?<br>(${v.wohnort})</p>
-                    <h2>Station 2</h2>
-                    <p>4. Wie ist deine Handynummer? / Wie ist Ihre Handynummer?<br>(${v.tel})</p>
-                    <p>5. Wo wohnst du genau? / Wie lautet deine Adresse?<br>(${v.adresse})</p>
-                    <h2>Station 3</h2>
-                    <p>6. Welche Sprachen sprichst du? / Welche Sprachen sprechen Sie?<br>(${v.sprachen})</p>
-                    <p>7. Was sind deine Hobbys? / Was machst du in deiner Freizeit?<br>(${v.hobbys})</p>
-                `;
-
-                card.appendChild(cardFront);
-                card.appendChild(cardBack);
-
-                card.addEventListener('click', () => {
-                    card.classList.toggle('flipped');
-                });
-
                 container.appendChild(card);
             });
         </script>
+    </div>
+    <div style="margin: 20px;">
+        <a href="3.html">
+            <button style="padding: 10px 20px; font-size: 16px; background-color: #78BE20; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Nächste Seite
+            </button>
+        </a>
     </div>
 </body>
 </html>
