@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -47,7 +47,7 @@
 </head>
 <body>
     <div class="header">Fiktive Visitenkarten</div>
-    <div class="container">
+    <div class="container" id="card-container">
         
         <!-- Visitenkarten -->
         <script>
@@ -69,8 +69,13 @@
                 {name: "Cleopatra", herkunft: "Ägypten", wohnort: "Alexandria, Ägypten", tel: "+20-9876-5432", adresse: "Pharaonenstraße 1", sprachen: "Altägyptisch, Griechisch", hobbys: "Regieren, Lesen"}
             ];
 
-            document.write(visitkarten.map(v => `
-                <div class="card">
+            const container = document.getElementById('card-container');
+
+            visitenkarten.forEach(v => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                card.innerHTML = `
                     <h2>${v.name}</h2>
                     <p><strong>Herkunft:</strong> ${v.herkunft}</p>
                     <p><strong>Wohnort:</strong> ${v.wohnort}</p>
@@ -78,7 +83,10 @@
                     <p><strong>Adresse:</strong> ${v.adresse}</p>
                     <p><strong>Sprachen:</strong> ${v.sprachen}</p>
                     <p><strong>Hobbys:</strong> ${v.hobbys}</p>
-                </div>`).join(''));
+                `;
+
+                container.appendChild(card);
+            });
         </script>
     </div>
 </body>
