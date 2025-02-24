@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiktive Visitenkarten</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F4F4F4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #78BE20;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            padding: 20px;
+            margin: 15px;
+            width: 280px;
+            text-align: left;
+        }
+        .card h2 {
+            color: #78BE20;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .card p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Fiktive Visitenkarten</div>
+    <div class="container" id="card-container">
+        
+        <!-- Visitenkarten -->
+        <script>
+            const visitenkarten = [
+                {name: "Albert Einstein", herkunft: "Deutschland", wohnort: "Bern, Schweiz", tel: "+49-3929-2371", adresse: "Wissenschaftsstraße 42", sprachen: "Deutsch, Englisch", hobbys: "Physik, Geige spielen"},
+                {name: "Marie Curie", herkunft: "Polen", wohnort: "Paris, Frankreich", tel: "+35-5035-2287", adresse: "Curie-Allee 7", sprachen: "Polnisch, Französisch", hobbys: "Chemie, Lesen"},
+                {name: "Leonardo da Vinci", herkunft: "Italien", wohnort: "Florenz, Italien", tel: "+96-5768-9720", adresse: "Renaissanceplatz 15", sprachen: "Italienisch, Latein", hobbys: "Malen, Anatomie"},
+                {name: "Wolfgang Amadeus Mozart", herkunft: "Österreich", wohnort: "Wien, Österreich", tel: "+60-4187-9670", adresse: "Komponistenweg 22", sprachen: "Deutsch", hobbys: "Klavier spielen, Opern schreiben"},
+                {name: "Frida Kahlo", herkunft: "Mexiko", wohnort: "Coyoacán, Mexiko", tel: "+55-8989-2671", adresse: "Atelierstraße 5", sprachen: "Spanisch", hobbys: "Malen, Politik"},
+                {name: "Nikola Tesla", herkunft: "Serbien", wohnort: "New York, USA", tel: "+45-2312-9834", adresse: "Tesla-Tower 3", sprachen: "Serbisch, Englisch", hobbys: "Erfindungen, Elektrizität"},
+                {name: "Virginia Woolf", herkunft: "England", wohnort: "London, England", tel: "+44-8934-7621", adresse: "Literatenstraße 11", sprachen: "Englisch", hobbys: "Schreiben, Philosophie"},
+                {name: "Pablo Picasso", herkunft: "Spanien", wohnort: "Málaga, Spanien", tel: "+34-5432-8765", adresse: "Malerweg 9", sprachen: "Spanisch, Französisch", hobbys: "Malen, Bildhauerei"},
+                {name: "Ada Lovelace", herkunft: "England", wohnort: "London, England", tel: "+44-6754-9876", adresse: "Technikgasse 18", sprachen: "Englisch, Mathematik", hobbys: "Mathematik, Maschinen"},
+                {name: "Charles Darwin", herkunft: "England", wohnort: "Kent, England", tel: "+44-3456-1234", adresse: "Evolutionstraße 14", sprachen: "Englisch", hobbys: "Naturforschung, Reisen"},
+                {name: "Amelia Earhart", herkunft: "USA", wohnort: "Kansas, USA", tel: "+1-5678-3456", adresse: "Pilotengasse 6", sprachen: "Englisch", hobbys: "Fliegen, Abenteuer"},
+                {name: "Sigmund Freud", herkunft: "Österreich", wohnort: "Wien, Österreich", tel: "+43-1234-6789", adresse: "Psychoanalyseweg 19", sprachen: "Deutsch", hobbys: "Psychoanalyse, Reisen"},
+                {name: "Emmy Noether", herkunft: "Deutschland", wohnort: "Erlangen, Deutschland", tel: "+49-8765-4321", adresse: "Mathematikallee 8", sprachen: "Deutsch", hobbys: "Mathematik, Forschung"},
+                {name: "Johann Wolfgang von Goethe", herkunft: "Deutschland", wohnort: "Weimar, Deutschland", tel: "+49-5678-9101", adresse: "Dichterstraße 10", sprachen: "Deutsch, Latein", hobbys: "Dichten, Reisen"},
+                {name: "Cleopatra", herkunft: "Ägypten", wohnort: "Alexandria, Ägypten", tel: "+20-9876-5432", adresse: "Pharaonenstraße 1", sprachen: "Altägyptisch, Griechisch", hobbys: "Regieren, Lesen"}
+            ];
+
+            const container = document.getElementById('card-container');
+
+            visitenkarten.forEach(v => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                card.innerHTML = `
+                    <h2>${v.name}</h2>
+                    <p><strong>Herkunft:</strong> ${v.herkunft}</p>
+                    <p><strong>Wohnort:</strong> ${v.wohnort}</p>
+                    <p><strong>Handynummer:</strong> ${v.tel}</p>
+                    <p><strong>Adresse:</strong> ${v.adresse}</p>
+                    <p><strong>Sprachen:</strong> ${v.sprachen}</p>
+                    <p><strong>Hobbys:</strong> ${v.hobbys}</p>
+                `;
+
+                container.appendChild(card);
+            });
+        </script>
+    </div>
+</body>
+</html>
