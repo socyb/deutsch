@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Was hast du am Wochenende gemacht?</title>
+    <style>
+        :root {
+            --gruen: #5E8A58;
+            --gruen-dunkel: #3F5F3A;
+            --papier: #F6F5F1;
+            --tinte: #1E241F;
+            --karte: #FFFFFF;
+            --linie: #D8DDD2;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            color: var(--tinte);
+            background:
+                radial-gradient(circle at 15% 10%, #E8EEE1 0%, transparent 42%),
+                radial-gradient(circle at 85% 0%, #F2F4EC 0%, transparent 46%),
+                var(--papier);
+            line-height: 1.5;
+        }
+
+        .header {
+            background: linear-gradient(90deg, var(--gruen-dunkel), var(--gruen));
+            color: #fff;
+            padding: 18px 16px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: clamp(1.4rem, 2vw + 1rem, 2rem);
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            opacity: 0.95;
+            font-size: 0.98rem;
+        }
+
+        main {
+            width: min(1100px, 94vw);
+            margin: 20px auto 30px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .panel {
+            background: var(--karte);
+            border: 1px solid var(--linie);
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            padding: 16px;
+        }
+
+        h2 {
+            margin: 0 0 10px;
+            color: var(--gruen-dunkel);
+            font-size: 1.25rem;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid #C5CCBE;
+            border-radius: 8px;
+            padding: 10px;
+            font: inherit;
+            background: #FCFCF9;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .satzfeld {
+            margin-bottom: 8px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font: inherit;
+            cursor: pointer;
+            color: #fff;
+            background: var(--gruen);
+        }
+
+        button:hover {
+            background: #52794D;
+        }
+
+        .secondary {
+            background: #5f6b5f;
+        }
+
+        .secondary:hover {
+            background: #4c564c;
+        }
+
+        .danger {
+            background: #a73f2f;
+        }
+
+        .danger:hover {
+            background: #8f3427;
+        }
+
+        .info {
+            font-size: 0.93rem;
+            background: #EDF2E9;
+            border-left: 4px solid var(--gruen);
+            padding: 8px 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .tafel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+        }
+
+        .eintrag {
+            border: 1px solid var(--linie);
+            border-radius: 10px;
+            background: #FCFDF9;
+            padding: 12px;
+        }
+
+        .eintrag h3 {
+            margin: 0 0 8px;
+            color: var(--gruen-dunkel);
+            font-size: 1.1rem;
+        }
+
+        .eintrag ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .eintrag li {
+            margin: 6px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+
+        th,
+        td {
+            border: 1px solid #D0D6CC;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #ECF1E7;
+        }
+
+        .regel {
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 8px;
+            background: #F4F7F0;
+            border: 1px solid #D8DDD2;
+            font-size: 0.95rem;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #4f5a4f;
+            margin-bottom: 20px;
+        }
+
+        @media print {
+            body {
+                background: #fff;
+            }
+
+            .header,
+            .eingabe,
+            .grammatik,
+            .footer {
+                display: none !important;
+            }
+
+            main {
+                width: 100%;
+                margin: 0;
+            }
+
+            .panel {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .tafel {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .eintrag {
+                break-inside: avoid;
+                border: 1px solid #999;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Was hast du am Wochenende gemacht?</h1>
+        <p>A1/A2 Aktivität für den Deutschunterricht · Jorge Cardiel</p>
+    </header>
+
+    <main>
+        <section class="panel eingabe">
+            <h2>Neue Antwort hinzufügen</h2>
+            <div class="form-grid">
+                <div>
+                    <label for="name">Name der Person</label>
+                    <input id="name" type="text" placeholder="z. B. Ana" autocomplete="off">
+                </div>
+
+                <div id="satz-container">
+                    <div class="satzfeld">
+                        <label for="satz-1">Satz 1 (ganzer Satz)</label>
+                        <textarea id="satz-1" placeholder="Am Samstag habe ich Fußball gespielt."></textarea>
+                    </div>
+                    <div class="satzfeld">
+                        <label for="satz-2">Satz 2 (ganzer Satz)</label>
+                        <textarea id="satz-2" placeholder="Am Sonntag bin ich mit meiner Familie ins Kino gegangen."></textarea>
+                    </div>
+                    <div class="satzfeld">
+                        <label for="satz-3">Satz 3 (ganzer Satz)</label>
+                        <textarea id="satz-3" placeholder="Abends habe ich eine Pizza gegessen."></textarea>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" id="satzHinzufuegen">+ Satz hinzufügen</button>
+                    <button type="button" id="speichern">Auf die Tafel</button>
+                    <button type="button" class="secondary" id="drucken">Tafel drucken</button>
+                    <button type="button" class="danger" id="allesLoeschen">Tafel löschen</button>
+                </div>
+            </div>
+            <p class="info">Tipp: Schreibt ganze Sätze im Perfekt oder Präteritum. Die Tafel bleibt im Browser gespeichert.</p>
+        </section>
+
+        <section class="panel">
+            <h2>Klassen-Tafel</h2>
+            <div id="tafel" class="tafel"></div>
+        </section>
+
+        <section class="panel grammatik">
+            <h2>Mini-Grammatik: Wochenende erzählen (A1/A2)</h2>
+
+            <div class="regel"><strong>Perfekt</strong>: <em>haben/sein + Partizip II</em><br>
+                Beispiel: <em>Ich habe Musik gehört.</em> · <em>Ich bin nach Hause gegangen.</em>
+            </div>
+
+            <div class="regel"><strong>Präteritum</strong>: vor allem häufig bei <em>sein</em> und <em>haben</em> in der gesprochenen Sprache auf A2.<br>
+                Beispiel: <em>Ich war müde.</em> · <em>Ich hatte viel Zeit.</em>
+            </div>
+
+            <div class="regel"><strong>Wann nimmt man sein?</strong> Bei Bewegung/Ortswechsel und bei Zustandsänderung.<br>
+                Beispiele: <em>gehen, fahren, kommen, laufen, aufstehen, einschlafen</em>.
+            </div>
+
+            <div class="regel"><strong>Partizip II kurz</strong>:<br>
+                Regelmäßige Verben oft <em>ge-...-t</em> (machen → gemacht).<br>
+                Viele unregelmäßige Verben oft <em>ge-...-en</em> (sehen → gesehen).
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Infinitiv</th>
+                        <th>Präteritum (ich)</th>
+                        <th>Perfekt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>haben</td>
+                        <td>hatte</td>
+                        <td>ich habe gehabt</td>
+                    </tr>
+                    <tr>
+                        <td>sein</td>
+                        <td>war</td>
+                        <td>ich bin gewesen</td>
+                    </tr>
+                    <tr>
+                        <td>machen</td>
+                        <td>machte</td>
+                        <td>ich habe gemacht</td>
+                    </tr>
+                    <tr>
+                        <td>spielen</td>
+                        <td>spielte</td>
+                        <td>ich habe gespielt</td>
+                    </tr>
+                    <tr>
+                        <td>lernen</td>
+                        <td>lernte</td>
+                        <td>ich habe gelernt</td>
+                    </tr>
+                    <tr>
+                        <td>essen</td>
+                        <td>aß</td>
+                        <td>ich habe gegessen</td>
+                    </tr>
+                    <tr>
+                        <td>trinken</td>
+                        <td>trank</td>
+                        <td>ich habe getrunken</td>
+                    </tr>
+                    <tr>
+                        <td>gehen</td>
+                        <td>ging</td>
+                        <td>ich bin gegangen</td>
+                    </tr>
+                    <tr>
+                        <td>kommen</td>
+                        <td>kam</td>
+                        <td>ich bin gekommen</td>
+                    </tr>
+                    <tr>
+                        <td>fahren</td>
+                        <td>fuhr</td>
+                        <td>ich bin gefahren</td>
+                    </tr>
+                    <tr>
+                        <td>sehen</td>
+                        <td>sah</td>
+                        <td>ich habe gesehen</td>
+                    </tr>
+                    <tr>
+                        <td>lesen</td>
+                        <td>las</td>
+                        <td>ich habe gelesen</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <p class="footer">Material: Jorge Cardiel · Frage des Tages: „Was hast du am Wochenende gemacht?“</p>
+
+    <script>
+        const nameInput = document.getElementById('name');
+        const satzContainer = document.getElementById('satz-container');
+        const tafel = document.getElementById('tafel');
+        const satzHinzufuegenBtn = document.getElementById('satzHinzufuegen');
+        const speichernBtn = document.getElementById('speichern');
+        const druckenBtn = document.getElementById('drucken');
+        const allesLoeschenBtn = document.getElementById('allesLoeschen');
+
+        let satzZaehler = 3;
+        const STORAGE_KEY = 'wochenende_tafel_a1a2';
+        let eintraege = ladeEintraege();
+
+        function ladeEintraege() {
+            try {
+                const daten = localStorage.getItem(STORAGE_KEY);
+                return daten ? JSON.parse(daten) : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function speichereEintraege() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(eintraege));
+        }
+
+        function sichereHTML(text) {
+            return text
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+        }
+
+        function renderTafel() {
+            if (eintraege.length === 0) {
+                tafel.innerHTML = '<p>Noch keine Einträge. Startet mit der ersten Person.</p>';
+                return;
+            }
+
+            tafel.innerHTML = eintraege
+                .map((eintrag) => {
+                    const saetze = eintrag.saetze.map((satz) => `<li>${sichereHTML(satz)}</li>`).join('');
+                    return `
+                        <article class="eintrag">
+                            <h3>${sichereHTML(eintrag.name)}</h3>
+                            <ul>${saetze}</ul>
+                        </article>
+                    `;
+                })
+                .join('');
+        }
+
+        function holeSaetze() {
+            const felder = satzContainer.querySelectorAll('textarea');
+            return Array.from(felder)
+                .map((feld) => feld.value.trim())
+                .filter((satz) => satz.length > 0);
+        }
+
+        function leereFormular() {
+            nameInput.value = '';
+            satzContainer.querySelectorAll('textarea').forEach((feld) => {
+                feld.value = '';
+            });
+            nameInput.focus();
+        }
+
+        satzHinzufuegenBtn.addEventListener('click', () => {
+            satzZaehler += 1;
+            const block = document.createElement('div');
+            block.className = 'satzfeld';
+            block.innerHTML = `
+                <label for="satz-${satzZaehler}">Satz ${satzZaehler} (ganzer Satz)</label>
+                <textarea id="satz-${satzZaehler}" placeholder="Ich habe ..."></textarea>
+            `;
+            satzContainer.appendChild(block);
+        });
+
+        speichernBtn.addEventListener('click', () => {
+            const name = nameInput.value.trim();
+            const saetze = holeSaetze();
+
+            if (!name) {
+                alert('Bitte zuerst den Namen eingeben.');
+                nameInput.focus();
+                return;
+            }
+
+            if (saetze.length < 2) {
+                alert('Bitte mindestens zwei ganze Sätze schreiben.');
+                return;
+            }
+
+            eintraege.push({ name, saetze });
+            speichereEintraege();
+            renderTafel();
+            leereFormular();
+        });
+
+        druckenBtn.addEventListener('click', () => {
+            window.print();
+        });
+
+        allesLoeschenBtn.addEventListener('click', () => {
+            const ok = confirm('Willst du wirklich alle Einträge löschen?');
+            if (!ok) {
+                return;
+            }
+            eintraege = [];
+            speichereEintraege();
+            renderTafel();
+        });
+
+        renderTafel();
+    </script>
+</body>
+</html>
