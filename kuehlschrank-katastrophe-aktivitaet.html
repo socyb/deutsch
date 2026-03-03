@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuehlschrank-Katastrophe - A1/A2 Deutschaktivitaet</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap");
+
+        :root {
+            --bg-cream: #fff5d8;
+            --bg-mint: #d9f3e6;
+            --ink: #1f2a2a;
+            --ink-soft: #36504f;
+            --accent-hot: #e4572e;
+            --accent-teal: #1f9d8a;
+            --accent-dark: #155e54;
+            --card: #fffdf8;
+            --line: #dfd8c8;
+            --ok: #1f8b4c;
+            --bad: #b73a2b;
+            --der: #2271b3;
+            --die: #ca3f52;
+            --das: #2f9b55;
+            --shadow: 0 14px 34px rgba(30, 50, 45, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Nunito", "Trebuchet MS", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 12% 8%, rgba(228, 87, 46, 0.2) 0%, transparent 35%),
+                radial-gradient(circle at 88% 5%, rgba(31, 157, 138, 0.2) 0%, transparent 33%),
+                linear-gradient(160deg, var(--bg-cream) 0%, #fdf3cd 35%, var(--bg-mint) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.hide-es .es {
+            display: none;
+        }
+
+        .stage {
+            width: min(1100px, 94vw);
+            margin: 26px auto 36px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .blob {
+            position: fixed;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+            animation: drift 9s ease-in-out infinite alternate;
+        }
+
+        .blob.one {
+            background: #ffb87c;
+            top: -80px;
+            left: -70px;
+        }
+
+        .blob.two {
+            background: #7ed8cb;
+            right: -90px;
+            bottom: -100px;
+            animation-duration: 11s;
+        }
+
+        .hero {
+            background:
+                linear-gradient(120deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0)),
+                linear-gradient(120deg, #ef6a3f, #e4572e 35%, #1f9d8a 100%);
+            color: #fff;
+            border-radius: 24px;
+            padding: 24px 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            animation: rise 0.55s ease both;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            top: -50px;
+            right: -35px;
+        }
+
+        .kicker {
+            margin: 0;
+            font-size: 0.9rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            opacity: 0.9;
+            font-weight: 800;
+        }
+
+        h1 {
+            margin: 8px 0 10px;
+            font-family: "Baloo 2", "Nunito", sans-serif;
+            font-size: clamp(1.65rem, 2vw + 1rem, 2.65rem);
+            line-height: 1.05;
+        }
+
+        .hero p {
+            margin: 0;
+            max-width: 72ch;
+            line-height: 1.45;
+            font-size: 1.02rem;
+        }
+
+        .hero-tools {
+            margin-top: 14px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.16);
+            color: #fff;
+            border-radius: 999px;
+            padding: 7px 12px;
+            font: 700 0.9rem "Nunito", sans-serif;
+            cursor: pointer;
+        }
+
+        .chip:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .layout {
+            margin-top: 18px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 16px;
+            animation: rise 0.6s ease both;
+        }
+
+        .panel:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+
+        .panel:nth-child(3) {
+            animation-delay: 0.16s;
+        }
+
+        .panel:nth-child(4) {
+            animation-delay: 0.24s;
+        }
+
+        .panel:nth-child(5) {
+            animation-delay: 0.32s;
+        }
+
+        .panel:nth-child(6) {
+            animation-delay: 0.4s;
+        }
+
+        .panel h2 {
+            margin: 0 0 8px;
+            font-family: "Baloo 2", "Nunito", sans-serif;
+            color: var(--accent-dark);
+            font-size: clamp(1.2rem, 1vw + 1rem, 1.65rem);
+            line-height: 1.1;
+        }
+
+        .hint {
+            margin: 0 0 12px;
+            color: var(--ink-soft);
+            font-size: 0.98rem;
+        }
+
+        .es {
+            color: #5f6f83;
+            font-style: italic;
+            font-size: 0.94em;
+        }
+
+        .vocab-grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        }
+
+        .vocab-card {
+            border: 2px solid var(--line);
+            border-radius: 12px;
+            background: #fff;
+            padding: 10px;
+            display: grid;
+            gap: 5px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .vocab-card:hover {
+            transform: translateY(-3px) rotate(-0.45deg);
+            box-shadow: 0 10px 20px rgba(31, 45, 39, 0.12);
+        }
+
+        .vocab-card.der {
+            border-left: 7px solid var(--der);
+        }
+
+        .vocab-card.die {
+            border-left: 7px solid var(--die);
+        }
+
+        .vocab-card.das {
+            border-left: 7px solid var(--das);
+        }
+
+        .word {
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .score {
+            background: #e9f7f4;
+            color: #1b6a5e;
+            border: 1px solid #bfe0d9;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .game-grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        }
+
+        .question-card {
+            border: 2px solid var(--line);
+            border-radius: 14px;
+            padding: 11px;
+            background: #fff;
+            transition: border-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-word {
+            font-weight: 800;
+            margin-bottom: 8px;
+            font-size: 1.02rem;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: 0;
+            border-radius: 10px;
+            padding: 8px 10px;
+            font: 800 0.88rem "Nunito", sans-serif;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .btn-der {
+            background: var(--der);
+        }
+
+        .btn-die {
+            background: var(--die);
+        }
+
+        .btn-das {
+            background: var(--das);
+        }
+
+        .ghost {
+            background: #4c6665;
+        }
+
+        .main-btn {
+            background: linear-gradient(120deg, #e4572e, #db4d1f);
+        }
+
+        button:hover {
+            filter: brightness(1.08);
+        }
+
+        .status {
+            min-height: 1.2rem;
+            margin-top: 7px;
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .question-card.correct {
+            border-color: #8ad3a6;
+            background: #ebf9f0;
+        }
+
+        .question-card.correct .status {
+            color: var(--ok);
+        }
+
+        .question-card.wrong {
+            border-color: #e4b2af;
+            background: #fff0ef;
+        }
+
+        .question-card.wrong .status {
+            color: var(--bad);
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .feedback {
+            min-height: 1.2rem;
+            margin: 10px 0 0;
+            font-weight: 800;
+        }
+
+        .feedback.ok {
+            color: var(--ok);
+        }
+
+        .feedback.bad {
+            color: var(--bad);
+        }
+
+        .dialog-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .dialog-item {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px;
+            background: #fff;
+            display: grid;
+            gap: 8px;
+        }
+
+        .dialog-item label {
+            font-weight: 700;
+            color: #223736;
+        }
+
+        select {
+            width: 100%;
+            border: 1px solid #cfc8b7;
+            border-radius: 9px;
+            padding: 8px;
+            font: 700 0.94rem "Nunito", sans-serif;
+            background: #fffcf5;
+            color: var(--ink);
+        }
+
+        .improv-box {
+            border-radius: 14px;
+            border: 2px dashed #cebda2;
+            background:
+                repeating-linear-gradient(
+                    -45deg,
+                    #fff8ea,
+                    #fff8ea 10px,
+                    #fef3df 10px,
+                    #fef3df 20px
+                );
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .video-frame {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 2px solid #d6cab4;
+            box-shadow: 0 10px 24px rgba(45, 62, 57, 0.18);
+            background: #111;
+        }
+
+        .video-frame iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .scene-de {
+            margin: 0;
+            font-weight: 800;
+            color: #283d3c;
+        }
+
+        .scene-es {
+            margin: 8px 0 0;
+            color: #5f6f83;
+        }
+
+        .idea-list {
+            margin: 0;
+            padding-left: 20px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .idea-list li {
+            line-height: 1.4;
+        }
+
+        .foot {
+            margin-top: 12px;
+            text-align: center;
+            color: #3d5a58;
+            font-size: 0.9rem;
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes drift {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+            to {
+                transform: translate(20px, 20px) scale(1.08);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero {
+                border-radius: 18px;
+                padding: 18px 15px;
+            }
+
+            .panel {
+                border-radius: 14px;
+                padding: 14px;
+            }
+
+            .score {
+                font-size: 0.84rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+
+    <div class="stage">
+        <header class="hero">
+            <p class="kicker">A1/A2 Deutsch + Espanol</p>
+            <h1>Kuehlschrank-Katastrophe in WG 404</h1>
+            <p>
+                Dein Mitbewohner, der Roboter Ramon, hat alle Kuechenetiketten vertauscht.
+                Rette die WG mit Deutsch.
+                <span class="es">Tu companero de piso, el robot Ramon, mezclo todas las etiquetas de la cocina. Salva el piso con aleman.</span>
+            </p>
+            <div class="hero-tools">
+                <button id="toggleSpanish" class="chip" type="button">Espanol ausblenden</button>
+            </div>
+        </header>
+
+        <main class="layout">
+            <section class="panel">
+                <h2>Wort-Booster: Kueche und Imbiss</h2>
+                <p class="hint">
+                    Lies laut und markiere die Artikel.
+                    <span class="es">Lee en voz alta y marca los articulos.</span>
+                </p>
+                <div class="vocab-grid">
+                    <article class="vocab-card der"><span class="word">der Kuehlschrank</span><span class="es">el refrigerador</span></article>
+                    <article class="vocab-card der"><span class="word">der Doener</span><span class="es">el doner kebab</span></article>
+                    <article class="vocab-card der"><span class="word">der Loeffel</span><span class="es">la cuchara</span></article>
+                    <article class="vocab-card die"><span class="word">die Cola</span><span class="es">la cola</span></article>
+                    <article class="vocab-card die"><span class="word">die Banane</span><span class="es">el platano</span></article>
+                    <article class="vocab-card die"><span class="word">die Rechnung</span><span class="es">la cuenta</span></article>
+                    <article class="vocab-card das"><span class="word">das Wasser</span><span class="es">el agua</span></article>
+                    <article class="vocab-card das"><span class="word">das Brot</span><span class="es">el pan</span></article>
+                    <article class="vocab-card das"><span class="word">das Messer</span><span class="es">el cuchillo</span></article>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>Mission 1: Artikel-Alarm</h2>
+                    <div class="score" id="articleScore">0 / 8 richtig</div>
+                </div>
+                <p class="hint">
+                    Waehle schnell den richtigen Artikel.
+                    <span class="es">Elige rapido el articulo correcto.</span>
+                </p>
+                <div class="game-grid" id="articleGame"></div>
+                <div class="actions">
+                    <button class="ghost" id="resetArticles" type="button">Neu starten</button>
+                </div>
+                <p id="articleFeedback" class="feedback"></p>
+            </section>
+
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>Mission 2: Dialog im Nacht-Imbiss</h2>
+                    <div class="score" id="dialogScore">0 / 5 richtig</div>
+                </div>
+                <p class="hint">
+                    Vervollstaendige den Dialog.
+                    <span class="es">Completa el dialogo.</span>
+                </p>
+
+                <form id="dialogForm" class="dialog-grid">
+                    <div class="dialog-item">
+                        <label for="q1">1. A: Guten Abend! Was ___ Sie?</label>
+                        <select id="q1">
+                            <option value="">Bitte waehlen</option>
+                            <option value="moechten">moechten</option>
+                            <option value="moechtest">moechtest</option>
+                            <option value="moechtet">moechtet</option>
+                        </select>
+                    </div>
+
+                    <div class="dialog-item">
+                        <label for="q2">2. B: Ich ___ einen Doener und eine Cola, bitte.</label>
+                        <select id="q2">
+                            <option value="">Bitte waehlen</option>
+                            <option value="nehme">nehme</option>
+                            <option value="nimm">nimm</option>
+                            <option value="nehmt">nehmt</option>
+                        </select>
+                    </div>
+
+                    <div class="dialog-item">
+                        <label for="q3">3. A: Hier essen oder zum Mitnehmen? B: ___ Mitnehmen, bitte.</label>
+                        <select id="q3">
+                            <option value="">Bitte waehlen</option>
+                            <option value="zum">zum</option>
+                            <option value="zur">zur</option>
+                            <option value="zun">zun</option>
+                        </select>
+                    </div>
+
+                    <div class="dialog-item">
+                        <label for="q4">4. A: Das macht neun Euro. B: Kann ich mit Karte ___?</label>
+                        <select id="q4">
+                            <option value="">Bitte waehlen</option>
+                            <option value="bezahlen">bezahlen</option>
+                            <option value="bezahlst">bezahlst</option>
+                            <option value="bezahlt">bezahlt</option>
+                        </select>
+                    </div>
+
+                    <div class="dialog-item">
+                        <label for="q5">5. B: Danke! Der Doener ist super. Ich komme ___ wieder.</label>
+                        <select id="q5">
+                            <option value="">Bitte waehlen</option>
+                            <option value="morgen">morgen</option>
+                            <option value="teuer">teuer</option>
+                            <option value="blau">blau</option>
+                        </select>
+                    </div>
+                </form>
+
+                <div class="actions">
+                    <button class="main-btn" id="checkDialog" type="button">Dialog pruefen</button>
+                    <button class="ghost" id="resetDialog" type="button">Zuruecksetzen</button>
+                </div>
+                <p id="dialogFeedback" class="feedback"></p>
+            </section>
+
+            <section class="panel">
+                <h2>Mission 3: Impro-Theater (Sprechen)</h2>
+                <p class="hint">
+                    Druecke den Knopf und sprich laut 2 bis 3 Saetze.
+                    <span class="es">Pulsa el boton y habla en voz alta 2 o 3 frases.</span>
+                </p>
+                <button class="main-btn" id="newScene" type="button">Neue Szene</button>
+                <div class="improv-box" id="sceneBox">
+                    <p class="scene-de" id="sceneDe">Du bist im Imbiss. Bestelle ein Getraenk und frage nach dem Preis.</p>
+                    <p class="scene-es es" id="sceneEs">Estas en un puesto de comida. Pide una bebida y pregunta el precio.</p>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>Song-Station: Horen und Sprechen</h2>
+                <p class="hint">
+                    Spielt den Song direkt hier ab und beschreibt danach die Stimmung in 2 bis 3 Saetzen.
+                    <span class="es">Reproduzcan la cancion aqui y luego describan el ambiente en 2 o 3 frases.</span>
+                </p>
+                <div class="video-frame">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/_qt-FHlDHKM"
+                        title="ENGIN - Doenermann (YouTube no-cookie)"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>Weitere amuesante Ideen fuer deine naechsten Seiten</h2>
+                <ul class="idea-list">
+                    <li><strong>Supermarkt-Speed-Dating:</strong> Jede Figur sucht ein Produkt. Du musst in 60 Sekunden passende Fragen stellen (A1: Wo ist...?, A2: Haben Sie etwas ohne Zucker?).</li>
+                    <li><strong>Detektiv im Bus:</strong> Ein Fahrgast hat ein Sandwich verschwinden lassen. Die Lernenden sammeln Hinweise mit Praeteritum-Saetzen und Ortsangaben.</li>
+                    <li><strong>WG-Casting-Show:</strong> Drei verrueckte Mitbewohner praesentieren sich. Lernende waehlen den besten Kandidaten mit Komparativ (lustiger, ruhiger, sauberer).</li>
+                    <li><strong>Zombie im Deutschkurs:</strong> Der Zombie will nur Verben im Perfekt hoeren. Jede richtige Antwort gibt ihm "Hirn-Kekse".</li>
+                </ul>
+            </section>
+        </main>
+
+        <p class="foot">A1/A2 Aktivitaet mit DE-ES Unterstuetzung. Noch nicht im Index verlinkt.</p>
+    </div>
+
+    <script>
+        const toggleSpanishBtn = document.getElementById("toggleSpanish");
+        const body = document.body;
+        let spanishVisible = true;
+
+        toggleSpanishBtn.addEventListener("click", () => {
+            spanishVisible = !spanishVisible;
+            body.classList.toggle("hide-es", !spanishVisible);
+            toggleSpanishBtn.textContent = spanishVisible ? "Espanol ausblenden" : "Espanol einblenden";
+        });
+
+        const articleQuestions = [
+            { word: "___ Tisch", answer: "der" },
+            { word: "___ Banane", answer: "die" },
+            { word: "___ Wasser", answer: "das" },
+            { word: "___ Doener", answer: "der" },
+            { word: "___ Rechnung", answer: "die" },
+            { word: "___ Brot", answer: "das" },
+            { word: "___ Loeffel", answer: "der" },
+            { word: "___ Cola", answer: "die" }
+        ];
+
+        const articleGame = document.getElementById("articleGame");
+        const articleScore = document.getElementById("articleScore");
+        const articleFeedback = document.getElementById("articleFeedback");
+        const resetArticles = document.getElementById("resetArticles");
+
+        let articleCorrect = 0;
+        let answeredCards = 0;
+
+        function updateArticleScore() {
+            articleScore.textContent = `${articleCorrect} / ${articleQuestions.length} richtig`;
+        }
+
+        function finishArticleRound() {
+            articleFeedback.className = "feedback";
+            if (articleCorrect === articleQuestions.length) {
+                articleFeedback.textContent = "Perfekt! Ramon ist beeindruckt.";
+                articleFeedback.classList.add("ok");
+                return;
+            }
+            if (articleCorrect >= 5) {
+                articleFeedback.textContent = "Sehr gut! Fast alle Etiketten sind gerettet.";
+                articleFeedback.classList.add("ok");
+                return;
+            }
+            articleFeedback.textContent = "Noch eine Runde? Ramon hat wieder Chaos gemacht.";
+            articleFeedback.classList.add("bad");
+        }
+
+        function buildArticleGame() {
+            articleGame.innerHTML = "";
+            articleCorrect = 0;
+            answeredCards = 0;
+            articleFeedback.textContent = "";
+            articleFeedback.className = "feedback";
+            updateArticleScore();
+
+            articleQuestions.forEach((item) => {
+                const card = document.createElement("article");
+                card.className = "question-card";
+
+                const word = document.createElement("p");
+                word.className = "question-word";
+                word.textContent = item.word;
+                card.appendChild(word);
+
+                const row = document.createElement("div");
+                row.className = "btn-row";
+
+                ["der", "die", "das"].forEach((article) => {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = `btn-${article}`;
+                    btn.textContent = article;
+
+                    btn.addEventListener("click", () => {
+                        if (card.dataset.done === "1") {
+                            return;
+                        }
+
+                        card.dataset.done = "1";
+                        answeredCards += 1;
+
+                        const status = card.querySelector(".status");
+                        if (article === item.answer) {
+                            articleCorrect += 1;
+                            card.classList.add("correct");
+                            status.textContent = "Richtig";
+                        } else {
+                            card.classList.add("wrong");
+                            status.textContent = `Falsch: ${item.answer}`;
+                        }
+
+                        row.querySelectorAll("button").forEach((button) => {
+                            button.disabled = true;
+                            button.style.opacity = "0.55";
+                        });
+
+                        updateArticleScore();
+                        if (answeredCards === articleQuestions.length) {
+                            finishArticleRound();
+                        }
+                    });
+
+                    row.appendChild(btn);
+                });
+
+                card.appendChild(row);
+
+                const status = document.createElement("p");
+                status.className = "status";
+                status.textContent = "";
+                card.appendChild(status);
+
+                articleGame.appendChild(card);
+            });
+        }
+
+        resetArticles.addEventListener("click", buildArticleGame);
+        buildArticleGame();
+
+        const checkDialog = document.getElementById("checkDialog");
+        const resetDialog = document.getElementById("resetDialog");
+        const dialogFeedback = document.getElementById("dialogFeedback");
+        const dialogScore = document.getElementById("dialogScore");
+        const dialogAnswers = {
+            q1: "moechten",
+            q2: "nehme",
+            q3: "zum",
+            q4: "bezahlen",
+            q5: "morgen"
+        };
+
+        function resetDialogState() {
+            Object.keys(dialogAnswers).forEach((key) => {
+                const select = document.getElementById(key);
+                select.value = "";
+                select.parentElement.style.borderColor = "";
+                select.parentElement.style.background = "#fff";
+            });
+            dialogScore.textContent = "0 / 5 richtig";
+            dialogFeedback.textContent = "";
+            dialogFeedback.className = "feedback";
+        }
+
+        checkDialog.addEventListener("click", () => {
+            let correct = 0;
+
+            Object.entries(dialogAnswers).forEach(([key, value]) => {
+                const select = document.getElementById(key);
+                const box = select.parentElement;
+                if (select.value === value) {
+                    correct += 1;
+                    box.style.borderColor = "#8ccca3";
+                    box.style.background = "#edf9f1";
+                } else {
+                    box.style.borderColor = "#dfabaa";
+                    box.style.background = "#fff2f1";
+                }
+            });
+
+            dialogScore.textContent = `${correct} / 5 richtig`;
+            dialogFeedback.className = "feedback";
+
+            if (correct === 5) {
+                dialogFeedback.textContent = "Mega! Der Nacht-Imbiss liebt dein Deutsch.";
+                dialogFeedback.classList.add("ok");
+            } else if (correct >= 3) {
+                dialogFeedback.textContent = "Gute Runde! Noch ein kleiner Feinschliff.";
+                dialogFeedback.classList.add("ok");
+            } else {
+                dialogFeedback.textContent = "Keine Sorge, nochmal pruefen und erneut spielen.";
+                dialogFeedback.classList.add("bad");
+            }
+        });
+
+        resetDialog.addEventListener("click", resetDialogState);
+
+        const sceneButton = document.getElementById("newScene");
+        const sceneDe = document.getElementById("sceneDe");
+        const sceneEs = document.getElementById("sceneEs");
+
+        const improvScenes = [
+            {
+                de: "Du hast nur 5 Euro. Bestelle etwas guenstiges und frage freundlich nach einer Serviette.",
+                es: "Solo tienes 5 euros. Pide algo barato y pregunta de forma amable por una servilleta."
+            },
+            {
+                de: "Dein Freund ist spaet. Ruf ihn an und erklaere, wo du bist.",
+                es: "Tu amigo llega tarde. Llamalo y explica donde estas."
+            },
+            {
+                de: "Der Kellner bringt eine Cola, aber du wolltest Wasser. Reagiere hoeflich.",
+                es: "El camarero trae una cola, pero querias agua. Reacciona con cortesia."
+            },
+            {
+                de: "Du planst einen Filmabend. Lade deine Nachbarin ein und bring drei Snacks ins Gespraech.",
+                es: "Planeas una noche de cine. Invita a tu vecina y menciona tres snacks."
+            },
+            {
+                de: "Ramon, der Roboter, hat Hunger. Er versteht nur kurze Saetze. Gib ihm klare Anweisungen.",
+                es: "Ramon, el robot, tiene hambre. Solo entiende frases cortas. Dale instrucciones claras."
+            }
+        ];
+
+        sceneButton.addEventListener("click", () => {
+            const randomScene = improvScenes[Math.floor(Math.random() * improvScenes.length)];
+            sceneDe.textContent = randomScene.de;
+            sceneEs.textContent = randomScene.es;
+        });
+    </script>
+</body>
+</html>

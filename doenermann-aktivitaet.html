@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samstagnacht beim Dönermann 🥙 – Deutsch A1/A2</title>
+  <style>
+    :root {
+      --rot:     #C0392B;
+      --orange:  #E67E22;
+      --gold:    #F39C12;
+      --nacht:   #1A1A2E;
+      --nacht2:  #16213E;
+      --nacht3:  #0F3460;
+      --creme:   #FFF8F0;
+      --karte:   #FFFFFF;
+      --linie:   #E8D5BF;
+      --text:    #2C1810;
+      --gruen:   #27AE60;
+      --gruen2:  #1E8449;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      background: var(--nacht);
+      color: var(--creme);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, #C0392B 0%, #E67E22 50%, #F39C12 100%);
+      padding: 28px 20px 22px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: "🥙 🌃 🥙 🌃 🥙 🌃 🥙 🌃 🥙 🌃 🥙 🌃 🥙 🌃 🥙";
+      position: absolute;
+      top: 6px; left: 0; right: 0;
+      font-size: 0.85rem;
+      opacity: 0.35;
+      letter-spacing: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .header h1 {
+      font-size: clamp(1.6rem, 3vw + 1rem, 2.6rem);
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .header .subtitulo {
+      color: rgba(255,255,255,0.92);
+      font-size: 1rem;
+      margin-top: 6px;
+    }
+    .header .nivel-tag {
+      display: inline-block;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 20px;
+      padding: 3px 14px;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 16px 50px;
+      display: grid;
+      gap: 20px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--nacht2);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 22px 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    }
+    .card-warm {
+      background: var(--karte);
+      color: var(--text);
+      border: 1px solid var(--linie);
+    }
+    .card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-warm h2 { color: var(--rot); }
+    .card h2 .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .card-warm h2 .num { background: var(--rot); }
+
+    /* ── INTRO BOX ── */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    @media (max-width: 580px) { .intro-grid { grid-template-columns: 1fr; } }
+    .intro-item {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 12px 14px;
+      border-left: 3px solid var(--orange);
+      font-size: 0.92rem;
+    }
+    .intro-item strong { color: var(--gold); }
+
+    /* ── VIDEO ── */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+    .video-tip {
+      background: rgba(243,156,18,0.15);
+      border: 1px solid rgba(243,156,18,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      font-size: 0.88rem;
+      color: var(--gold);
+    }
+
+    /* ── VOKABULAR TABLE ── */
+    .vocab-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+      margin-top: 4px;
+    }
+    .vocab-table th {
+      background: var(--rot);
+      color: #fff;
+      padding: 9px 12px;
+      text-align: left;
+      font-weight: 700;
+    }
+    .vocab-table th:first-child { border-radius: 8px 0 0 0; }
+    .vocab-table th:last-child  { border-radius: 0 8px 0 0; }
+    .vocab-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--linie);
+      vertical-align: top;
+    }
+    .vocab-table tr:nth-child(even) td { background: #FFF4EB; }
+    .vocab-table tr:last-child td { border-bottom: none; }
+    .de-word { font-weight: 700; color: var(--rot); }
+    .es-word { color: #6B4226; font-style: italic; }
+    .beispiel { font-size: 0.83rem; color: #8B6347; margin-top: 2px; }
+
+    /* ── LYRICS ── */
+    .lyrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      margin-top: 6px;
+    }
+    @media (max-width: 580px) { .lyrics-grid { grid-template-columns: 1fr; } }
+    .lyrics-de, .lyrics-es {
+      padding: 16px;
+    }
+    .lyrics-de {
+      background: rgba(192,57,43,0.15);
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .lyrics-es { background: rgba(39,174,96,0.10); }
+    .lyrics-de h3 { color: var(--orange); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+    .lyrics-es h3 { color: #6BDA8A; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+    .strophe { margin-bottom: 18px; }
+    .strophe-label { font-size: 0.75rem; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+    .zeile { font-size: 0.95rem; line-height: 1.7; }
+    .zeile-es { font-size: 0.92rem; line-height: 1.7; opacity: 0.88; }
+    .refrain .zeile, .refrain .zeile-es { font-weight: 700; }
+
+    /* ── FILL IN THE BLANKS ── */
+    .lueckentext {
+      line-height: 2.4;
+      font-size: 1rem;
+      margin-top: 8px;
+    }
+    .lueckentext .vers { margin-bottom: 6px; }
+    .blank-input {
+      display: inline-block;
+      border: none;
+      border-bottom: 2px solid var(--orange);
+      background: rgba(255,255,255,0.05);
+      color: var(--creme);
+      padding: 1px 6px;
+      width: 130px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      border-radius: 3px 3px 0 0;
+      text-align: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .blank-input:focus { outline: none; background: rgba(255,255,255,0.1); border-color: var(--gold); }
+    .blank-input.richtig { border-color: var(--gruen); background: rgba(39,174,96,0.15); color: #A8F0C0; }
+    .blank-input.falsch  { border-color: var(--rot);   background: rgba(192,57,43,0.15);  color: #FFB0A8; }
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 12px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 10px;
+      border: 1px dashed rgba(255,255,255,0.15);
+    }
+    .word-chip {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .word-chip:hover { background: var(--rot); transform: translateY(-1px); }
+    .word-chip:active { transform: translateY(0); }
+    .word-chip.used { background: #555; opacity: 0.45; cursor: default; pointer-events: none; }
+
+    .btn-check {
+      display: inline-block;
+      margin-top: 16px;
+      background: linear-gradient(90deg, var(--rot), var(--orange));
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 11px 28px;
+      font-size: 1rem;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(192,57,43,0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-check:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(192,57,43,0.5); }
+    .btn-check:active { transform: translateY(0); }
+    .btn-reset {
+      display: inline-block;
+      margin-top: 16px;
+      margin-left: 10px;
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 30px;
+      padding: 10px 22px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-reset:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
+    .ergebnis-box {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      display: none;
+      font-size: 1rem;
+    }
+    .ergebnis-box.show { display: block; }
+    .ergebnis-box.gut  { background: rgba(39,174,96,0.2); border: 1px solid var(--gruen); color: #A8F0C0; }
+    .ergebnis-box.mittel { background: rgba(243,156,18,0.2); border: 1px solid var(--gold); color: #FFE08A; }
+    .ergebnis-box.schlecht { background: rgba(192,57,43,0.2); border: 1px solid var(--rot); color: #FFB0A8; }
+
+    /* ── MATCHING GAME ── */
+    .match-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    @media (max-width: 500px) { .match-columns { grid-template-columns: 1fr; } }
+    .match-col-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.55;
+      margin-bottom: 8px;
+    }
+    .match-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: rgba(255,255,255,0.06);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.93rem;
+      color: var(--creme);
+      transition: background 0.15s, border-color 0.2s;
+    }
+    .match-item:hover { background: rgba(255,255,255,0.12); }
+    .match-item.selected { border-color: var(--orange); background: rgba(230,126,34,0.15); }
+    .match-item.richtig  { border-color: var(--gruen); background: rgba(39,174,96,0.18); cursor: default; pointer-events: none; }
+    .match-item.falsch   { border-color: var(--rot);   background: rgba(192,57,43,0.18); }
+    .match-item.falsch { animation: shake 0.3s; }
+    @keyframes shake {
+      0%,100%{transform:translateX(0)}
+      25%{transform:translateX(-5px)}
+      75%{transform:translateX(5px)}
+    }
+
+    /* ── ROLLENSPIEL ── */
+    .bestell-scene {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 8px;
+    }
+    .dialog-bubble {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .dialog-bubble.links .avatar { order: 1; }
+    .dialog-bubble.links .text  { order: 2; }
+    .dialog-bubble.rechts {
+      flex-direction: row-reverse;
+    }
+    .avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .avatar-doener { background: rgba(192,57,43,0.3); }
+    .avatar-kunde  { background: rgba(39,174,96,0.3); }
+    .sprechblase {
+      background: rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.93rem;
+      max-width: 80%;
+      position: relative;
+    }
+    .sprechblase .person { font-size: 0.75rem; opacity: 0.55; margin-bottom: 3px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+    .sprechblase .deutsch { font-weight: 600; }
+    .sprechblase .es-hint { font-size: 0.82rem; color: #6BDA8A; font-style: italic; margin-top: 3px; }
+
+    .bestellung-optionen {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .option-btn {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 8px 14px;
+      color: var(--creme);
+      font-family: inherit;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .option-btn:hover  { background: rgba(230,126,34,0.25); border-color: var(--orange); }
+    .option-btn.active { background: rgba(192,57,43,0.3); border-color: var(--rot); font-weight: 700; }
+
+    /* ── GRAMMATIK ── */
+    .grammatik-box {
+      background: rgba(243,156,18,0.1);
+      border: 1px solid rgba(243,156,18,0.3);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 8px;
+    }
+    .grammatik-tabelle {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.92rem;
+    }
+    .grammatik-tabelle th {
+      background: rgba(243,156,18,0.25);
+      color: var(--gold);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 700;
+    }
+    .grammatik-tabelle td {
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: var(--creme);
+    }
+    .grammatik-tabelle tr:last-child td { border-bottom: none; }
+    .highlight-form { color: var(--gold); font-weight: 700; }
+
+    /* ── FACT BOXES ── */
+    .fun-facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .fact-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 14px;
+      border-top: 3px solid var(--orange);
+      font-size: 0.88rem;
+    }
+    .fact-card .emoji { font-size: 1.8rem; margin-bottom: 6px; }
+    .fact-card strong { color: var(--gold); display: block; margin-bottom: 4px; }
+
+    /* ── SCORE BADGE ── */
+    #score-zeige {
+      position: fixed;
+      bottom: 20px; right: 20px;
+      background: linear-gradient(135deg, var(--rot), var(--orange));
+      color: #fff;
+      border-radius: 50px;
+      padding: 10px 18px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+      z-index: 100;
+    }
+    #score-zeige.bump { transform: scale(1.25); }
+
+    /* ── NAV PILLS ── */
+    .nav-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 14px 0 4px;
+    }
+    .nav-pill {
+      background: rgba(255,255,255,0.08);
+      border: none;
+      border-radius: 20px;
+      padding: 6px 16px;
+      color: var(--creme);
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .nav-pill:hover { background: rgba(230,126,34,0.35); }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.8rem;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <h1>🥙 Samstagnacht beim Dönermann</h1>
+  <p class="subtitulo">con el hit de <strong>ENGIN</strong> – Dönermann (2023)</p>
+  <span class="nivel-tag">Deutsch A1/A2 · Für spanischsprachige Lernende</span>
+</header>
+
+<!-- NAVIGATION -->
+<nav class="nav-pills">
+  <a class="nav-pill" href="#video">🎵 Video</a>
+  <a class="nav-pill" href="#vokabular">📖 Vokabular</a>
+  <a class="nav-pill" href="#lyrics">🎤 Liedtext</a>
+  <a class="nav-pill" href="#luecken">✏️ Lückentext</a>
+  <a class="nav-pill" href="#zuordnung">🔗 Zuordnung</a>
+  <a class="nav-pill" href="#bestellen">🛒 Bestellen!</a>
+  <a class="nav-pill" href="#grammatik">🔍 Grammatik</a>
+</nav>
+
+<main>
+
+  <!-- ── 0. EINFÜHRUNG ── -->
+  <div class="card">
+    <h2><span class="num">★</span> Über diesen Song / Sobre esta canción</h2>
+    <div class="intro-grid">
+      <div class="intro-item">
+        <strong>Was ist ein Dönermann?</strong><br>
+        Ein <em>Döner</em> ist ein türkisches Fastfood — Fleisch im Fladenbrot. Der <em>Dönermann</em> ist der Mann, der es macht. In Deutschland gibt es mehr Döner-Läden als McDonald's!
+      </div>
+      <div class="intro-item">
+        <strong>¿Qué es un Dönermann?</strong><br>
+        Un <em>Döner</em> es comida rápida turca — carne en pan de pita. El <em>Dönermann</em> es el señor que lo prepara. ¡En Alemania hay más tiendas de döner que McDonald's!
+      </div>
+      <div class="intro-item">
+        <strong>Der Künstler / El artista</strong><br>
+        <strong>ENGIN</strong> ist ein deutscher Musiker mit türkischen Wurzeln. Der Song erschien 2023 auf seinem Album „Nacht". Er singt über die Stadt, die Nacht und – natürlich – den Döner. 🌃
+      </div>
+      <div class="intro-item">
+        <strong>Der Witz des Songs / El chiste de la canción</strong><br>
+        ENGIN singt über den Dönermann wie über eine große Liebe! Er benutzt romantische Sprache für Essen. 😄 Das ist <em>Humor auf Deutsch</em> — perfekt zum Lernen!
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 1. VIDEO ── -->
+  <div class="card" id="video">
+    <h2><span class="num">1</span> 🎵 Hör zu! / ¡Escucha!</h2>
+    <div class="video-wrapper">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/_qt-FHlDHKM?rel=0&fs=1&cc_load_policy=0"
+        title="ENGIN – Dönermann (Official)"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        referrerpolicy="strict-origin-when-cross-origin"
+        loading="lazy"
+        frameborder="0">
+      </iframe>
+    </div>
+    <p style="font-size:0.8rem; opacity:0.5; margin-top:8px; text-align:center;">
+      Wenn das Video nicht lädt, öffne es direkt:
+      <a href="https://www.youtube.com/watch?v=_qt-FHlDHKM" target="_blank" rel="noopener"
+         style="color:var(--orange);">ENGIN – Dönermann auf YouTube ↗</a>
+    </p>
+    <div class="video-tip">
+      💡 <strong>Tipp / Consejo:</strong>
+      Hör das Lied zuerst ohne Text. Welche Wörter verstehst du? · Escucha primero sin la letra. ¿Qué palabras entiendes?
+    </div>
+  </div>
+
+  <!-- ── 2. VOKABULAR ── -->
+  <div class="card card-warm" id="vokabular">
+    <h2><span class="num">2</span> 📖 Wichtige Wörter / Vocabulario clave</h2>
+    <table class="vocab-table">
+      <thead>
+        <tr>
+          <th>Deutsch 🇩🇪</th>
+          <th>Español 🇪🇸</th>
+          <th>Artikel / Ejemplo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="de-word">der Döner</span><br><span class="beispiel">„Samstagnacht bei meinem Dönermann"</span></td>
+          <td><span class="es-word">el döner kebab</span></td>
+          <td>🥙 <em>der</em> Döner</td>
+        </tr>
+        <tr>
+          <td><span class="de-word">der Tresen</span><br><span class="beispiel">„Auf Knien vor deinem Tresen"</span></td>
+          <td><span class="es-word">el mostrador, la barra</span></td>
+          <td><em>der</em> Tresen</td>
+        </tr>
+        <tr>
+          <td><span class="de-word">der Laden</span><br><span class="beispiel">„wurde einer vorm Laden... geschlagen"</span></td>
+          <td><span class="es-word">la tienda, el local</span></td>
+          <td><em>der</em> Laden</td>
+        </tr>
+        <tr>
+          <td><span class="de-word">die Stadt</span><br><span class="beispiel">„Doch die Stadt braucht dich"</span></td>
+          <td><span class="es-word">la ciudad</span></td>
+          <td><em>die</em> Stadt – <em>die</em> Städte (pl.)</td>
+        </tr>
+        <tr>
+          <td><span class="de-word">die Nacht</span><br><span class="beispiel">„Die Nacht ist gut am Laufen"</span></td>
+          <td><span class="es-word">la noche</span></td>
+          <td><em>die</em> Nacht – <em>die</em> Nächte (pl.)</td>
+        </tr>
+        <tr>
+          <td><span class="de-word">das Leben</span><br><span class="beispiel">„Ich brauche Spice im Leben"</span></td>
+          <td><span class="es-word">la vida</span></td>
+          <td><em>das</em> Leben</td>
+        </tr>
+        <tr>
+          <td><span class="de-word">die Liebe</span><br><span class="beispiel">„strahlt nur Liebe raus"</span></td>
+          <td><span class="es-word">el amor</span></td>
+          <td><em>die</em> Liebe</td>
+        </tr>
+        <tr>
+          <td><span class="de-word">brauchen</span><br><span class="beispiel">„Ich brauche Spice im Leben"</span></td>
+          <td><span class="es-word">necesitar</span></td>
+          <td><em>ich brauche / du brauchst</em></td>
+        </tr>
+        <tr>
+          <td><span class="de-word">diskret</span><br><span class="beispiel">„Du bist diskret Mann"</span></td>
+          <td><span class="es-word">discreto/a</span></td>
+          <td>Adjektiv (adj.)</td>
+        </tr>
+        <tr>
+          <td><span class="de-word">strahlen</span><br><span class="beispiel">„strahlt nur Liebe raus"</span></td>
+          <td><span class="es-word">brillar, irradiar</span></td>
+          <td><em>er/sie strahlt</em></td>
+        </tr>
+        <tr>
+          <td><span class="de-word">die Schlange stehen</span><br><span class="beispiel">„Wir stehen Schlange für nen letzten großen Biss"</span></td>
+          <td><span class="es-word">hacer cola</span></td>
+          <td>🐍 Lit. „hacer la serpiente"</td>
+        </tr>
+        <tr>
+          <td><span class="de-word">frittieren</span><br><span class="beispiel">„Frittier mein Herz Mann"</span></td>
+          <td><span class="es-word">freír</span></td>
+          <td>🍟 ¡Fríe mi corazón!</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── 3. LIEDTEXT ── -->
+  <div class="card" id="lyrics">
+    <h2><span class="num">3</span> 🎤 Liedtext mit Übersetzung / Letra con traducción</h2>
+    <div class="lyrics-grid">
+      <div class="lyrics-de">
+        <h3>🇩🇪 Original (Deutsch)</h3>
+
+        <div class="strophe">
+          <div class="strophe-label">Strophe 1 / Estrofa 1</div>
+          <div class="zeile">Lass Chili Flocken regnen</div>
+          <div class="zeile">Ich brauche Spice im Leben</div>
+          <div class="zeile">Auf Knien vor deinem Tresen</div>
+          <div class="zeile">Schenk mir nen Abschiedssegen</div>
+        </div>
+
+        <div class="strophe">
+          <div class="strophe-label">Strophe 2 / Estrofa 2</div>
+          <div class="zeile">Du weißt keiner würd es zugeben</div>
+          <div class="zeile">Doch die Stadt braucht dich</div>
+          <div class="zeile">So sehr wie Gotham Batman</div>
+          <div class="zeile">Aus deinen bunt beklebten Fenstern</div>
+          <div class="zeile">strahlt nur Liebe raus</div>
+          <div class="zeile">Will mit dir für immer glücklich,</div>
+          <div class="zeile">alt und fett werden</div>
+          <div class="zeile">Du bist diskret Mann</div>
+          <div class="zeile">Stellst nicht so viele Fragen</div>
+          <div class="zeile">Erst vorn paar Tagen wurde einer</div>
+          <div class="zeile">vorm Laden halbtot geschlagen</div>
+          <div class="zeile">Du sagst die Welt da draußen</div>
+          <div class="zeile">ist manchmal widerlich</div>
+          <div class="zeile">Ich sag Frittier mein Herz Mann</div>
+          <div class="zeile">Denn ich liebe dich</div>
+        </div>
+
+        <div class="strophe refrain">
+          <div class="strophe-label">Refrain 🔄 / Estribillo</div>
+          <div class="zeile">Lass Chili Flocken regnen</div>
+          <div class="zeile">Ich brauche Spice im Leben</div>
+          <div class="zeile">Auf Knien vor deinem Tresen</div>
+          <div class="zeile">Schenk mir nen Abschiedssegen</div>
+        </div>
+
+        <div class="strophe">
+          <div class="strophe-label">Strophe 3 / Estrofa 3</div>
+          <div class="zeile">Die Nacht ist gut am Laufen</div>
+          <div class="zeile">Marie muss wieder kotzen</div>
+          <div class="zeile">Seit ein paar Stunden ballert</div>
+          <div class="zeile">Tarkan Abi aus den Boxen</div>
+          <div class="zeile">Wir stehen Schlange für nen</div>
+          <div class="zeile">letzten großen Biss ins Glück</div>
+          <div class="zeile">Paket olsun hadi ciao –</div>
+          <div class="zeile">Ich bin bald zurück</div>
+        </div>
+
+        <div class="strophe refrain">
+          <div class="strophe-label">Outro / Final</div>
+          <div class="zeile">Samstagnacht bei meinem Dönermann</div>
+        </div>
+      </div>
+
+      <div class="lyrics-es">
+        <h3>🇪🇸 Traducción (Español)</h3>
+
+        <div class="strophe">
+          <div class="strophe-label">&nbsp;</div>
+          <div class="zeile-es">Deja que llueva chile en copos</div>
+          <div class="zeile-es">Necesito picante en mi vida</div>
+          <div class="zeile-es">De rodillas ante tu mostrador</div>
+          <div class="zeile-es">Dame una bendición de despedida</div>
+        </div>
+
+        <div class="strophe">
+          <div class="strophe-label">&nbsp;</div>
+          <div class="zeile-es">Sabes que nadie lo admitiría</div>
+          <div class="zeile-es">Pero la ciudad te necesita</div>
+          <div class="zeile-es">Tanto como Gotham a Batman</div>
+          <div class="zeile-es">De tus ventanas decoradas coloridas</div>
+          <div class="zeile-es">solo irradia amor</div>
+          <div class="zeile-es">Quiero ser contigo para siempre</div>
+          <div class="zeile-es">feliz, viejo y gordo</div>
+          <div class="zeile-es">Eres discreto, tío</div>
+          <div class="zeile-es">No haces tantas preguntas</div>
+          <div class="zeile-es">Hace unos días alguien delante</div>
+          <div class="zeile-es">del local fue medio apaleado</div>
+          <div class="zeile-es">Dices que el mundo de ahí afuera</div>
+          <div class="zeile-es">es a veces asqueroso</div>
+          <div class="zeile-es">Yo digo: Fríe mi corazón, tío</div>
+          <div class="zeile-es">Porque te quiero</div>
+        </div>
+
+        <div class="strophe refrain">
+          <div class="strophe-label">&nbsp;</div>
+          <div class="zeile-es">Deja que llueva chile en copos</div>
+          <div class="zeile-es">Necesito picante en mi vida</div>
+          <div class="zeile-es">De rodillas ante tu mostrador</div>
+          <div class="zeile-es">Dame una bendición de despedida</div>
+        </div>
+
+        <div class="strophe">
+          <div class="strophe-label">&nbsp;</div>
+          <div class="zeile-es">La noche está yendo bien</div>
+          <div class="zeile-es">Marie tiene que vomitar otra vez</div>
+          <div class="zeile-es">Desde hace unas horas suena</div>
+          <div class="zeile-es">Tarkan Abi de las bocinas</div>
+          <div class="zeile-es">Hacemos cola por el</div>
+          <div class="zeile-es">último gran mordisco a la suerte</div>
+          <div class="zeile-es">Que sea para llevar, adiós –</div>
+          <div class="zeile-es">Pronto vuelvo</div>
+        </div>
+
+        <div class="strophe refrain">
+          <div class="strophe-label">&nbsp;</div>
+          <div class="zeile-es">Noche del sábado en mi dönermann</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cultural notes -->
+    <div class="fun-facts" style="margin-top:16px;">
+      <div class="fact-card">
+        <div class="emoji">🦇</div>
+        <strong>„So sehr wie Gotham Batman"</strong>
+        Vergleich: <em>so... wie</em> = tan... como · La ciudad necesita al Dönermann como Gotham necesita a Batman. ¡Héroe con kebab!
+      </div>
+      <div class="fact-card">
+        <div class="emoji">🎵</div>
+        <strong>„Tarkan Abi aus den Boxen"</strong>
+        Tarkan ist ein türkischer Pop-Star. <em>Abi</em> ist Türkisch für „großer Bruder". Ein typisches Deutsch-Türkisch-Mix, das man viel in Deutschen Städten hört!
+      </div>
+      <div class="fact-card">
+        <div class="emoji">📦</div>
+        <strong>„Paket olsun hadi ciao"</strong>
+        <em>Paket olsun</em> ist Türkisch für „zum Mitnehmen, bitte". <em>Hadi ciao</em> = „Tschüss dann!" · Ein einziger Satz mit Türkisch, Deutsch und Italienisch!
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4. LÜCKENTEXT ── -->
+  <div class="card" id="luecken">
+    <h2><span class="num">4</span> ✏️ Lückentext / Rellena los huecos</h2>
+    <p style="font-size:0.9rem; opacity:0.7; margin-bottom:14px;">
+      Klicke ein Wort aus der Wortbank und dann die Lücke — oder tippe direkt. ·
+      Haz clic en una palabra del banco y luego en el hueco.
+    </p>
+
+    <div class="lueckentext" id="lueckentext">
+      <div class="vers">Lass Chili Flocken <input class="blank-input" data-answer="regnen" placeholder="___?___"> </div>
+      <div class="vers">Ich brauche <input class="blank-input" data-answer="Spice" placeholder="___?___"> im Leben</div>
+      <div class="vers">Auf Knien vor deinem <input class="blank-input" data-answer="Tresen" placeholder="___?___"></div>
+      <div class="vers">Schenk mir nen <input class="blank-input" data-answer="Abschiedssegen" placeholder="___?___"></div>
+      <br>
+      <div class="vers">Doch die <input class="blank-input" data-answer="Stadt" placeholder="___?___"> braucht dich</div>
+      <div class="vers">So sehr wie Gotham <input class="blank-input" data-answer="Batman" placeholder="___?___"></div>
+      <div class="vers">Will mit dir für immer <input class="blank-input" data-answer="glücklich" placeholder="___?___">, alt und fett werden</div>
+      <div class="vers">Du bist <input class="blank-input" data-answer="diskret" placeholder="___?___"> Mann</div>
+      <div class="vers">Denn ich <input class="blank-input" data-answer="liebe" placeholder="___?___"> dich</div>
+      <br>
+      <div class="vers">Die <input class="blank-input" data-answer="Nacht" placeholder="___?___"> ist gut am Laufen</div>
+      <div class="vers">Wir stehen <input class="blank-input" data-answer="Schlange" placeholder="___?___"> für nen letzten großen Biss ins Glück</div>
+      <div class="vers"><input class="blank-input" data-answer="Samstagnacht" placeholder="___?___"> bei meinem Dönermann</div>
+    </div>
+
+    <!-- Word bank -->
+    <div class="word-bank" id="wordbank">
+      <button class="word-chip" data-word="regnen" onclick="einsetzten(this)">regnen</button>
+      <button class="word-chip" data-word="Spice" onclick="einsetzten(this)">Spice</button>
+      <button class="word-chip" data-word="Tresen" onclick="einsetzten(this)">Tresen</button>
+      <button class="word-chip" data-word="Abschiedssegen" onclick="einsetzten(this)">Abschiedssegen</button>
+      <button class="word-chip" data-word="Stadt" onclick="einsetzten(this)">Stadt</button>
+      <button class="word-chip" data-word="Batman" onclick="einsetzten(this)">Batman</button>
+      <button class="word-chip" data-word="glücklich" onclick="einsetzten(this)">glücklich</button>
+      <button class="word-chip" data-word="diskret" onclick="einsetzten(this)">diskret</button>
+      <button class="word-chip" data-word="liebe" onclick="einsetzten(this)">liebe</button>
+      <button class="word-chip" data-word="Nacht" onclick="einsetzten(this)">Nacht</button>
+      <button class="word-chip" data-word="Schlange" onclick="einsetzten(this)">Schlange</button>
+      <button class="word-chip" data-word="Samstagnacht" onclick="einsetzten(this)">Samstagnacht</button>
+    </div>
+
+    <div>
+      <button class="btn-check" onclick="prüfenLücken()">✅ Überprüfen / Comprobar</button>
+      <button class="btn-reset" onclick="resetLücken()">🔄 Neu starten / Reiniciar</button>
+    </div>
+
+    <div id="luecken-ergebnis" class="ergebnis-box"></div>
+  </div>
+
+  <!-- ── 5. ZUORDNUNG ── -->
+  <div class="card" id="zuordnung">
+    <h2><span class="num">5</span> 🔗 Wörter zuordnen / Empareja palabras</h2>
+    <p style="font-size:0.9rem; opacity:0.7; margin-bottom:14px;">
+      Klicke zuerst ein deutsches Wort, dann die passende spanische Übersetzung. ·
+      Haz clic primero en la palabra alemana, luego en la traducción española.
+    </p>
+
+    <div class="match-columns">
+      <div>
+        <div class="match-col-title">🇩🇪 Deutsch</div>
+        <button class="match-item" data-id="1" onclick="matchWählen('de', this, 1)">die Nacht</button>
+        <button class="match-item" data-id="2" onclick="matchWählen('de', this, 2)">brauchen</button>
+        <button class="match-item" data-id="3" onclick="matchWählen('de', this, 3)">die Stadt</button>
+        <button class="match-item" data-id="4" onclick="matchWählen('de', this, 4)">die Liebe</button>
+        <button class="match-item" data-id="5" onclick="matchWählen('de', this, 5)">frittieren</button>
+        <button class="match-item" data-id="6" onclick="matchWählen('de', this, 6)">das Leben</button>
+      </div>
+      <div>
+        <div class="match-col-title">🇪🇸 Español</div>
+        <button class="match-item" data-id="3" onclick="matchWählen('es', this, 3)">la ciudad</button>
+        <button class="match-item" data-id="6" onclick="matchWählen('es', this, 6)">la vida</button>
+        <button class="match-item" data-id="1" onclick="matchWählen('es', this, 1)">la noche</button>
+        <button class="match-item" data-id="5" onclick="matchWählen('es', this, 5)">freír</button>
+        <button class="match-item" data-id="2" onclick="matchWählen('es', this, 2)">necesitar</button>
+        <button class="match-item" data-id="4" onclick="matchWählen('es', this, 4)">el amor</button>
+      </div>
+    </div>
+
+    <div id="match-ergebnis" class="ergebnis-box" style="margin-top:10px;"></div>
+  </div>
+
+  <!-- ── 6. ROLLENSPIEL ── -->
+  <div class="card" id="bestellen">
+    <h2><span class="num">6</span> 🛒 Beim Dönermann bestellen! / ¡Pedir en el Dönermann!</h2>
+    <p style="font-size:0.9rem; opacity:0.7; margin-bottom:6px;">
+      Es ist Samstagnacht. Du stehst vor dem Dönermann. 🌃 ·
+      Es sábado por la noche. Estás frente al Dönermann.
+    </p>
+
+    <div class="bestell-scene">
+      <!-- DÖNERMANN spricht -->
+      <div class="dialog-bubble links">
+        <div class="avatar avatar-doener">👨‍🍳</div>
+        <div class="sprechblase">
+          <div class="person">Dönermann</div>
+          <div class="deutsch">„Hallo! Was darf es sein?" 🥙</div>
+          <div class="es-hint">¡Hola! ¿Qué va a ser?</div>
+        </div>
+      </div>
+
+      <!-- KUNDE antwortet — Optionen -->
+      <p style="font-size:0.85rem; opacity:0.6; margin:8px 0 4px; padding-left:52px;">Du antwortest... / Tú respondes...</p>
+      <div class="bestellung-optionen" id="optionenA">
+        <button class="option-btn" onclick="bestellSchritt1(this, 'a')">„Ich hätte gerne einen Döner, bitte." 🥙</button>
+        <button class="option-btn" onclick="bestellSchritt1(this, 'b')">„Keine Ahnung." 🤷</button>
+        <button class="option-btn" onclick="bestellSchritt1(this, 'c')">„Ein Döner, bitte. Mit allem!" 🌶️</button>
+      </div>
+
+      <div id="schritt2" style="display:none; margin-top:14px;">
+        <div class="dialog-bubble links">
+          <div class="avatar avatar-doener">👨‍🍳</div>
+          <div class="sprechblase" id="reaktionA">
+            <div class="person">Dönermann</div>
+            <div class="deutsch" id="reaktionText">…</div>
+            <div class="es-hint" id="reaktionEs">…</div>
+          </div>
+        </div>
+
+        <div class="dialog-bubble rechts" id="deinAntwortBubble" style="display:none;">
+          <div class="avatar avatar-kunde">🧑</div>
+          <div class="sprechblase">
+            <div class="person">Du / Tú</div>
+            <div class="deutsch" id="deineAntwortText">…</div>
+            <div class="es-hint" id="deineAntwortEs">…</div>
+          </div>
+        </div>
+
+        <p style="font-size:0.85rem; opacity:0.6; margin:8px 0 4px; padding-left:52px;" id="frageSoB">&nbsp;</p>
+        <div class="bestellung-optionen" id="optionenB"></div>
+      </div>
+
+      <div id="schritt3" style="display:none; margin-top:14px;">
+        <div class="dialog-bubble links">
+          <div class="avatar avatar-doener">👨‍🍳</div>
+          <div class="sprechblase">
+            <div class="person">Dönermann</div>
+            <div class="deutsch">„Hier, bitte! <strong>Guten Appetit!</strong>" 😄🥙</div>
+            <div class="es-hint">¡Aquí tienes! ¡Buen provecho!</div>
+          </div>
+        </div>
+        <div class="dialog-bubble rechts">
+          <div class="avatar avatar-kunde">🧑</div>
+          <div class="sprechblase">
+            <div class="person">Du / Tú</div>
+            <div class="deutsch">„<strong>Danke!</strong> Tschüss!" 👋</div>
+            <div class="es-hint">¡Gracias! ¡Adiós!</div>
+          </div>
+        </div>
+        <div class="ergebnis-box show gut" id="bestell-ergebnis">
+          🎉 Super gemacht! ¡Muy bien! Du hast beim Dönermann bestellt!
+          Dein Deutsch-Score steigt! +10 Punkte 🥙
+        </div>
+      </div>
+    </div>
+
+    <!-- Merksätze -->
+    <div style="margin-top:16px;">
+      <div class="grammatik-box">
+        <strong style="color:var(--gold);">💬 Nützliche Sätze beim Bestellen / Frases útiles al pedir</strong>
+        <table class="grammatik-tabelle" style="margin-top:10px;">
+          <tr><th>Auf Deutsch</th><th>En español</th></tr>
+          <tr><td>„Ich hätte gerne einen Döner."</td><td>Quisiera un döner.</td></tr>
+          <tr><td>„Mit oder ohne Zwiebeln?"</td><td>¿Con o sin cebolla?</td></tr>
+          <tr><td>„Mit alles, bitte."</td><td>Con todo, por favor.</td></tr>
+          <tr><td>„Scharf oder mild?"</td><td>¿Picante o suave?</td></tr>
+          <tr><td>„Zum Mitnehmen, bitte." / <em>Paket olsun</em></td><td>Para llevar, por favor.</td></tr>
+          <tr><td>„Zum Hieressen."</td><td>Para comer aquí.</td></tr>
+          <tr><td>„Was kostet das?"</td><td>¿Cuánto cuesta?</td></tr>
+          <tr><td>„Danke, tschüss!"</td><td>¡Gracias, adiós!</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 7. GRAMMATIK ── -->
+  <div class="card" id="grammatik">
+    <h2><span class="num">7</span> 🔍 Grammatik aus dem Song / Gramática del song</h2>
+
+    <div class="grammatik-box">
+      <strong style="color:var(--gold);">„ich brauche" — Das Verb <em>brauchen</em> (necesitar)</strong>
+      <p style="font-size:0.88rem; margin-top:6px; opacity:0.8;">Im Song: <em>„Ich brauche Spice im Leben"</em> / <em>„die Stadt braucht dich"</em></p>
+      <table class="grammatik-tabelle">
+        <tr><th>Person</th><th>brauchen</th><th>Español</th></tr>
+        <tr><td>ich</td><td><span class="highlight-form">brauche</span></td><td>necesito</td></tr>
+        <tr><td>du</td><td><span class="highlight-form">brauchst</span></td><td>necesitas</td></tr>
+        <tr><td>er / sie / es</td><td><span class="highlight-form">braucht</span></td><td>necesita</td></tr>
+        <tr><td>wir</td><td><span class="highlight-form">brauchen</span></td><td>necesitamos</td></tr>
+        <tr><td>ihr</td><td><span class="highlight-form">braucht</span></td><td>necesitáis</td></tr>
+        <tr><td>sie / Sie</td><td><span class="highlight-form">brauchen</span></td><td>necesitan / Ud. necesita</td></tr>
+      </table>
+    </div>
+
+    <div class="grammatik-box" style="margin-top:14px;">
+      <strong style="color:var(--gold);">„so ... wie" — Vergleiche (Comparaciones)</strong>
+      <p style="font-size:0.88rem; margin-top:6px; opacity:0.8;">Im Song: <em>„So sehr wie Gotham Batman"</em></p>
+      <table class="grammatik-tabelle">
+        <tr><th>Deutsch</th><th>Español</th></tr>
+        <tr><td>so gut <span class="highlight-form">wie</span></td><td>tan bueno/a <span class="highlight-form">como</span></td></tr>
+        <tr><td>so groß <span class="highlight-form">wie</span></td><td>tan grande <span class="highlight-form">como</span></td></tr>
+        <tr><td>so lecker <span class="highlight-form">wie</span> ein Döner!</td><td>tan rico/a <span class="highlight-form">como</span> un döner!</td></tr>
+        <tr><td>so wichtig <span class="highlight-form">wie</span> du</td><td>tan importante <span class="highlight-form">como</span> tú</td></tr>
+      </table>
+    </div>
+
+    <div class="grammatik-box" style="margin-top:14px;">
+      <strong style="color:var(--gold);">🏷️ Artikel der Nomen (artículos) — Döner-Wörter</strong>
+      <table class="grammatik-tabelle">
+        <tr><th>Artikel</th><th>Deutsch</th><th>Español</th><th>Erinnerungshilfe</th></tr>
+        <tr><td><span style="color:#F8A3A3;">der</span></td><td>der Döner · der Laden · der Tresen</td><td>el döner · la tienda · el mostrador</td><td>🔴 rot = maskulin</td></tr>
+        <tr><td><span style="color:#A3C4F8;">die</span></td><td>die Stadt · die Nacht · die Liebe</td><td>la ciudad · la noche · el amor</td><td>🔵 blau = feminin</td></tr>
+        <tr><td><span style="color:#A3F8B0;">das</span></td><td>das Leben · das Herz · das Glück</td><td>la vida · el corazón · la suerte</td><td>🟢 grün = neutrum</td></tr>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<!-- Floating score badge -->
+<div id="score-zeige">🥙 Score: <span id="score-zahl">0</span></div>
+
+<footer>
+  ENGIN – Dönermann (2023) · Album: Nacht · Aktivität für A1/A2 | Für spanischsprachige Deutschlernende<br>
+  Gestaltet von <strong style="opacity:0.7;">Jorge Cardiel</strong> mit Hilfe von Claude Sonnet 4.6 · 3. März 2026
+</footer>
+
+<script>
+  // ── SCORE ──
+  let score = 0;
+  function addScore(n) {
+    score += n;
+    document.getElementById('score-zahl').textContent = score;
+    const badge = document.getElementById('score-zeige');
+    badge.classList.add('bump');
+    setTimeout(() => badge.classList.remove('bump'), 400);
+  }
+
+  // ── WORD BANK INSERTION ──
+  let selectedChip = null;
+  function einsetzten(chip) {
+    if (selectedChip) selectedChip.classList.remove('used');
+    selectedChip = chip;
+    chip.classList.add('used');
+
+    // find first empty focused input, else first empty input
+    const inputs = document.querySelectorAll('#lueckentext .blank-input');
+    let target = null;
+    for (const inp of inputs) {
+      if (inp === document.activeElement && inp.value === '') { target = inp; break; }
+    }
+    if (!target) {
+      for (const inp of inputs) {
+        if (inp.value === '') { target = inp; break; }
+      }
+    }
+    if (target) {
+      target.value = chip.dataset.word;
+      target.classList.remove('richtig', 'falsch');
+    }
+  }
+
+  // ── LÜCKENTEXT CHECK ──
+  function prüfenLücken() {
+    const inputs = document.querySelectorAll('#lueckentext .blank-input');
+    let richtig = 0;
+    inputs.forEach(inp => {
+      const answer = inp.dataset.answer.toLowerCase().trim();
+      const given  = inp.value.toLowerCase().trim();
+      inp.classList.remove('richtig', 'falsch');
+      if (given === '') return;
+      if (given === answer) { inp.classList.add('richtig'); richtig++; }
+      else                  { inp.classList.add('falsch'); }
+    });
+    const total = inputs.length;
+    const filled = [...inputs].filter(i => i.value.trim() !== '').length;
+    const box = document.getElementById('luecken-ergebnis');
+    box.classList.add('show');
+    box.classList.remove('gut', 'mittel', 'schlecht');
+    if (richtig === total) {
+      box.className = 'ergebnis-box show gut';
+      box.textContent = `🎉 Perfecto! Alle ${total} Lücken richtig! ¡Todas correctas! +${total * 5} Punkte!`;
+      addScore(total * 5);
+    } else if (richtig >= total * 0.6) {
+      box.className = 'ergebnis-box show mittel';
+      box.textContent = `👍 Gut! ${richtig} von ${total} richtig. ¡Bien! ${richtig} de ${total} correctas. +${richtig * 3} Punkte`;
+      addScore(richtig * 3);
+    } else {
+      box.className = 'ergebnis-box show schlecht';
+      box.textContent = `🙈 ${richtig} von ${total} richtig. Probiere es nochmal! ${richtig} de ${total} correctas. ¡Inténtalo de nuevo!`;
+    }
+  }
+
+  function resetLücken() {
+    document.querySelectorAll('#lueckentext .blank-input').forEach(inp => {
+      inp.value = '';
+      inp.classList.remove('richtig', 'falsch');
+    });
+    document.querySelectorAll('#wordbank .word-chip').forEach(c => c.classList.remove('used'));
+    const box = document.getElementById('luecken-ergebnis');
+    box.classList.remove('show');
+    selectedChip = null;
+  }
+
+  // ── MATCHING GAME ──
+  let matchSel = { de: null, es: null };
+  function matchWählen(seite, btn, id) {
+    if (btn.classList.contains('richtig')) return;
+
+    // clear old selection on same side
+    if (matchSel[seite]) matchSel[seite].classList.remove('selected');
+    matchSel[seite] = btn;
+    btn.classList.add('selected');
+
+    if (matchSel.de && matchSel.es) {
+      const deId = parseInt(matchSel.de.dataset.id);
+      const esId = parseInt(matchSel.es.dataset.id);
+
+      if (deId === esId) {
+        matchSel.de.classList.remove('selected'); matchSel.de.classList.add('richtig');
+        matchSel.es.classList.remove('selected'); matchSel.es.classList.add('richtig');
+        addScore(10);
+        document.getElementById('match-ergebnis').className = 'ergebnis-box show gut';
+        document.getElementById('match-ergebnis').textContent = '✅ Richtig! ¡Correcto! +10 Punkte 🎊';
+      } else {
+        matchSel.de.classList.add('falsch'); matchSel.es.classList.add('falsch');
+        setTimeout(() => {
+          matchSel.de.classList.remove('falsch','selected');
+          matchSel.es.classList.remove('falsch','selected');
+        }, 600);
+        document.getElementById('match-ergebnis').className = 'ergebnis-box show schlecht';
+        document.getElementById('match-ergebnis').textContent = '❌ Nicht richtig. ¡No es correcto! Prueba de nuevo.';
+      }
+      matchSel = { de: null, es: null };
+
+      // check all done
+      const alle = document.querySelectorAll('#zuordnung .match-item');
+      if ([...alle].every(b => b.classList.contains('richtig'))) {
+        document.getElementById('match-ergebnis').className = 'ergebnis-box show gut';
+        document.getElementById('match-ergebnis').textContent = '🥳 Alle Paare gefunden! ¡Todos los pares encontrados! Sehr gut!';
+      }
+    }
+  }
+
+  // ── ROLLENSPIEL ──
+  function bestellSchritt1(btn, wahl) {
+    document.querySelectorAll('#optionenA .option-btn').forEach(b => b.disabled = true);
+    btn.classList.add('active');
+
+    const schritt2 = document.getElementById('schritt2');
+    schritt2.style.display = 'block';
+
+    const rText = document.getElementById('reaktionText');
+    const rEs   = document.getElementById('reaktionEs');
+    const frageSoB = document.getElementById('frageSoB');
+    const optionenB = document.getElementById('optionenB');
+    const deinBubble = document.getElementById('deinAntwortBubble');
+    const deineText = document.getElementById('deineAntwortText');
+    const deineEs   = document.getElementById('deineAntwortEs');
+
+    if (wahl === 'b') {
+      rText.textContent = '„Hmm... vielleicht ein Döner? 😄"';
+      rEs.textContent   = 'Hmm... ¿quizás un döner?';
+      deinBubble.style.display = 'flex';
+      deineText.textContent = '„Oh, ja! Einen Döner, bitte."';
+      deineEs.textContent   = '¡Oh, sí! Un döner, por favor.';
+    } else {
+      rText.textContent = '„Super! Mit Scharf oder ohne?" 🌶️';
+      rEs.textContent   = '¡Genial! ¿Con picante o sin?';
+      deinBubble.style.display = 'none';
+    }
+
+    frageSoB.textContent = 'Du antwortest... / Tú respondes...';
+    optionenB.innerHTML = `
+      <button class="option-btn" onclick="bestellSchritt2(this,'scharf')">„Mit Scharf, bitte!" 🌶️🌶️</button>
+      <button class="option-btn" onclick="bestellSchritt2(this,'mild')">„Ohne Scharf, bitte." 😌</button>
+      <button class="option-btn" onclick="bestellSchritt2(this,'alles')">„Mit alles, bitte! Und zum Mitnehmen." 🥙📦</button>
+    `;
+  }
+
+  function bestellSchritt2(btn, wahl) {
+    document.querySelectorAll('#optionenB .option-btn').forEach(b => b.disabled = true);
+    btn.classList.add('active');
+    addScore(10);
+    document.getElementById('schritt3').style.display = 'block';
+    document.getElementById('schritt3').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+
+</body>
+</html>
