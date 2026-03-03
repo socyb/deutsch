@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blitz-Aktivitaet: Wohnungsvokabular</title>
+    <style>
+        :root {
+            --bg: #f7f4ea;
+            --paper: #fffef9;
+            --ink: #1f2a24;
+            --muted: #56615a;
+            --line: #d8d3c3;
+            --accent: #1f8a70;
+            --accent-strong: #166b57;
+            --der: #2b73b6;
+            --die: #c73f4f;
+            --das: #2e9d55;
+            --ok-bg: #e8f7ee;
+            --ok-line: #8fc6a2;
+            --bad-bg: #fdecec;
+            --bad-line: #e3a2a2;
+            --shadow: 0 10px 28px rgba(44, 54, 40, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Avenir Next", "Trebuchet MS", "Gill Sans", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 8% 0%, #dfeee6 0%, transparent 34%),
+                radial-gradient(circle at 95% 4%, #f3ead9 0%, transparent 32%),
+                var(--bg);
+            min-height: 100vh;
+        }
+
+        .wrap {
+            width: min(1080px, 94vw);
+            margin: 24px auto 44px;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #145a46, #1f8a70 58%, #37a87f);
+            color: #fff;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 22px 18px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(1.3rem, 1.4vw + 1rem, 2rem);
+            letter-spacing: 0.2px;
+        }
+
+        .hero p {
+            margin: 8px 0 0;
+            max-width: 66ch;
+            opacity: 0.96;
+            line-height: 1.45;
+        }
+
+        .grid {
+            margin-top: 16px;
+            display: grid;
+            gap: 16px;
+            grid-template-columns: 1fr;
+        }
+
+        .panel {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 16px;
+        }
+
+        .panel h2 {
+            margin: 0 0 10px;
+            color: #19493e;
+            font-size: 1.16rem;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .pill {
+            border: 1px solid #b9d6ca;
+            background: #ecf7f2;
+            border-radius: 999px;
+            padding: 5px 10px;
+            font-size: 0.88rem;
+            color: #245548;
+            font-weight: 700;
+        }
+
+        .wortbank {
+            display: grid;
+            gap: 8px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        }
+
+        .wort {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 8px 10px;
+            background: #fff;
+            font-weight: 700;
+        }
+
+        .wort.der { border-left: 6px solid var(--der); }
+        .wort.die { border-left: 6px solid var(--die); }
+        .wort.das { border-left: 6px solid var(--das); }
+
+        .quiz-head {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .score {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #234f42;
+            background: #edf8f4;
+            border: 1px solid #c3ded4;
+            border-radius: 999px;
+            padding: 5px 11px;
+        }
+
+        .cards {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        }
+
+        .card {
+            border: 2px solid var(--line);
+            border-radius: 12px;
+            padding: 12px;
+            background: #fff;
+            display: grid;
+            gap: 10px;
+            align-content: start;
+            transition: transform 0.12s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card .name {
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 6px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 8px;
+            padding: 8px 9px;
+            font: 700 0.9rem "Avenir Next", "Trebuchet MS", sans-serif;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btn-der { background: var(--der); }
+        .btn-die { background: var(--die); }
+        .btn-das { background: var(--das); }
+
+        .card.correct {
+            background: var(--ok-bg);
+            border-color: var(--ok-line);
+        }
+
+        .card.wrong {
+            background: var(--bad-bg);
+            border-color: var(--bad-line);
+        }
+
+        .status {
+            min-height: 1.1rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .card.correct .status { color: #1f6a39; }
+        .card.wrong .status { color: #902626; }
+
+        .actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .ghost {
+            background: #38534a;
+        }
+
+        .ghost:hover,
+        .check-btn:hover {
+            filter: brightness(1.06);
+        }
+
+        .check-btn {
+            background: var(--accent);
+        }
+
+        .sentence-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .line {
+            border: 1px solid #d9d5c9;
+            border-radius: 10px;
+            padding: 10px;
+            background: #fffdf7;
+        }
+
+        .line label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.96rem;
+        }
+
+        select {
+            width: 100%;
+            border: 1px solid #c8c2b2;
+            border-radius: 8px;
+            padding: 8px;
+            font: 600 0.94rem "Avenir Next", "Trebuchet MS", sans-serif;
+            background: #fff;
+            color: #213027;
+        }
+
+        .line.ok {
+            background: var(--ok-bg);
+            border-color: var(--ok-line);
+        }
+
+        .line.bad {
+            background: var(--bad-bg);
+            border-color: var(--bad-line);
+        }
+
+        .line .result {
+            margin-top: 6px;
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .line.ok .result { color: #1f6a39; }
+        .line.bad .result { color: #902626; }
+
+        .footer-note {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        @media (max-width: 720px) {
+            .hero {
+                border-radius: 14px;
+            }
+
+            .panel {
+                border-radius: 12px;
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <header class="hero">
+            <h1>3-Minuten-Blitz: Wohnung und Haushalt</h1>
+            <p>Wiederhole die wichtigsten Woerter mit zwei schnellen Schritten: erst Artikel klicken, dann Saetze mit dem passenden Wort ergaenzen.</p>
+        </header>
+
+        <section class="grid" aria-label="Lernaktivitaet">
+            <article class="panel">
+                <h2>Wortbank</h2>
+                <div class="meta-row">
+                    <span class="pill">Blau = der</span>
+                    <span class="pill">Rot = die</span>
+                    <span class="pill">Gruen = das</span>
+                </div>
+                <div class="wortbank" id="wortbank"></div>
+            </article>
+
+            <article class="panel">
+                <div class="quiz-head">
+                    <h2>Teil A: Artikel-Check</h2>
+                    <div class="score" id="artikelScore">0/12 richtig</div>
+                </div>
+                <div class="cards" id="artikelCards"></div>
+                <div class="actions">
+                    <button class="ghost" id="shuffleBtn" type="button">Neue Runde mischen</button>
+                </div>
+            </article>
+
+            <article class="panel">
+                <div class="quiz-head">
+                    <h2>Teil B: Lueckentext</h2>
+                    <div class="score" id="satzScore">0/6 richtig</div>
+                </div>
+                <div class="sentence-list" id="sentenceList"></div>
+                <div class="actions">
+                    <button class="check-btn" id="checkSentences" type="button">Antworten pruefen</button>
+                    <button class="ghost" id="resetSentences" type="button">Zuruecksetzen</button>
+                </div>
+                <p class="footer-note">Tipp: Lies jeden Satz laut und entscheide dann erst.</p>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        const vocab = [
+            { article: "der", word: "Aufzug" },
+            { article: "der", word: "Kuehlschrank" },
+            { article: "der", word: "Fernseher" },
+            { article: "die", word: "Heizung" },
+            { article: "das", word: "Licht" },
+            { article: "das", word: "Telefon" },
+            { article: "die", word: "Dusche" },
+            { article: "das", word: "Netz" },
+            { article: "der", word: "Herd" },
+            { article: "die", word: "Klingel" },
+            { article: "die", word: "Steckdose" },
+            { article: "die", word: "Waschmaschine" }
+        ];
+
+        const sentenceData = [
+            {
+                text: "Es ist kalt. Ich mache ____ an.",
+                answer: "die Heizung",
+                options: ["die Heizung", "das Licht", "die Dusche"]
+            },
+            {
+                text: "Die Milch steht im ____.",
+                answer: "der Kuehlschrank",
+                options: ["der Fernseher", "der Kuehlschrank", "der Aufzug"]
+            },
+            {
+                text: "Mein Akku ist leer. Wo ist die ____?",
+                answer: "die Steckdose",
+                options: ["die Klingel", "die Steckdose", "die Waschmaschine"]
+            },
+            {
+                text: "Ich wohne im 9. Stock und nehme den ____.",
+                answer: "der Aufzug",
+                options: ["der Aufzug", "der Herd", "der Fernseher"]
+            },
+            {
+                text: "Das WLAN funktioniert nicht. Das ____ ist weg.",
+                answer: "das Netz",
+                options: ["das Licht", "das Netz", "das Telefon"]
+            },
+            {
+                text: "Die Kleidung ist schmutzig. Ich starte die ____.",
+                answer: "die Waschmaschine",
+                options: ["die Dusche", "die Waschmaschine", "die Heizung"]
+            }
+        ];
+
+        const wortbank = document.getElementById("wortbank");
+        const artikelCards = document.getElementById("artikelCards");
+        const artikelScore = document.getElementById("artikelScore");
+        const shuffleBtn = document.getElementById("shuffleBtn");
+        const sentenceList = document.getElementById("sentenceList");
+        const satzScore = document.getElementById("satzScore");
+        const checkSentences = document.getElementById("checkSentences");
+        const resetSentences = document.getElementById("resetSentences");
+
+        let artikelCorrect = 0;
+        let artikelAnswered = 0;
+
+        function shuffle(array) {
+            const copy = [...array];
+            for (let i = copy.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function renderWortbank() {
+            wortbank.innerHTML = "";
+            vocab.forEach((entry) => {
+                const div = document.createElement("div");
+                div.className = `wort ${entry.article}`;
+                div.textContent = `${entry.article} ${entry.word}`;
+                wortbank.appendChild(div);
+            });
+        }
+
+        function updateArtikelScore() {
+            artikelScore.textContent = `${artikelCorrect}/${vocab.length} richtig`;
+        }
+
+        function buildArtikelCards(list) {
+            artikelCards.innerHTML = "";
+            artikelCorrect = 0;
+            artikelAnswered = 0;
+            updateArtikelScore();
+
+            list.forEach((entry) => {
+                const card = document.createElement("div");
+                card.className = "card";
+
+                const name = document.createElement("div");
+                name.className = "name";
+                name.textContent = entry.word;
+
+                const row = document.createElement("div");
+                row.className = "btn-row";
+
+                const status = document.createElement("div");
+                status.className = "status";
+
+                ["der", "die", "das"].forEach((article) => {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = `btn-${article}`;
+                    btn.textContent = article;
+
+                    btn.addEventListener("click", () => {
+                        if (card.dataset.done === "true") {
+                            return;
+                        }
+
+                        card.dataset.done = "true";
+                        artikelAnswered += 1;
+
+                        const isCorrect = article === entry.article;
+                        if (isCorrect) {
+                            artikelCorrect += 1;
+                            card.classList.add("correct");
+                            status.textContent = `Richtig: ${entry.article} ${entry.word}`;
+                        } else {
+                            card.classList.add("wrong");
+                            status.textContent = `Falsch. Korrekt: ${entry.article} ${entry.word}`;
+                        }
+
+                        row.querySelectorAll("button").forEach((b) => {
+                            b.disabled = true;
+                            b.style.opacity = "0.4";
+                        });
+
+                        updateArtikelScore();
+                    });
+
+                    row.appendChild(btn);
+                });
+
+                card.appendChild(name);
+                card.appendChild(row);
+                card.appendChild(status);
+                artikelCards.appendChild(card);
+            });
+        }
+
+        function renderSentenceExercise() {
+            sentenceList.innerHTML = "";
+            sentenceData.forEach((item, index) => {
+                const line = document.createElement("div");
+                line.className = "line";
+
+                const label = document.createElement("label");
+                label.setAttribute("for", `satz-${index}`);
+                label.textContent = `${index + 1}. ${item.text}`;
+
+                const select = document.createElement("select");
+                select.id = `satz-${index}`;
+                select.dataset.answer = item.answer;
+
+                const placeholder = document.createElement("option");
+                placeholder.value = "";
+                placeholder.textContent = "Bitte waehlen";
+                select.appendChild(placeholder);
+
+                item.options.forEach((opt) => {
+                    const o = document.createElement("option");
+                    o.value = opt;
+                    o.textContent = opt;
+                    select.appendChild(o);
+                });
+
+                const result = document.createElement("div");
+                result.className = "result";
+
+                line.appendChild(label);
+                line.appendChild(select);
+                line.appendChild(result);
+                sentenceList.appendChild(line);
+            });
+
+            satzScore.textContent = `0/${sentenceData.length} richtig`;
+        }
+
+        function checkSentenceAnswers() {
+            const lines = [...sentenceList.querySelectorAll(".line")];
+            let correct = 0;
+
+            lines.forEach((line) => {
+                line.classList.remove("ok", "bad");
+                const select = line.querySelector("select");
+                const result = line.querySelector(".result");
+
+                if (select.value === select.dataset.answer) {
+                    line.classList.add("ok");
+                    result.textContent = "Richtig";
+                    correct += 1;
+                } else {
+                    line.classList.add("bad");
+                    if (select.value === "") {
+                        result.textContent = `Fehlt. Korrekt: ${select.dataset.answer}`;
+                    } else {
+                        result.textContent = `Falsch. Korrekt: ${select.dataset.answer}`;
+                    }
+                }
+            });
+
+            satzScore.textContent = `${correct}/${sentenceData.length} richtig`;
+        }
+
+        function resetSentencesState() {
+            const lines = [...sentenceList.querySelectorAll(".line")];
+            lines.forEach((line) => {
+                line.classList.remove("ok", "bad");
+                const select = line.querySelector("select");
+                const result = line.querySelector(".result");
+                select.value = "";
+                result.textContent = "";
+            });
+            satzScore.textContent = `0/${sentenceData.length} richtig`;
+        }
+
+        shuffleBtn.addEventListener("click", () => {
+            buildArtikelCards(shuffle(vocab));
+        });
+
+        checkSentences.addEventListener("click", checkSentenceAnswers);
+        resetSentences.addEventListener("click", resetSentencesState);
+
+        renderWortbank();
+        buildArtikelCards(shuffle(vocab));
+        renderSentenceExercise();
+    </script>
+</body>
+</html>

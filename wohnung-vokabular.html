@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wohnungsvokabular – Artikel-Quiz</title>
+    <style>
+        :root {
+            --gruen: #5E8A58;
+            --gruen-dunkel: #3F5F3A;
+            --papier: #F6F5F1;
+            --tinte: #1E241F;
+            --karte: #FFFFFF;
+            --linie: #D8DDD2;
+            --der-farbe: #3478C5;
+            --die-farbe: #C0392B;
+            --das-farbe: #27874E;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            color: var(--tinte);
+            background:
+                radial-gradient(circle at 12% 8%, #E8EEE1 0%, transparent 42%),
+                radial-gradient(circle at 88% 2%, #F2F4EC 0%, transparent 46%),
+                var(--papier);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* ── Header ─────────────────────────────────────── */
+        .header {
+            background: linear-gradient(90deg, var(--gruen-dunkel), var(--gruen));
+            color: #fff;
+            padding: 20px 16px;
+            text-align: center;
+        }
+        .header h1 { font-size: clamp(1.3rem, 2vw + 0.9rem, 2rem); }
+        .header p { margin-top: 6px; opacity: 0.95; font-size: 0.97rem; }
+
+        /* ── Main layout ────────────────────────────────── */
+        main {
+            width: min(1100px, 94vw);
+            margin: 22px auto 40px;
+            display: grid;
+            gap: 20px;
+        }
+
+        .panel {
+            background: var(--karte);
+            border: 1px solid var(--linie);
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(0,0,0,.08);
+            padding: 20px;
+        }
+
+        .panel h2 {
+            color: var(--gruen-dunkel);
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        /* ── Genus-Legende ──────────────────────────────── */
+        .legende {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 0.92rem;
+        }
+        .legende span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f3f6f0;
+            border: 1px solid #d5dcd0;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-weight: 600;
+        }
+        .legende .dot {
+            width: 11px; height: 11px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dot-der { background: var(--der-farbe); }
+        .dot-die { background: var(--die-farbe); }
+        .dot-das { background: var(--das-farbe); }
+
+        /* ── Referenztabelle ────────────────────────────── */
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        @media (max-width: 580px) { .ref-grid { grid-template-columns: 1fr; } }
+
+        .ref-spalte {
+            border-radius: 10px;
+            padding: 12px;
+        }
+        .ref-spalte.der { background: #EAF1FB; border: 1px solid #b3cce8; }
+        .ref-spalte.die { background: #FDECEA; border: 1px solid #e8b0aa; }
+        .ref-spalte.das { background: #E8F6EE; border: 1px solid #a4d9bb; }
+
+        .ref-spalte h3 {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            text-align: center;
+            border-radius: 6px;
+            padding: 4px 0;
+        }
+        .ref-spalte.der h3 { color: var(--der-farbe); }
+        .ref-spalte.die h3 { color: var(--die-farbe); }
+        .ref-spalte.das h3 { color: var(--das-farbe); }
+
+        .ref-spalte ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        .ref-spalte li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.97rem;
+        }
+        .ref-spalte li .emoji { font-size: 1.35rem; line-height: 1; }
+
+        /* ── Quiz ───────────────────────────────────────── */
+        #quiz-section { display: block; }
+
+        .quiz-kopf {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .quiz-kopf h2 { margin: 0; }
+
+        #fortschritt {
+            font-size: 0.93rem;
+            background: #EDF2E9;
+            border: 1px solid #cdd8c6;
+            border-radius: 20px;
+            padding: 4px 12px;
+        }
+
+        .quiz-gitter {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 14px;
+        }
+
+        .quiz-karte {
+            border: 2px solid var(--linie);
+            border-radius: 12px;
+            background: #FAFBF8;
+            padding: 16px 12px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: border-color .2s, background .2s;
+        }
+        .quiz-karte .wort-emoji { font-size: 2.5rem; line-height: 1; }
+        .quiz-karte .wort { font-size: 1.1rem; font-weight: 700; }
+
+        .artikel-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        .artikel-buttons button {
+            flex: 1;
+            border: none;
+            border-radius: 7px;
+            padding: 7px 4px;
+            font: 600 0.92rem "Trebuchet MS", sans-serif;
+            cursor: pointer;
+            color: #fff;
+            transition: opacity .15s, transform .1s;
+        }
+        .artikel-buttons button:hover { opacity: .87; transform: translateY(-1px); }
+        .artikel-buttons button:active { transform: scale(.97); }
+
+        .btn-der { background: var(--der-farbe); }
+        .btn-die { background: var(--die-farbe); }
+        .btn-das { background: var(--das-farbe); }
+
+        /* States after answer */
+        .quiz-karte.richtig  { border-color: #27874E; background: #EDFAF2; }
+        .quiz-karte.falsch   { border-color: #C0392B; background: #FEF0EE; }
+        .quiz-karte.richtig .artikel-buttons button,
+        .quiz-karte.falsch  .artikel-buttons button {
+            opacity: .38;
+            pointer-events: none;
+            cursor: default;
+        }
+        .quiz-karte.richtig .artikel-buttons .gewaehlt,
+        .quiz-karte.falsch  .artikel-buttons .richtig-btn {
+            opacity: 1;
+        }
+        .quiz-karte.falsch .artikel-buttons .gewaehlt:not(.richtig-btn) {
+            opacity: 1;
+            background: #C0392B;
+            text-decoration: line-through;
+        }
+
+        .feedback {
+            font-size: 0.85rem;
+            font-weight: 700;
+            min-height: 1.1rem;
+        }
+        .quiz-karte.richtig .feedback { color: #1a7040; }
+        .quiz-karte.falsch  .feedback { color: #971f18; }
+
+        /* ── Ergebnis ───────────────────────────────────── */
+        #ergebnis {
+            display: none;
+            text-align: center;
+            padding: 10px 0 6px;
+        }
+        #ergebnis .note {
+            font-size: 3rem;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        #ergebnis p { font-size: 1.05rem; margin-bottom: 16px; }
+
+        /* ── Buttons ────────────────────────────────────── */
+        .btn-aktion {
+            border: none;
+            border-radius: 9px;
+            padding: 11px 22px;
+            font: 600 1rem "Trebuchet MS", sans-serif;
+            cursor: pointer;
+            color: #fff;
+            background: var(--gruen);
+            transition: background .15s;
+        }
+        .btn-aktion:hover { background: #4b7246; }
+        .btn-aktion.sekundaer { background: #5f6b5f; }
+        .btn-aktion.sekundaer:hover { background: #4c564c; }
+
+        /* ── Lückentextübung ────────────────────────────── */
+        .luecke-grid {
+            display: grid;
+            gap: 10px;
+        }
+        .luecke-zeile {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            background: #f8faf5;
+            border: 1px solid var(--linie);
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-size: 0.98rem;
+        }
+        .luecke-zeile .nr { color: #888; font-size: 0.85rem; min-width: 20px; }
+        .luecke-zeile select {
+            border: 1px solid #bac5b4;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font: inherit;
+            background: #fff;
+            cursor: pointer;
+        }
+        .luecke-zeile select.korrekt { border-color: #27874E; background: #edfaf2; color: #1a5c37; }
+        .luecke-zeile select.falsch  { border-color: #C0392B; background: #fee8e6; color: #7d1a14; }
+        .luecke-zeile .rueckmeldung  { font-size: 0.85rem; font-weight: 700; }
+        .luecke-zeile .rueckmeldung.ok  { color: #1a7040; }
+        .luecke-zeile .rueckmeldung.err { color: #971f18; }
+
+        #luecke-ergebnis {
+            margin-top: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1>Wohnungsvokabular – Haushaltsgeräte &amp; Einrichtung</h1>
+    <p>Lerne die Artikel und Vokabeln mit zwei Übungen</p>
+</header>
+
+<main>
+
+    <!-- ── Legende ── -->
+    <div class="panel">
+        <h2>Artikel-Farben</h2>
+        <div class="legende">
+            <span><span class="dot dot-der"></span>der → maskulin</span>
+            <span><span class="dot dot-die"></span>die → feminin</span>
+            <span><span class="dot dot-das"></span>das → neutral</span>
+        </div>
+    </div>
+
+    <!-- ── Referenztabelle ── -->
+    <div class="panel">
+        <h2>Vokabelliste</h2>
+        <div class="ref-grid">
+            <div class="ref-spalte der">
+                <h3>🔵 der</h3>
+                <ul>
+                    <li><span class="emoji">🛗</span> der Aufzug</li>
+                    <li><span class="emoji">🧊</span> der Kühlschrank</li>
+                    <li><span class="emoji">📺</span> der Fernseher</li>
+                    <li><span class="emoji">🍳</span> der Herd</li>
+                </ul>
+            </div>
+            <div class="ref-spalte die">
+                <h3>🔴 die</h3>
+                <ul>
+                    <li><span class="emoji">🌡️</span> die Heizung</li>
+                    <li><span class="emoji">🚿</span> die Dusche</li>
+                    <li><span class="emoji">🔔</span> die Klingel</li>
+                    <li><span class="emoji">🔌</span> die Steckdose</li>
+                    <li><span class="emoji">🫧</span> die Waschmaschine</li>
+                </ul>
+            </div>
+            <div class="ref-spalte das">
+                <h3>🟢 das</h3>
+                <ul>
+                    <li><span class="emoji">💡</span> das Licht</li>
+                    <li><span class="emoji">☎️</span> das Telefon</li>
+                    <li><span class="emoji">🌐</span> das Netz</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Übung 1: Artikel-Quiz ── -->
+    <div class="panel" id="quiz-section">
+        <div class="quiz-kopf">
+            <h2>Übung 1 – Welcher Artikel?</h2>
+            <span id="fortschritt">0 / 12 beantwortet</span>
+        </div>
+
+        <div class="quiz-gitter" id="quiz-gitter"></div>
+
+        <div id="ergebnis">
+            <div class="note" id="ergebnis-emoji"></div>
+            <p id="ergebnis-text"></p>
+            <button class="btn-aktion" onclick="quizNeustart()">🔄 Nochmal versuchen</button>
+        </div>
+    </div>
+
+    <!-- ── Übung 2: Lückentext ── -->
+    <div class="panel">
+        <div class="quiz-kopf">
+            <h2>Übung 2 – Lückentext: Wähle den richtigen Artikel</h2>
+            <span id="luecke-fortschritt">0 / 8 beantwortet</span>
+        </div>
+        <div class="luecke-grid" id="luecke-grid"></div>
+        <div id="luecke-ergebnis"></div>
+        <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn-aktion" onclick="lueckePruefen()">✅ Auswertung</button>
+            <button class="btn-aktion sekundaer" onclick="lueckeNeustart()">🔄 Neu starten</button>
+        </div>
+    </div>
+
+</main>
+
+<script>
+/* ══════════════════════════════════════════════
+   Daten
+══════════════════════════════════════════════ */
+const VOKABELN = [
+    { wort: "Aufzug",       artikel: "der", emoji: "🛗"  },
+    { wort: "Kühlschrank",  artikel: "der", emoji: "🧊"  },
+    { wort: "Fernseher",    artikel: "der", emoji: "📺"  },
+    { wort: "Heizung",      artikel: "die", emoji: "🌡️" },
+    { wort: "Licht",        artikel: "das", emoji: "💡"  },
+    { wort: "Telefon",      artikel: "das", emoji: "☎️"  },
+    { wort: "Dusche",       artikel: "die", emoji: "🚿"  },
+    { wort: "Netz",         artikel: "das", emoji: "🌐"  },
+    { wort: "Herd",         artikel: "der", emoji: "🍳"  },
+    { wort: "Klingel",      artikel: "die", emoji: "🔔"  },
+    { wort: "Steckdose",    artikel: "die", emoji: "🔌"  },
+    { wort: "Waschmaschine",artikel: "die", emoji: "🫧"  },
+];
+
+const LUECKEN_SAETZE = [
+    { vor: "Bitte repariere",      nomen: "Heizung",      nach: "– es ist kalt.",          artikel: "die" },
+    { vor: "Wo ist",               nomen: "Aufzug",       nach: "in diesem Gebäude?",      artikel: "der" },
+    { vor: "Ich kaufe morgen",     nomen: "Kühlschrank",  nach: "für die neue Wohnung.",   artikel: "einen" },
+    { vor: "Kannst du",            nomen: "Licht",        nach: "ausschalten?",            artikel: "das" },
+    { vor: "Die Wohnung hat",      nomen: "Waschmaschine",nach: "im Keller.",              artikel: "eine" },
+    { vor: "Ich suche",            nomen: "Steckdose",    nach: "für mein Ladekabel.",     artikel: "eine" },
+    { vor: "Bitte klingele an",    nomen: "Klingel",      nach: "beim Eingang.",           artikel: "der" },
+    { vor: "Wir schauen",          nomen: "Fernseher",    nach: "jeden Abend zusammen.",   artikel: "den" },
+];
+
+/* ══════════════════════════════════════════════
+   Übung 1 – Artikel-Quiz
+══════════════════════════════════════════════ */
+let quizBeantwortet = 0;
+let quizRichtig     = 0;
+
+function shuffle(arr) {
+    return [...arr].sort(() => Math.random() - .5);
+}
+
+function quizAufbauen() {
+    quizBeantwortet = 0;
+    quizRichtig     = 0;
+    document.getElementById("ergebnis").style.display = "none";
+    document.getElementById("fortschritt").textContent = "0 / 12 beantwortet";
+
+    const gitter = document.getElementById("quiz-gitter");
+    gitter.innerHTML = "";
+
+    shuffle(VOKABELN).forEach((v, i) => {
+        const karte = document.createElement("div");
+        karte.className = "quiz-karte";
+        karte.id = "karte-" + i;
+
+        karte.innerHTML = `
+            <div class="wort-emoji">${v.emoji}</div>
+            <div class="wort">${v.wort}</div>
+            <div class="artikel-buttons">
+                <button class="btn-der" onclick="antworten(${i},'der','${v.artikel}',this)">der</button>
+                <button class="btn-die" onclick="antworten(${i},'die','${v.artikel}',this)">die</button>
+                <button class="btn-das" onclick="antworten(${i},'das','${v.artikel}',this)">das</button>
+            </div>
+            <div class="feedback" id="fb-${i}"></div>
+        `;
+        gitter.appendChild(karte);
+    });
+}
+
+function antworten(idx, gewaehlt, richtig, btn) {
+    const karte = document.getElementById("karte-" + idx);
+    if (karte.classList.contains("richtig") || karte.classList.contains("falsch")) return;
+
+    btn.classList.add("gewaehlt");
+
+    // mark correct button
+    [...karte.querySelectorAll("button")].forEach(b => {
+        if (b.textContent === richtig) b.classList.add("richtig-btn");
+    });
+
+    const feedback = document.getElementById("fb-" + idx);
+    quizBeantwortet++;
+
+    if (gewaehlt === richtig) {
+        karte.classList.add("richtig");
+        feedback.textContent = "✓ Richtig!";
+        quizRichtig++;
+    } else {
+        karte.classList.add("falsch");
+        feedback.textContent = `✗ Richtig: „${richtig}"`;
+    }
+
+    document.getElementById("fortschritt").textContent =
+        `${quizBeantwortet} / 12 beantwortet`;
+
+    if (quizBeantwortet === 12) {
+        setTimeout(quizErgebnis, 500);
+    }
+}
+
+function quizErgebnis() {
+    const pct = quizRichtig / 12;
+    let emoji, text;
+    if      (pct === 1)   { emoji = "🏆"; text = `Perfekt! 12 von 12 richtig – ausgezeichnet!`; }
+    else if (pct >= .75)  { emoji = "😊"; text = `Gut gemacht! ${quizRichtig} von 12 richtig.`; }
+    else if (pct >= .5)   { emoji = "🙂"; text = `${quizRichtig} von 12 richtig. Noch etwas üben!`; }
+    else                  { emoji = "💪"; text = `${quizRichtig} von 12 richtig. Schau dir die Liste nochmal an!`; }
+
+    document.getElementById("ergebnis-emoji").textContent = emoji;
+    document.getElementById("ergebnis-text").textContent = text;
+    document.getElementById("ergebnis").style.display = "block";
+    document.getElementById("ergebnis").scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function quizNeustart() { quizAufbauen(); }
+
+/* ══════════════════════════════════════════════
+   Übung 2 – Lückentext
+══════════════════════════════════════════════ */
+function lueckeAufbauen() {
+    document.getElementById("luecke-ergebnis").style.display = "none";
+    document.getElementById("luecke-fortschritt").textContent = "0 / 8 beantwortet";
+
+    const grid = document.getElementById("luecke-grid");
+    grid.innerHTML = "";
+
+    shuffle(LUECKEN_SAETZE).forEach((s, i) => {
+        const zeile = document.createElement("div");
+        zeile.className = "luecke-zeile";
+        zeile.id = "lz-" + i;
+        zeile.dataset.richtig = s.artikel;
+
+        // Bestimme, welche Optionen angezeigt werden
+        const istBestimmt = ["der","die","das","den","dem","des"].includes(s.artikel);
+        let optionen;
+        if (istBestimmt) {
+            optionen = ["", "der", "die", "das", "den"];
+        } else {
+            // unbestimmt: ein/eine/einen
+            optionen = ["", "ein", "eine", "einen"];
+        }
+
+        const optHtml = optionen.map(o => `<option value="${o}">${o}</option>`).join("");
+        const hinweis = istBestimmt ? "(bestimmter Artikel)" : "(unbestimmter Artikel)";
+
+        zeile.innerHTML = `
+            <span class="nr">${i+1}.</span>
+            ${s.vor}
+            <select id="sel-${i}" onchange="lueckeAntwort(${i},this)">
+                ${optHtml}
+            </select>
+            <strong>${s.nomen}</strong>
+            ${s.nach}
+            <span style="color:#888; font-size:0.82rem">${hinweis}</span>
+            <span class="rueckmeldung" id="rm-${i}"></span>
+        `;
+        grid.appendChild(zeile);
+    });
+}
+
+let lueckeBeantwortet = 0;
+
+function lueckeAntwort(idx, sel) {
+    // do nothing on change, just track answered count for the counter
+    const beantwortet = document.querySelectorAll("#luecke-grid select")
+        .values().filter ? 
+        [...document.querySelectorAll("#luecke-grid select")].filter(s => s.value !== "").length :
+        countAnswered();
+    document.getElementById("luecke-fortschritt").textContent =
+        `${beantwortet} / 8 beantwortet`;
+}
+
+function countAnswered() {
+    let n = 0;
+    document.querySelectorAll("#luecke-grid select").forEach(s => { if (s.value !== "") n++; });
+    return n;
+}
+
+function lueckePruefen() {
+    let richtig = 0;
+    document.querySelectorAll(".luecke-zeile").forEach((zeile, i) => {
+        const sel = document.getElementById("sel-" + i);
+        const rm  = document.getElementById("rm-" + i);
+        const korrekt = zeile.dataset.richtig;
+        sel.disabled = true;
+        if (sel.value === korrekt) {
+            sel.className = "korrekt";
+            rm.textContent = "✓";
+            rm.className = "rueckmeldung ok";
+            richtig++;
+        } else {
+            sel.className = "falsch";
+            rm.textContent = `✗ → „${korrekt}"`;
+            rm.className = "rueckmeldung err";
+        }
+    });
+
+    const el = document.getElementById("luecke-ergebnis");
+    const pct = richtig / 8;
+    let msg;
+    if      (pct === 1)   msg = "🏆 Ausgezeichnet! 8 von 8 richtig!";
+    else if (pct >= .75)  msg = `😊 Gut! ${richtig} von 8 richtig.`;
+    else if (pct >= .5)   msg = `🙂 ${richtig} von 8 richtig – weiter üben!`;
+    else                  msg = `💪 ${richtig} von 8 richtig – schau dir die Vokabeln nochmal an.`;
+
+    el.textContent = msg;
+    el.style.display = "block";
+}
+
+function lueckeNeustart() {
+    document.querySelectorAll(".luecke-zeile select").forEach(s => { s.disabled = false; });
+    lueckeAufbauen();
+}
+
+/* ══════════════════════════════════════════════
+   Init
+══════════════════════════════════════════════ */
+quizAufbauen();
+lueckeAufbauen();
+</script>
+</body>
+</html>
