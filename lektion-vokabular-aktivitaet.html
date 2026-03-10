@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vokabular-Wiederholung – Lektion A1/A2</title>
+    <style>
+        :root {
+            --acento:       #5E8A58;
+            --acento-osc:   #3F5F3A;
+            --fondo:        #F6F5F1;
+            --fondo-suave:  #EEF2E8;
+            --tarjeta:      #FFFFFF;
+            --texto:        #1E241F;
+            --borde:        #D8DDD2;
+            --muted:        #5A6558;
+            --der:          #3478C5;
+            --die:          #C0392B;
+            --das:          #27874E;
+            --ok-bg:        #E8F6EE;
+            --ok-borde:     #8FC6A2;
+            --err-bg:       #FEF0EE;
+            --err-borde:    #E3A2A2;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            color: var(--texto);
+            background:
+                radial-gradient(circle at 12% 8%, #E8EEE1 0%, transparent 42%),
+                radial-gradient(circle at 88% 2%, #F2F4EC 0%, transparent 46%),
+                var(--fondo);
+            min-height: 100vh;
+        }
+
+        /* ── Header ────────────────────────────── */
+        .site-header {
+            background: linear-gradient(120deg, var(--acento-osc), var(--acento));
+            color: #fff;
+            padding: 22px 16px 20px;
+            text-align: center;
+        }
+        .site-header h1 {
+            font-size: clamp(1.3rem, 2vw + 0.9rem, 2rem);
+            margin-bottom: 6px;
+        }
+        .site-header p { opacity: 0.95; font-size: 0.96rem; }
+
+        /* ── Layout ─────────────────────────────── */
+        main {
+            width: min(1100px, 94vw);
+            margin: 20px auto 48px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .panel {
+            background: var(--tarjeta);
+            border: 1px solid var(--borde);
+            border-radius: 14px;
+            box-shadow: 0 6px 22px rgba(0,0,0,.08);
+            padding: 20px;
+        }
+
+        .panel h2 {
+            color: var(--acento-osc);
+            font-size: 1.15rem;
+            margin-bottom: 14px;
+        }
+
+        /* ── Back link ───────────────────────────── */
+        .zurueck {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.88rem;
+            margin-bottom: 2px;
+            transition: color .15s;
+        }
+        .zurueck:hover { color: var(--acento-osc); }
+
+        /* ── Vocab reference ─────────────────────── */
+        .vok-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 600px) { .vok-grid { grid-template-columns: 1fr; } }
+
+        .vok-section {
+            background: var(--fondo-suave);
+            border-radius: 10px;
+            padding: 14px;
+        }
+        .vok-section h3 {
+            font-size: 0.93rem;
+            color: var(--acento-osc);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .art-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 4px;
+            padding: 2px 6px;
+            color: #fff;
+            min-width: 30px;
+            text-align: center;
+        }
+        .art-der { background: var(--der); }
+        .art-die { background: var(--die); }
+        .art-das { background: var(--das); }
+
+        .vok-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.92rem;
+        }
+        .vok-list li {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .fragen-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+        .fragen-list li {
+            background: #fff;
+            border-radius: 7px;
+            padding: 6px 10px;
+            border: 1px solid var(--borde);
+            line-height: 1.4;
+        }
+        .fragen-list li strong { color: var(--acento-osc); }
+        .fragen-list li span  { color: var(--muted); margin-left: 4px; }
+
+        /* ── Quiz head ─────────────────────────────── */
+        .quiz-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .quiz-head h2 { margin: 0; }
+        .punkte {
+            background: #EDF2E9;
+            border: 1px solid #cdd8c6;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #344a32;
+        }
+
+        /* ── Artikel quiz ────────────────────────────── */
+        .artikel-gitter {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(192px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .quiz-karte {
+            border: 2px solid var(--borde);
+            border-radius: 12px;
+            background: #FAFBF8;
+            padding: 14px 10px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: border-color .2s, background .2s;
+        }
+        .quiz-karte .karte-emoji { font-size: 2.2rem; line-height: 1; }
+        .quiz-karte .karte-wort  { font-weight: 700; font-size: 1rem; }
+
+        .btn-reihe {
+            display: flex;
+            gap: 5px;
+        }
+        .btn-reihe button {
+            border: none;
+            border-radius: 7px;
+            padding: 6px 9px;
+            font: 600 0.86rem "Trebuchet MS", sans-serif;
+            cursor: pointer;
+            color: #fff;
+            transition: opacity .15s, transform .1s;
+        }
+        .btn-reihe button:hover { opacity: .85; transform: translateY(-1px); }
+        .btn-reihe button:active { transform: scale(.96); }
+        .btn-der { background: var(--der); }
+        .btn-die { background: var(--die); }
+        .btn-das { background: var(--das); }
+
+        .quiz-karte.richtig { border-color: #27874E; background: var(--ok-bg); }
+        .quiz-karte.falsch  { border-color: #C0392B; background: var(--err-bg); }
+        .quiz-karte.richtig .btn-reihe button,
+        .quiz-karte.falsch  .btn-reihe button {
+            opacity: .3; pointer-events: none;
+        }
+        .quiz-karte.richtig .btn-reihe .gewaehlt,
+        .quiz-karte.falsch  .btn-reihe .richtig-btn { opacity: 1; }
+        .quiz-karte.falsch  .btn-reihe .gewaehlt:not(.richtig-btn) {
+            opacity: 1; background: #a0221a; text-decoration: line-through;
+        }
+        .feedback {
+            font-size: 0.8rem;
+            font-weight: 700;
+            min-height: 1rem;
+        }
+        .quiz-karte.richtig .feedback { color: #1a7040; }
+        .quiz-karte.falsch  .feedback { color: #971f18; }
+
+        /* ── Result box ───────────────────────────────── */
+        .ergebnis-box {
+            display: none;
+            text-align: center;
+            padding: 16px;
+            border-radius: 10px;
+            background: var(--fondo-suave);
+            border: 1px solid var(--borde);
+            margin-top: 4px;
+        }
+        .ergebnis-box .note-gross { font-size: 2.8rem; display: block; margin-bottom: 6px; }
+        .ergebnis-box p { font-size: 1rem; margin-bottom: 14px; color: var(--texto); }
+
+        /* ── Action buttons ──────────────────────────── */
+        .btn-accion {
+            border: none;
+            border-radius: 9px;
+            padding: 10px 20px;
+            font: 600 0.95rem "Trebuchet MS", sans-serif;
+            cursor: pointer;
+            color: #fff;
+            background: var(--acento);
+            transition: background .15s;
+        }
+        .btn-accion:hover { background: var(--acento-osc); }
+        .btn-accion.sec { background: #5f6b5f; }
+        .btn-accion.sec:hover { background: #4c564c; }
+        .btn-grupo { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+        /* ── Match exercise ──────────────────────────── */
+        .match-instruccion {
+            font-size: 0.88rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+        .match-columnas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        @media (max-width: 540px) { .match-columnas { grid-template-columns: 1fr; } }
+
+        .match-col-titulo {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        .match-col-items { display: flex; flex-direction: column; gap: 8px; }
+
+        .match-item {
+            border: 2px solid var(--borde);
+            border-radius: 10px;
+            padding: 10px 14px;
+            background: #FAFBF8;
+            cursor: pointer;
+            font-size: 0.93rem;
+            line-height: 1.35;
+            transition: border-color .15s, background .15s, transform .1s;
+            user-select: none;
+        }
+        .match-item:hover { transform: translateY(-1px); border-color: #BFC6B7; }
+        .match-item.selektiert {
+            border-color: var(--acento);
+            background: var(--fondo-suave);
+            box-shadow: 0 0 0 2px #5E8A5844;
+        }
+        .match-item.conectado {
+            border-color: #27874E;
+            background: var(--ok-bg);
+            pointer-events: none;
+            cursor: default;
+        }
+        .match-item.error-parpadeo {
+            animation: parpadeo 0.45s ease;
+        }
+        @keyframes parpadeo {
+            0%, 100% { border-color: #C0392B; background: var(--err-bg); }
+            50%       { border-color: var(--borde); background: #FAFBF8; }
+        }
+
+        /* ── Gap fill ────────────────────────────────── */
+        .luecke-grid {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .luecke-zeile {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            background: #f8faf5;
+            border: 1px solid var(--borde);
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-size: 0.94rem;
+            line-height: 1.7;
+        }
+        .luecke-nr {
+            color: #aaa;
+            font-size: 0.8rem;
+            min-width: 18px;
+            font-weight: 700;
+        }
+        .luecke-zeile select {
+            border: 1px solid #bac5b4;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font: inherit;
+            font-size: 0.92rem;
+            background: #fff;
+            cursor: pointer;
+        }
+        .luecke-zeile select.korrekt {
+            border-color: #27874E;
+            background: var(--ok-bg);
+            color: #1a5c37;
+        }
+        .luecke-zeile select.falsch-sel {
+            border-color: #C0392B;
+            background: var(--err-bg);
+            color: #7d1a14;
+        }
+        .pista {
+            font-size: 0.75rem;
+            background: #e9eee4;
+            color: #445542;
+            border-radius: 999px;
+            padding: 2px 8px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .rm {
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+        .rm.ok  { color: #1a7040; }
+        .rm.err { color: #971f18; }
+
+        #luecke-resultado {
+            display: none;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 8px 0 2px;
+        }
+
+        /* ── Footer ──────────────────────────────────── */
+        .site-footer {
+            text-align: center;
+            font-size: 0.88rem;
+            color: #4B5649;
+            padding: 14px 12px 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <h1>🗂️ Vokabular-Wiederholung</h1>
+    <p>Lektion A1/A2 · Wohnungsvokabular &amp; Persönliche Informationen</p>
+</header>
+
+<main>
+    <a class="zurueck" href="./index.html">← Zurück zur Übersicht</a>
+
+    <!-- ── 0. Vokabelliste ── -->
+    <div class="panel">
+        <h2>📚 Vokabelliste</h2>
+        <div class="vok-grid">
+
+            <div class="vok-section">
+                <h3>🏠 Wohnungsvokabular</h3>
+                <ul class="vok-list">
+                    <li><span class="art-tag art-der">der</span> Aufzug</li>
+                    <li><span class="art-tag art-der">der</span> Kühlschrank</li>
+                    <li><span class="art-tag art-der">der</span> Fernseher</li>
+                    <li><span class="art-tag art-der">der</span> Herd</li>
+                    <li><span class="art-tag art-die">die</span> Heizung</li>
+                    <li><span class="art-tag art-die">die</span> Dusche</li>
+                    <li><span class="art-tag art-die">die</span> Klingel</li>
+                    <li><span class="art-tag art-die">die</span> Steckdose</li>
+                    <li><span class="art-tag art-die">die</span> Waschmaschine</li>
+                    <li><span class="art-tag art-das">das</span> Licht</li>
+                    <li><span class="art-tag art-das">das</span> Telefon</li>
+                    <li><span class="art-tag art-das">das</span> Netz</li>
+                </ul>
+            </div>
+
+            <div class="vok-section">
+                <h3>👤 Persönliche Informationen</h3>
+                <ul class="fragen-list">
+                    <li><strong>Wie heißt du?</strong><span>→ Ich heiße …</span></li>
+                    <li><strong>Woher kommst du?</strong><span>→ Ich komme aus …</span></li>
+                    <li><strong>Wo wohnst du?</strong><span>→ Ich wohne in …</span></li>
+                    <li><strong>Wie ist deine Handynummer?</strong><span>→ Meine Handynummer ist …</span></li>
+                    <li><strong>Welche Sprachen sprichst du?</strong><span>→ Ich spreche …</span></li>
+                    <li><strong>Was sind deine Hobbys?</strong><span>→ Meine Hobbys sind …</span></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── 1. Artikel-Quiz ── -->
+    <div class="panel">
+        <div class="quiz-head">
+            <h2>Übung 1 – Welcher Artikel?</h2>
+            <span class="punkte" id="art-punkte">0 / 12 beantwortet</span>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); margin-bottom:14px;">
+            Klicke auf <strong style="color:var(--der)">der</strong>,
+            <strong style="color:var(--die)">die</strong> oder
+            <strong style="color:var(--das)">das</strong> für jedes Wort.
+        </p>
+        <div class="artikel-gitter" id="artikel-gitter"></div>
+        <div class="ergebnis-box" id="art-ergebnis">
+            <span class="note-gross" id="art-emoji"></span>
+            <p id="art-texto"></p>
+            <button class="btn-accion" onclick="artikelNeustart()">🔄 Nochmal versuchen</button>
+        </div>
+    </div>
+
+    <!-- ── 2. Frage–Antwort zuordnen ── -->
+    <div class="panel">
+        <div class="quiz-head">
+            <h2>Übung 2 – Frage und Antwort verbinden</h2>
+            <span class="punkte" id="match-punkte">0 / 6 verbunden</span>
+        </div>
+        <p class="match-instruccion">Klicke zuerst auf eine Frage (links), dann auf die passende Antwort (rechts).</p>
+        <div class="match-columnas">
+            <div>
+                <div class="match-col-titulo">Fragen</div>
+                <div class="match-col-items" id="fragen-col"></div>
+            </div>
+            <div>
+                <div class="match-col-titulo">Antworten</div>
+                <div class="match-col-items" id="antworten-col"></div>
+            </div>
+        </div>
+        <div class="ergebnis-box" id="match-ergebnis">
+            <span class="note-gross">🏆</span>
+            <p>Ausgezeichnet! Alle 6 Paare richtig verbunden!</p>
+            <button class="btn-accion" onclick="matchNeustart()">🔄 Nochmal</button>
+        </div>
+        <div class="btn-grupo">
+            <button class="btn-accion sec" onclick="matchNeustart()">🔄 Neu mischen</button>
+        </div>
+    </div>
+
+    <!-- ── 3. Lückentext ── -->
+    <div class="panel">
+        <div class="quiz-head">
+            <h2>Übung 3 – Lückentext</h2>
+            <span class="punkte" id="luecke-punkte">0 / 8 beantwortet</span>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); margin-bottom:14px;">
+            Wähle das richtige Wort oder den richtigen Artikel aus dem Dropdown.
+        </p>
+        <div class="luecke-grid" id="luecke-grid"></div>
+        <div id="luecke-resultado"></div>
+        <div class="btn-grupo">
+            <button class="btn-accion" onclick="lueckePruefen()">✅ Auswertung</button>
+            <button class="btn-accion sec" onclick="lueckeNeustart()">🔄 Neu starten</button>
+        </div>
+    </div>
+
+</main>
+
+<footer class="site-footer">
+    Deutschunterricht A1/A2 · Jorge Cardiel
+</footer>
+
+<script>
+/* ════════════════════════════════════════
+   DATEN
+════════════════════════════════════════ */
+const VOKABELN = [
+    { wort: "Aufzug",         artikel: "der", emoji: "🛗"  },
+    { wort: "Kühlschrank",    artikel: "der", emoji: "🧊"  },
+    { wort: "Fernseher",      artikel: "der", emoji: "📺"  },
+    { wort: "Herd",           artikel: "der", emoji: "🍳"  },
+    { wort: "Heizung",        artikel: "die", emoji: "🌡️" },
+    { wort: "Dusche",         artikel: "die", emoji: "🚿"  },
+    { wort: "Klingel",        artikel: "die", emoji: "🔔"  },
+    { wort: "Steckdose",      artikel: "die", emoji: "🔌"  },
+    { wort: "Waschmaschine",  artikel: "die", emoji: "👕"  },
+    { wort: "Licht",          artikel: "das", emoji: "💡"  },
+    { wort: "Telefon",        artikel: "das", emoji: "📞"  },
+    { wort: "Netz",           artikel: "das", emoji: "📶"  },
+];
+
+const PAARE = [
+    { frage: "Wie heißt du?",                antwort: "Ich heiße …"            },
+    { frage: "Woher kommst du?",             antwort: "Ich komme aus …"        },
+    { frage: "Wo wohnst du?",               antwort: "Ich wohne in …"         },
+    { frage: "Wie ist deine Handynummer?",  antwort: "Meine Handynummer ist …" },
+    { frage: "Welche Sprachen sprichst du?", antwort: "Ich spreche …"          },
+    { frage: "Was sind deine Hobbys?",      antwort: "Meine Hobbys sind …"    },
+];
+
+const LUECKEN = [
+    {
+        satz: "Bitte repariere ___ Heizung – es ist sehr kalt!",
+        optionen: ["die", "der", "das", "eine"],
+        richtig: "die",
+        pista: "Wohnungsvokabular"
+    },
+    {
+        satz: "Wo ist ___ Aufzug in diesem Gebäude?",
+        optionen: ["der", "die", "das", "einen"],
+        richtig: "der",
+        pista: "Wohnungsvokabular"
+    },
+    {
+        satz: "Ich heiße María und ich komme ___ Spanien.",
+        optionen: ["aus", "in", "von", "nach"],
+        richtig: "aus",
+        pista: "Persönliche Infos"
+    },
+    {
+        satz: "Meine ___ sind Tennis und Lesen.",
+        optionen: ["Hobbys", "Sprachen", "Adresse", "Name"],
+        richtig: "Hobbys",
+        pista: "Persönliche Infos"
+    },
+    {
+        satz: "Kannst du ___ Licht ausschalten?",
+        optionen: ["das", "die", "der", "den"],
+        richtig: "das",
+        pista: "Wohnungsvokabular"
+    },
+    {
+        satz: "Die Wohnung hat ___ Waschmaschine im Keller.",
+        optionen: ["eine", "ein", "einen", "die"],
+        richtig: "eine",
+        pista: "Wohnungsvokabular"
+    },
+    {
+        satz: "Ich ___ in Berlin.",
+        optionen: ["wohne", "heiße", "komme", "spreche"],
+        richtig: "wohne",
+        pista: "Persönliche Infos"
+    },
+    {
+        satz: "Mein Akku ist leer. Wo ist ___ Steckdose?",
+        optionen: ["die", "der", "das", "eine"],
+        richtig: "die",
+        pista: "Wohnungsvokabular"
+    },
+];
+
+/* ════════════════════════════════════════
+   HELFER
+════════════════════════════════════════ */
+function mischen(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+/* ════════════════════════════════════════
+   ÜBUNG 1 – ARTIKEL-QUIZ
+════════════════════════════════════════ */
+let artBeantwortet = 0, artRichtig = 0;
+
+function artikelAufbauen() {
+    artBeantwortet = 0;
+    artRichtig = 0;
+    document.getElementById("art-punkte").textContent = "0 / 12 beantwortet";
+    document.getElementById("art-ergebnis").style.display = "none";
+
+    const gitter = document.getElementById("artikel-gitter");
+    gitter.innerHTML = "";
+
+    mischen(VOKABELN).forEach((v, i) => {
+        const karte = document.createElement("div");
+        karte.className = "quiz-karte";
+        karte.id = "ak-" + i;
+        karte.innerHTML = `
+            <div class="karte-emoji">${v.emoji}</div>
+            <div class="karte-wort">${v.wort}</div>
+            <div class="btn-reihe">
+                <button class="btn-der" onclick="artAntworten(${i},'der','${v.artikel}',this)">der</button>
+                <button class="btn-die" onclick="artAntworten(${i},'die','${v.artikel}',this)">die</button>
+                <button class="btn-das" onclick="artAntworten(${i},'das','${v.artikel}',this)">das</button>
+            </div>
+            <div class="feedback" id="af-${i}"></div>
+        `;
+        gitter.appendChild(karte);
+    });
+}
+
+function artAntworten(idx, gewaehlt, richtig, btn) {
+    const karte = document.getElementById("ak-" + idx);
+    if (karte.classList.contains("richtig") || karte.classList.contains("falsch")) return;
+
+    btn.classList.add("gewaehlt");
+    karte.querySelectorAll("button").forEach(b => {
+        if (b.textContent === richtig) b.classList.add("richtig-btn");
+    });
+
+    const fb = document.getElementById("af-" + idx);
+    artBeantwortet++;
+
+    if (gewaehlt === richtig) {
+        karte.classList.add("richtig");
+        fb.textContent = "✓ Richtig!";
+        artRichtig++;
+    } else {
+        karte.classList.add("falsch");
+        fb.textContent = `✗ → "${richtig}"`;
+    }
+
+    document.getElementById("art-punkte").textContent = `${artBeantwortet} / 12 beantwortet`;
+    if (artBeantwortet === 12) setTimeout(artErgebnis, 500);
+}
+
+function artErgebnis() {
+    const pct = artRichtig / 12;
+    const emoji = pct === 1 ? "🏆" : pct >= .75 ? "😊" : pct >= .5 ? "🙂" : "💪";
+    const text  = pct === 1
+        ? "Perfekt! 12 von 12 richtig!"
+        : `${artRichtig} von 12 richtig. ${pct >= .75 ? "Sehr gut!" : "Noch etwas üben!"}`;
+
+    document.getElementById("art-emoji").textContent = emoji;
+    document.getElementById("art-texto").textContent = text;
+    const box = document.getElementById("art-ergebnis");
+    box.style.display = "block";
+    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function artikelNeustart() { artikelAufbauen(); }
+
+/* ════════════════════════════════════════
+   ÜBUNG 2 – FRAGE–ANTWORT ZUORDNEN
+════════════════════════════════════════ */
+let selFrage = null;   // index of selected question (0-5)
+let matchRichtig = 0;
+
+function matchAufbauen() {
+    selFrage = null;
+    matchRichtig = 0;
+    document.getElementById("match-punkte").textContent = "0 / 6 verbunden";
+    document.getElementById("match-ergebnis").style.display = "none";
+
+    const fragenCol    = document.getElementById("fragen-col");
+    const antwortenCol = document.getElementById("antworten-col");
+    fragenCol.innerHTML    = "";
+    antwortenCol.innerHTML = "";
+
+    // Questions in original order
+    PAARE.forEach((p, i) => {
+        const el = document.createElement("div");
+        el.className = "match-item";
+        el.id = "fq-" + i;
+        el.textContent = p.frage;
+        el.addEventListener("click", () => fragenKlick(i, el));
+        fragenCol.appendChild(el);
+    });
+
+    // Answers shuffled, carrying their original index
+    mischen(PAARE.map((p, i) => ({ antwort: p.antwort, origIdx: i }))).forEach((item, j) => {
+        const el = document.createElement("div");
+        el.className = "match-item";
+        el.id = "fa-" + j;
+        el.dataset.origIdx = item.origIdx;
+        el.textContent = item.antwort;
+        el.addEventListener("click", () => antwortenKlick(j, el));
+        antwortenCol.appendChild(el);
+    });
+}
+
+function fragenKlick(idx, el) {
+    if (el.classList.contains("conectado")) return;
+    // Deselect previous
+    if (selFrage !== null) {
+        document.getElementById("fq-" + selFrage).classList.remove("selektiert");
+    }
+    selFrage = idx;
+    el.classList.add("selektiert");
+}
+
+function antwortenKlick(j, el) {
+    if (el.classList.contains("conectado")) return;
+    if (selFrage === null) return;  // need to pick a question first
+
+    const frageEl    = document.getElementById("fq-" + selFrage);
+    const origIdx    = parseInt(el.dataset.origIdx, 10);
+
+    if (origIdx === selFrage) {
+        // ✓ Richtig
+        frageEl.classList.remove("selektiert");
+        frageEl.classList.add("conectado");
+        el.classList.add("conectado");
+        matchRichtig++;
+        document.getElementById("match-punkte").textContent = `${matchRichtig} / 6 verbunden`;
+        if (matchRichtig === 6) setTimeout(() => {
+            document.getElementById("match-ergebnis").style.display = "block";
+            document.getElementById("match-ergebnis").scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 500);
+    } else {
+        // ✗ Falsch
+        frageEl.classList.remove("selektiert");
+        frageEl.classList.add("error-parpadeo");
+        el.classList.add("error-parpadeo");
+        setTimeout(() => {
+            frageEl.classList.remove("error-parpadeo");
+            el.classList.remove("error-parpadeo");
+        }, 500);
+    }
+    selFrage = null;
+}
+
+function matchNeustart() { matchAufbauen(); }
+
+/* ════════════════════════════════════════
+   ÜBUNG 3 – LÜCKENTEXT
+════════════════════════════════════════ */
+function lueckeAufbauen() {
+    document.getElementById("luecke-resultado").style.display = "none";
+    document.getElementById("luecke-punkte").textContent = "0 / 8 beantwortet";
+
+    const grid = document.getElementById("luecke-grid");
+    grid.innerHTML = "";
+
+    mischen(LUECKEN).forEach((s, i) => {
+        const teile   = s.satz.split("___");
+        const optHtml = ["", ...mischen(s.optionen)]
+            .map(o => `<option value="${o}">${o || "— wählen —"}</option>`)
+            .join("");
+
+        const zeile = document.createElement("div");
+        zeile.className = "luecke-zeile";
+        zeile.id = "lz-" + i;
+        zeile.dataset.richtig = s.richtig;
+
+        zeile.innerHTML = `
+            <span class="luecke-nr">${i + 1}.</span>
+            <span>${teile[0]}</span>
+            <select id="lsel-${i}" onchange="lueckeZaehlen()">
+                ${optHtml}
+            </select>
+            <span>${teile[1]}</span>
+            <span class="pista">${s.pista}</span>
+            <span class="rm" id="lrm-${i}"></span>
+        `;
+        grid.appendChild(zeile);
+    });
+}
+
+function lueckeZaehlen() {
+    const n = [...document.querySelectorAll("#luecke-grid select")]
+        .filter(s => s.value !== "").length;
+    document.getElementById("luecke-punkte").textContent = `${n} / 8 beantwortet`;
+}
+
+function lueckePruefen() {
+    let richtig = 0;
+    document.querySelectorAll(".luecke-zeile").forEach((zeile, i) => {
+        const sel = document.getElementById("lsel-" + i);
+        const rm  = document.getElementById("lrm-" + i);
+        const korrekt = zeile.dataset.richtig;
+        sel.disabled = true;
+        if (sel.value === korrekt) {
+            sel.className = "korrekt";
+            rm.textContent = "✓";
+            rm.className = "rm ok";
+            richtig++;
+        } else {
+            sel.className = "falsch-sel";
+            rm.textContent = `✗ → „${korrekt}"`;
+            rm.className = "rm err";
+        }
+    });
+
+    const pct = richtig / 8;
+    let msg;
+    if      (pct === 1)  msg = "🏆 Perfekt! 8 von 8 richtig!";
+    else if (pct >= .75) msg = `😊 Sehr gut! ${richtig} von 8 richtig.`;
+    else if (pct >= .5)  msg = `🙂 ${richtig} von 8 richtig – weiter üben!`;
+    else                 msg = `💪 ${richtig} von 8 richtig – schau die Vokabelliste nochmal an.`;
+
+    const el = document.getElementById("luecke-resultado");
+    el.textContent = msg;
+    el.style.display = "block";
+}
+
+function lueckeNeustart() { lueckeAufbauen(); }
+
+/* ════════════════════════════════════════
+   INIT
+════════════════════════════════════════ */
+artikelAufbauen();
+matchAufbauen();
+lueckeAufbauen();
+</script>
+</body>
+</html>

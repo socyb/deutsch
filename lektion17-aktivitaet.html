@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lektion 17 – Ich will … werden</title>
+    <style>
+        :root {
+            --acento:       #5E8A58;
+            --acento-osc:   #3F5F3A;
+            --fondo:        #F6F5F1;
+            --fondo-suave:  #EEF2E8;
+            --tarjeta:      #FFFFFF;
+            --texto:        #1E241F;
+            --borde:        #D8DDD2;
+            --muted:        #5A6558;
+            --der:          #3478C5;
+            --die:          #C0392B;
+            --das:          #27874E;
+            --ok-bg:        #E8F6EE;
+            --ok-borde:     #8FC6A2;
+            --err-bg:       #FEF0EE;
+            --err-borde:    #E3A2A2;
+            --amarillo:     #F5C842;
+            --naranja:      #E4572E;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            color: var(--texto);
+            background:
+                radial-gradient(circle at 12% 8%, #E8EEE1 0%, transparent 42%),
+                radial-gradient(circle at 88% 2%, #F2F4EC 0%, transparent 46%),
+                var(--fondo);
+            min-height: 100vh;
+        }
+
+        /* ── HERO HEADER ──────────────────────────────── */
+        .site-header {
+            background: linear-gradient(120deg, var(--acento-osc) 0%, var(--acento) 55%, #7aab72 100%);
+            color: #fff;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .site-header::before {
+            content: "17";
+            position: absolute;
+            right: -10px;
+            top: -20px;
+            font-size: 11rem;
+            font-weight: 900;
+            opacity: 0.08;
+            line-height: 1;
+            letter-spacing: -4px;
+            pointer-events: none;
+        }
+        .header-inner {
+            padding: 28px 20px 26px;
+            position: relative;
+            z-index: 1;
+        }
+        .header-kicker {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 6px;
+        }
+        .site-header h1 {
+            font-size: clamp(1.5rem, 2vw + 1rem, 2.5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 8px;
+        }
+        .site-header h1 em {
+            font-style: normal;
+            color: var(--amarillo);
+        }
+        .site-header p {
+            font-size: 0.96rem;
+            opacity: 0.9;
+            max-width: 58ch;
+            line-height: 1.4;
+        }
+        .header-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+        .chip {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.35);
+            color: #fff;
+            border-radius: 999px;
+            padding: 5px 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        /* ── LAYOUT ─────────────────────────────────── */
+        main {
+            width: min(1100px, 94vw);
+            margin: 22px auto 50px;
+            display: grid;
+            gap: 20px;
+        }
+
+        .panel {
+            background: var(--tarjeta);
+            border: 1px solid var(--borde);
+            border-radius: 16px;
+            box-shadow: 0 6px 22px rgba(0,0,0,.07);
+            padding: 22px;
+        }
+
+        .panel-titulo {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .panel-titulo h2 {
+            color: var(--acento-osc);
+            font-size: 1.15rem;
+            line-height: 1.2;
+            margin: 0;
+        }
+        .panel-titulo h2 small {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .punkte {
+            background: #EDF2E9;
+            border: 1px solid #cdd8c6;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #344a32;
+            white-space: nowrap;
+        }
+
+        /* ── REFERENCE ─────────────────────────────────── */
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .ref-bloque {
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid var(--borde);
+        }
+        .ref-bloque.verde { background: #EEF5EB; border-color: #b5d4ad; }
+        .ref-bloque.azul  { background: #EAF1FB; border-color: #b3cce8; }
+        .ref-bloque.rojo  { background: #FDECEA; border-color: #e8b0aa; }
+        .ref-bloque.crema { background: #FDF8EE; border-color: #e2d8bc; }
+
+        .ref-bloque h3 {
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+        .ref-bloque.verde h3 { color: var(--acento-osc); }
+        .ref-bloque.azul  h3 { color: #1a5090; }
+        .ref-bloque.rojo  h3 { color: #8a1a14; }
+        .ref-bloque.crema h3 { color: #6a5010; }
+
+        .conj-tabla {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .conj-tabla td {
+            padding: 3px 6px;
+            vertical-align: middle;
+        }
+        .conj-tabla td:first-child {
+            color: var(--muted);
+            min-width: 80px;
+        }
+        .conj-tabla td:not(:first-child) {
+            font-weight: 700;
+        }
+        .conj-tabla tr:hover td { background: rgba(0,0,0,.03); }
+
+        .vok-nube {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+        .vok-pill {
+            background: #fff;
+            border: 1px solid var(--borde);
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-size: 0.87rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .vok-pill .ico { font-size: 1.05rem; }
+
+        .dativ-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.88rem;
+        }
+        .dativ-col h4 {
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+        .dativ-col.mit  h4 { color: #1a5090; }
+        .dativ-col.ohne h4 { color: #8a1a14; }
+        .dativ-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .dativ-col li {
+            background: #fff;
+            border-radius: 6px;
+            padding: 4px 8px;
+            border: 1px solid var(--borde);
+        }
+        .highlight { color: var(--acento-osc); font-weight: 700; }
+
+        /* ── AUSDRUCK CHIPS ─────────────────────────────── */
+        .ausdr-reihe {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .ausdr {
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-weight: 700;
+            font-size: 0.93rem;
+            border: 1px solid;
+        }
+        .ausdr.gruen { background: #EEF5EB; border-color: #b5d4ad; color: var(--acento-osc); }
+        .ausdr.rojo  { background: #FDECEA; border-color: #e8b0aa; color: #8a1a14; }
+        .ausdr.gris  { background: #f3f6f0; border-color: #c8d4c4; color: var(--muted); }
+
+        /* ── VERBINDEN ÜBUNG ────────────────────────────── */
+        .verbinden-gitter {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        @media (max-width: 540px) { .verbinden-gitter { grid-template-columns: 1fr; } }
+
+        .vb-col-titulo {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        .vb-items { display: flex; flex-direction: column; gap: 8px; }
+        .vb-item {
+            border: 2px solid var(--borde);
+            border-radius: 10px;
+            padding: 10px 14px;
+            background: #FAFBF8;
+            cursor: pointer;
+            font-size: 0.92rem;
+            line-height: 1.3;
+            transition: border-color .15s, background .15s, transform .1s;
+            user-select: none;
+            font-weight: 600;
+        }
+        .vb-item:hover { transform: translateY(-1px); border-color: #BFC6B7; }
+        .vb-item.selektiert {
+            border-color: var(--acento);
+            background: var(--fondo-suave);
+            box-shadow: 0 0 0 2px #5E8A5844;
+        }
+        .vb-item.conectado {
+            border-color: #27874E;
+            background: var(--ok-bg);
+            pointer-events: none;
+            cursor: default;
+        }
+        .vb-item.error-parpadeo { animation: parpadeo 0.45s ease; }
+        @keyframes parpadeo {
+            0%, 100% { border-color: #C0392B; background: var(--err-bg); }
+            50%       { border-color: var(--borde); background: #FAFBF8; }
+        }
+
+        /* ── KONJUGATION QUIZ ──────────────────────────── */
+        .konj-gitter {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .konj-karte {
+            border: 2px solid var(--borde);
+            border-radius: 12px;
+            background: #FAFBF8;
+            padding: 14px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .konj-karte .pronomen {
+            font-size: 0.82rem;
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .konj-karte .kontext {
+            font-size: 0.88rem;
+            color: var(--texto);
+            line-height: 1.4;
+        }
+        .konj-karte .kontext strong { color: var(--acento-osc); }
+        .boton-reihe {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .boton-reihe button {
+            border: none;
+            border-radius: 7px;
+            padding: 5px 10px;
+            font: 600 0.82rem "Trebuchet MS", sans-serif;
+            cursor: pointer;
+            background: #e0e8dc;
+            color: var(--acento-osc);
+            transition: background .12s, transform .1s;
+        }
+        .boton-reihe button:hover { background: #ccd8c6; transform: translateY(-1px); }
+        .boton-reihe button.correcto { background: #27874E; color: #fff; pointer-events: none; }
+        .boton-reihe button.incorrecto { background: #C0392B; color: #fff; }
+        .konj-karte .mini-fb {
+            font-size: 0.78rem;
+            font-weight: 700;
+            min-height: 1rem;
+        }
+        .konj-karte.acierto { border-color: #27874E; background: var(--ok-bg); }
+        .konj-karte.error   { border-color: #C0392B; background: var(--err-bg); }
+        .konj-karte.acierto .mini-fb { color: #1a7040; }
+        .konj-karte.error   .mini-fb { color: #971f18; }
+
+        /* ── LÜCKENTEXT ────────────────────────────────── */
+        .luecke-grid { display: grid; gap: 10px; margin-bottom: 14px; }
+        .luecke-zeile {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            background: #f8faf5;
+            border: 1px solid var(--borde);
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-size: 0.93rem;
+            line-height: 1.7;
+        }
+        .luecke-nr {
+            color: #aaa;
+            font-size: 0.78rem;
+            min-width: 18px;
+            font-weight: 700;
+        }
+        .luecke-zeile select {
+            border: 1px solid #bac5b4;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font: inherit;
+            font-size: 0.9rem;
+            background: #fff;
+            cursor: pointer;
+        }
+        .luecke-zeile select.korrekt  { border-color: #27874E; background: var(--ok-bg); color: #1a5c37; }
+        .luecke-zeile select.falsch   { border-color: #C0392B; background: var(--err-bg); color: #7d1a14; }
+        .rm { font-size: 0.8rem; font-weight: 700; }
+        .rm.ok  { color: #1a7040; }
+        .rm.err { color: #971f18; }
+        .pista {
+            font-size: 0.73rem;
+            background: #e9eee4;
+            color: #445542;
+            border-radius: 999px;
+            padding: 2px 8px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* ── MIT / OHNE QUIZ ──────────────────────────── */
+        .mit-ohne-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .mo-karte {
+            border: 2px solid var(--borde);
+            border-radius: 12px;
+            background: #FAFBF8;
+            padding: 13px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .mo-satz { font-size: 0.9rem; line-height: 1.4; color: var(--texto); }
+        .mo-satz .blank { font-weight: 700; color: var(--acento-osc); }
+        .mo-karte .mini-fb { font-size: 0.78rem; font-weight: 700; min-height: 1rem; }
+        .mo-karte.acierto { border-color: #27874E; background: var(--ok-bg); }
+        .mo-karte.error   { border-color: #C0392B; background: var(--err-bg); }
+        .mo-karte.acierto .mini-fb { color: #1a7040; }
+        .mo-karte.error   .mini-fb { color: #971f18; }
+        .mo-karte .boton-reihe button { font-size: 0.8rem; padding: 5px 8px; }
+
+        /* ── RESULT BOX ────────────────────────────────── */
+        .ergebnis-box {
+            display: none;
+            text-align: center;
+            padding: 16px;
+            border-radius: 10px;
+            background: var(--fondo-suave);
+            border: 1px solid var(--borde);
+            margin-top: 4px;
+        }
+        .ergebnis-box .nota-grande { font-size: 2.8rem; display: block; margin-bottom: 6px; }
+        .ergebnis-box p { font-size: 1rem; margin-bottom: 14px; color: var(--texto); }
+
+        /* ── BUTTONS ────────────────────────────────────── */
+        .btn-accion {
+            border: none;
+            border-radius: 9px;
+            padding: 10px 20px;
+            font: 600 0.92rem "Trebuchet MS", sans-serif;
+            cursor: pointer;
+            color: #fff;
+            background: var(--acento);
+            transition: background .15s;
+        }
+        .btn-accion:hover { background: var(--acento-osc); }
+        .btn-accion.sec { background: #5f6b5f; }
+        .btn-accion.sec:hover { background: #4c564c; }
+        .btn-grupo { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+        /* ── BACK LINK / FOOTER ─────────────────────────── */
+        .zurueck {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.88rem;
+            margin-bottom: 2px;
+            transition: color .15s;
+        }
+        .zurueck:hover { color: var(--acento-osc); }
+        .site-footer {
+            text-align: center;
+            font-size: 0.88rem;
+            color: #4B5649;
+            padding: 14px 12px 24px;
+        }
+
+        /* ── DIVIDER ─────────────────────────────────────── */
+        .seccion-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .seccion-label::before, .seccion-label::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--borde);
+        }
+
+        @media (max-width: 600px) {
+            .ref-grid { grid-template-columns: 1fr; }
+            .dativ-box { grid-template-columns: 1fr; }
+            .verbinden-gitter { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <p class="header-kicker">Momente A1/A2 · Lektion 17</p>
+        <h1>Ich will <em>…</em> werden</h1>
+        <p>Zukunftspläne, Berufe &amp; Grammatik: <em>wollen</em>, <em>werden</em>, mit + Dativ, ohne + Akkusativ</p>
+        <div class="header-chips">
+            <span class="chip">📘 Grammatik</span>
+            <span class="chip">💼 Berufe</span>
+            <span class="chip">🌍 Zukunftspläne</span>
+            <span class="chip">A1/A2</span>
+        </div>
+    </div>
+</header>
+
+<main>
+    <a class="zurueck" href="./index.html">← Zurück zur Übersicht</a>
+
+    <!-- ══ 0. REFERENZ ══ -->
+    <div class="panel">
+        <div class="panel-titulo">
+            <h2>📚 Grammatik &amp; Vokabular auf einen Blick</h2>
+        </div>
+
+        <div class="ref-grid">
+
+            <!-- wollen -->
+            <div class="ref-bloque azul">
+                <h3>wollen – Konjugation</h3>
+                <table class="conj-tabla">
+                    <tr><td>ich</td><td>will</td></tr>
+                    <tr><td>du</td><td>willst</td></tr>
+                    <tr><td>er/sie/es</td><td>will</td></tr>
+                    <tr><td>wir</td><td>wollen</td></tr>
+                    <tr><td>ihr</td><td>wollt</td></tr>
+                    <tr><td>sie/Sie</td><td>wollen</td></tr>
+                </table>
+                <p style="margin-top:10px; font-size:0.83rem; color:#1a5090">
+                    <strong>Ich will</strong> unbedingt Arzt <strong>werden</strong>.
+                </p>
+            </div>
+
+            <!-- werden -->
+            <div class="ref-bloque verde">
+                <h3>werden – Konjugation</h3>
+                <table class="conj-tabla">
+                    <tr><td>ich</td><td>werde</td></tr>
+                    <tr><td>du</td><td>wirst</td></tr>
+                    <tr><td>er/sie/es</td><td>wird</td></tr>
+                    <tr><td>wir</td><td>werden</td></tr>
+                    <tr><td>ihr</td><td>werdet</td></tr>
+                    <tr><td>sie/Sie</td><td>werden</td></tr>
+                </table>
+                <p style="margin-top:10px; font-size:0.83rem; color:var(--acento-osc)">
+                    Ich <strong>werde</strong> auf jeden Fall Polizist!
+                </p>
+            </div>
+
+            <!-- mit / ohne -->
+            <div class="ref-bloque azul">
+                <h3>mit + Dativ · ohne + Akkusativ</h3>
+                <div class="dativ-box">
+                    <div class="dativ-col mit">
+                        <h4>mit + Dativ</h4>
+                        <ul>
+                            <li><span class="highlight">dem</span> Geld</li>
+                            <li><span class="highlight">einem</span> Blog</li>
+                            <li><span class="highlight">der</span> Familie</li>
+                            <li><span class="highlight">einer</span> Firma</li>
+                        </ul>
+                    </div>
+                    <div class="dativ-col ohne">
+                        <h4>ohne + Akkusativ</h4>
+                        <ul>
+                            <li><span class="highlight">den</span> Führerschein</li>
+                            <li><span class="highlight">einen</span> Plan</li>
+                            <li><span class="highlight">die</span> Familie</li>
+                            <li><span class="highlight">eine</span> Arbeit</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ausdrücke + Zukunftspläne -->
+            <div class="ref-bloque crema">
+                <h3>Ausdrücke &amp; Zukunftspläne</h3>
+                <div class="ausdr-reihe" style="margin-bottom:12px">
+                    <span class="ausdr gruen">auf jeden Fall ✅</span>
+                    <span class="ausdr rojo">auf keinen Fall ❌</span>
+                    <span class="ausdr gris">unbedingt</span>
+                    <span class="ausdr gris">vielleicht</span>
+                </div>
+                <div class="vok-nube">
+                    <span class="vok-pill"><span class="ico">✍️</span> einen Blog schreiben</span>
+                    <span class="vok-pill"><span class="ico">💼</span> Chef/in werden</span>
+                    <span class="vok-pill"><span class="ico">🎭</span> Schauspieler/in werden</span>
+                    <span class="vok-pill"><span class="ico">🏛️</span> Politiker/in werden</span>
+                    <span class="vok-pill"><span class="ico">💰</span> Geld verdienen</span>
+                    <span class="vok-pill"><span class="ico">💍</span> heiraten</span>
+                    <span class="vok-pill"><span class="ico">👨‍👩‍👧</span> eine Familie haben</span>
+                    <span class="vok-pill"><span class="ico">⛰️</span> auf einen Berg steigen</span>
+                    <span class="vok-pill"><span class="ico">🚌</span> durch Europa reisen</span>
+                    <span class="vok-pill"><span class="ico">⛵</span> um die Welt segeln</span>
+                    <span class="vok-pill"><span class="ico">🌍</span> im Ausland leben</span>
+                    <span class="vok-pill"><span class="ico">🏍️</span> Motorrad fahren</span>
+                    <span class="vok-pill"><span class="ico">🚗</span> den Führerschein machen</span>
+                    <span class="vok-pill"><span class="ico">🎸</span> ein Instrument lernen</span>
+                    <span class="vok-pill"><span class="ico">🗣️</span> Fremdsprachen lernen</span>
+                    <span class="vok-pill"><span class="ico">🏖️</span> drei Monate freihaben</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══ 1. VERBINDEN ══ -->
+    <div class="panel">
+        <div class="panel-titulo">
+            <h2>Übung 1 – Verbinden
+                <small>Verbinde das Verb mit der passenden Ergänzung.</small>
+            </h2>
+            <span class="punkte" id="vb-punkte">0 / 8 verbunden</span>
+        </div>
+        <p style="font-size:0.86rem; color:var(--muted); margin-bottom:14px;">
+            Klicke zuerst auf ein Verb (links), dann auf die passende Ergänzung (rechts).
+        </p>
+        <div class="verbinden-gitter">
+            <div>
+                <div class="vb-col-titulo">Verben / Ausdrücke</div>
+                <div class="vb-items" id="vb-links"></div>
+            </div>
+            <div>
+                <div class="vb-col-titulo">Ergänzungen</div>
+                <div class="vb-items" id="vb-rechts"></div>
+            </div>
+        </div>
+        <div class="ergebnis-box" id="vb-ergebnis">
+            <span class="nota-grande">🏆</span>
+            <p>Perfekt! Alle 8 Paare richtig verbunden!</p>
+            <button class="btn-accion" onclick="verbindenNeustart()">🔄 Nochmal</button>
+        </div>
+        <div class="btn-grupo">
+            <button class="btn-accion sec" onclick="verbindenNeustart()">🔄 Neu mischen</button>
+        </div>
+    </div>
+
+    <!-- ══ 2. KONJUGATION: wollen & werden ══ -->
+    <div class="panel">
+        <div class="panel-titulo">
+            <h2>Übung 2 – Konjugation: <em>wollen</em> oder <em>werden</em>?
+                <small>Wähle die richtige Form.</small>
+            </h2>
+            <span class="punkte" id="konj-punkte">0 / 10 beantwortet</span>
+        </div>
+        <div class="konj-gitter" id="konj-gitter"></div>
+        <div class="ergebnis-box" id="konj-ergebnis">
+            <span class="nota-grande" id="konj-emoji"></span>
+            <p id="konj-texto"></p>
+            <button class="btn-accion" onclick="konjNeustart()">🔄 Nochmal versuchen</button>
+        </div>
+    </div>
+
+    <!-- ══ 3. MIT + DATIV / OHNE + AKKUSATIV ══ -->
+    <div class="panel">
+        <div class="panel-titulo">
+            <h2>Übung 3 – mit + Dativ / ohne + Akkusativ
+                <small>Wähle den richtigen Artikel.</small>
+            </h2>
+            <span class="punkte" id="mo-punkte">0 / 8 beantwortet</span>
+        </div>
+        <div class="mit-ohne-grid" id="mo-gitter"></div>
+        <div class="ergebnis-box" id="mo-ergebnis">
+            <span class="nota-grande" id="mo-emoji"></span>
+            <p id="mo-texto"></p>
+            <button class="btn-accion" onclick="moNeustart()">🔄 Nochmal versuchen</button>
+        </div>
+    </div>
+
+    <!-- ══ 4. LÜCKENTEXT ══ -->
+    <div class="panel">
+        <div class="panel-titulo">
+            <h2>Übung 4 – Lückentext
+                <small>Wähle das richtige Wort aus dem Dropdown.</small>
+            </h2>
+            <span class="punkte" id="luecke-punkte">0 / 8 beantwortet</span>
+        </div>
+        <div class="luecke-grid" id="luecke-grid"></div>
+        <div id="luecke-resultado" style="display:none; font-weight:700; font-size:1rem; padding:6px 0;"></div>
+        <div class="btn-grupo">
+            <button class="btn-accion" onclick="lueckePruefen()">✅ Auswertung</button>
+            <button class="btn-accion sec" onclick="lueckeNeustart()">🔄 Neu starten</button>
+        </div>
+    </div>
+
+    <!-- ══ 5. AUF JEDEN FALL / AUF KEINEN FALL ══ -->
+    <div class="panel">
+        <div class="panel-titulo">
+            <h2>Übung 5 – auf jeden Fall oder auf keinen Fall?
+                <small>Was sagt die Person? Ordne zu.</small>
+            </h2>
+            <span class="punkte" id="ajf-punkte">0 / 6 beantwortet</span>
+        </div>
+        <p style="font-size:0.86rem; color:var(--muted); margin-bottom:14px;">
+            Lies die Aussage und wähle: passt <strong style="color:var(--acento-osc)">auf jeden Fall</strong> (✅ positiv) oder <strong style="color:#8a1a14">auf keinen Fall</strong> (❌ negativ)?
+        </p>
+        <div class="konj-gitter" id="ajf-gitter"></div>
+        <div class="ergebnis-box" id="ajf-ergebnis">
+            <span class="nota-grande" id="ajf-emoji"></span>
+            <p id="ajf-texto"></p>
+            <button class="btn-accion" onclick="ajfNeustart()">🔄 Nochmal versuchen</button>
+        </div>
+    </div>
+
+</main>
+
+<footer class="site-footer">Deutschunterricht A1/A2 · Jorge Cardiel · Momente Lektion 17</footer>
+
+<script>
+/* ════════════════════════════════════════
+   HILFSFUNKTIONEN
+════════════════════════════════════════ */
+function mischen(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+/* ════════════════════════════════════════
+   DATEN
+════════════════════════════════════════ */
+
+// Übung 1 – Verbinden
+const VERBINDEN_PAARE = [
+    { links: "Motorrad",                rechts: "fahren"           },
+    { links: "auf einen Berg",          rechts: "steigen"          },
+    { links: "durch Europa",            rechts: "reisen"           },
+    { links: "Geld",                    rechts: "verdienen"        },
+    { links: "ein Instrument",          rechts: "lernen"           },
+    { links: "den Führerschein",        rechts: "machen"           },
+    { links: "um die Welt",             rechts: "segeln"           },
+    { links: "im Ausland",              rechts: "leben"            },
+];
+
+// Übung 2 – Konjugation
+const KONJ_AUFGABEN = [
+    { pronomen: "ich",       verb: "wollen",  richtig: "will",    falsch: ["werde", "wirst", "will ich"],        kontext: "Ich ___ Arzt werden."                  },
+    { pronomen: "du",        verb: "werden",  richtig: "wirst",   falsch: ["wird", "werde", "wirst du"],         kontext: "Du ___ auf keinen Fall Polizist!"       },
+    { pronomen: "er",        verb: "werden",  richtig: "wird",    falsch: ["werde", "wirst", "werden"],          kontext: "Er ___ auf jeden Fall Architekt."       },
+    { pronomen: "wir",       verb: "wollen",  richtig: "wollen",  falsch: ["wollt", "will", "will wir"],         kontext: "Wir ___ ein Start-up gründen."          },
+    { pronomen: "ihr",       verb: "wollen",  richtig: "wollt",   falsch: ["wollen", "will", "willst"],          kontext: "Was ___ ihr nach dem Schulabschluss machen?" },
+    { pronomen: "sie (Pl.)", verb: "werden",  richtig: "werden",  falsch: ["werdet", "werde", "wird"],           kontext: "Sie ___ vielleicht Influencerinnen."     },
+    { pronomen: "ich",       verb: "werden",  richtig: "werde",   falsch: ["will", "wird", "wirst"],             kontext: "Ich ___ vielleicht Tierarzt."            },
+    { pronomen: "er/sie",    verb: "wollen",  richtig: "will",    falsch: ["wollen", "willst", "wollt"],         kontext: "Luka ___ unbedingt Arzt werden."         },
+    { pronomen: "ihr",       verb: "werden",  richtig: "werdet",  falsch: ["werden", "werde", "wird"],           kontext: "Was ___ ihr? – Wir werden Köche!"       },
+    { pronomen: "sie (Sg.)", verb: "werden",  richtig: "wird",    falsch: ["werde", "werdet", "wollen"],         kontext: "Alex ___ hoffentlich Architektin."       },
+];
+
+// Übung 3 – mit + Dativ / ohne + Akkusativ
+const MO_AUFGABEN = [
+    { satz: "Nur ___ einem super Schulabschluss bekommt man sofort einen Studienplatz.", richtig: "mit", falsch: ["ohne", "bei", "für"] },
+    { satz: "Wir brauchen 10 000 Euro. ___ das Geld können wir nicht anfangen.",          richtig: "ohne", falsch: ["mit", "bei", "nach"] },
+    { satz: "___ dem Geld machen wir ein Start-up.",                                       richtig: "mit", falsch: ["ohne", "für", "von"] },
+    { satz: "Ich gehe nie ___ meinen Hund spazieren.",                                    richtig: "ohne", falsch: ["mit", "nach", "bei"] },
+    { satz: "___ einem Blog kann man viel Geld verdienen.",                               richtig: "mit", falsch: ["ohne", "an", "für"] },
+    { satz: "Ich fahre nie ___ einen Helm Motorrad.",                                     richtig: "ohne", falsch: ["mit", "von", "bei"] },
+    { satz: "___ der Familie reise ich durch Europa.",                                    richtig: "mit", falsch: ["ohne", "nach", "von"] },
+    { satz: "Er hat mit ___ Hilfe von Freunden ein Start-up gegründet.",                  richtig: "der", falsch: ["dem", "die", "einen"] },
+];
+
+// Übung 4 – Lückentext (Grammatik + Vokabular gemischt)
+const LUECKEN = [
+    {
+        satz: "Als Kind ___ man gern Superstar werden.",
+        richtig: "will",
+        optionen: ["will", "werde", "wirst", "wollt"],
+        pista: "wollen"
+    },
+    {
+        satz: "Henriette ___ vielleicht Influencerin werden.",
+        richtig: "will",
+        optionen: ["will", "wird", "wirst", "wollen"],
+        pista: "wollen"
+    },
+    {
+        satz: "Ich ___ auf jeden Fall Polizist!",
+        richtig: "werde",
+        optionen: ["werde", "will", "wirst", "werden"],
+        pista: "werden"
+    },
+    {
+        satz: "Luka ___ zuerst Krankenpfleger, dann Arzt.",
+        richtig: "wird",
+        optionen: ["wird", "werde", "wollen", "werdet"],
+        pista: "werden"
+    },
+    {
+        satz: "Ich will unbedingt den Führerschein ___ .",
+        richtig: "machen",
+        optionen: ["machen", "fahren", "lernen", "haben"],
+        pista: "Zukunftspläne"
+    },
+    {
+        satz: "Alina und Philip wollen ein Start-up ___ .",
+        richtig: "gründen",
+        optionen: ["gründen", "schreiben", "lernen", "segeln"],
+        pista: "Zukunftspläne"
+    },
+    {
+        satz: "Was ___ ihr denn nach dem Schulabschluss machen?",
+        richtig: "wollt",
+        optionen: ["wollt", "wollen", "will", "willst"],
+        pista: "wollen"
+    },
+    {
+        satz: "Ich will vielleicht im ___ leben und Fremdsprachen lernen.",
+        richtig: "Ausland",
+        optionen: ["Ausland", "Keller", "Beruf", "Urlaub"],
+        pista: "Vokabular"
+    },
+];
+
+// Übung 5 – auf jeden Fall / auf keinen Fall
+const AJF_AUFGABEN = [
+    { aussage: "Ich finde Motorräder super! Ich kaufe morgen schon einen Helm.", richtig: "AJF",  label: "Motorrad fahren" },
+    { aussage: "Politik? Nein, das interessiert mich überhaupt nicht.", richtig: "AKF", label: "Politiker/in werden" },
+    { aussage: "Ich liebe Musik. Ich übe jeden Tag Gitarre.", richtig: "AJF",  label: "ein Instrument lernen" },
+    { aussage: "Heiraten? Ich will frei und unabhängig bleiben.", richtig: "AKF", label: "heiraten" },
+    { aussage: "Ich spare seit drei Jahren. Ich will nächstes Jahr durch Europa reisen.", richtig: "AJF", label: "durch Europa reisen" },
+    { aussage: "Eine Familie? Vielleicht, aber Kinder – auf gar keinen Fall!", richtig: "AKF", label: "eine Familie haben" },
+];
+
+/* ════════════════════════════════════════
+   ÜBUNG 1 – VERBINDEN
+════════════════════════════════════════ */
+let vbSel    = null;
+let vbRich   = 0;
+
+function verbindenAufbauen() {
+    vbSel  = null;
+    vbRich = 0;
+    document.getElementById("vb-punkte").textContent  = "0 / 8 verbunden";
+    document.getElementById("vb-ergebnis").style.display = "none";
+
+    const linksEl  = document.getElementById("vb-links");
+    const rechtsEl = document.getElementById("vb-rechts");
+    linksEl.innerHTML  = "";
+    rechtsEl.innerHTML = "";
+
+    VERBINDEN_PAARE.forEach((p, i) => {
+        const el = document.createElement("div");
+        el.className = "vb-item";
+        el.id = "vbl-" + i;
+        el.textContent = p.links;
+        el.addEventListener("click", () => vbLinksKlick(i, el));
+        linksEl.appendChild(el);
+    });
+
+    mischen(VERBINDEN_PAARE.map((p, i) => ({ rechts: p.rechts, origIdx: i }))).forEach((item, j) => {
+        const el = document.createElement("div");
+        el.className = "vb-item";
+        el.id = "vbr-" + j;
+        el.dataset.origIdx = item.origIdx;
+        el.textContent = item.rechts;
+        el.addEventListener("click", () => vbRechtsKlick(j, el));
+        rechtsEl.appendChild(el);
+    });
+}
+
+function vbLinksKlick(idx, el) {
+    if (el.classList.contains("conectado")) return;
+    if (vbSel !== null) document.getElementById("vbl-" + vbSel).classList.remove("selektiert");
+    vbSel = idx;
+    el.classList.add("selektiert");
+}
+
+function vbRechtsKlick(j, el) {
+    if (el.classList.contains("conectado") || vbSel === null) return;
+    const linksEl  = document.getElementById("vbl-" + vbSel);
+    const origIdx  = parseInt(el.dataset.origIdx, 10);
+    if (origIdx === vbSel) {
+        linksEl.classList.remove("selektiert");
+        linksEl.classList.add("conectado");
+        el.classList.add("conectado");
+        vbRich++;
+        document.getElementById("vb-punkte").textContent = `${vbRich} / 8 verbunden`;
+        if (vbRich === 8) setTimeout(() => {
+            const box = document.getElementById("vb-ergebnis");
+            box.style.display = "block";
+            box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 400);
+    } else {
+        linksEl.classList.remove("selektiert");
+        linksEl.classList.add("error-parpadeo");
+        el.classList.add("error-parpadeo");
+        setTimeout(() => {
+            linksEl.classList.remove("error-parpadeo");
+            el.classList.remove("error-parpadeo");
+        }, 500);
+    }
+    vbSel = null;
+}
+
+function verbindenNeustart() { verbindenAufbauen(); }
+
+/* ════════════════════════════════════════
+   ÜBUNG 2 – KONJUGATION
+════════════════════════════════════════ */
+let konjBeantw = 0, konjRich = 0;
+
+function konjAufbauen() {
+    konjBeantw = 0; konjRich = 0;
+    document.getElementById("konj-punkte").textContent = "0 / 10 beantwortet";
+    document.getElementById("konj-ergebnis").style.display = "none";
+
+    const gitter = document.getElementById("konj-gitter");
+    gitter.innerHTML = "";
+
+    mischen(KONJ_AUFGABEN).forEach((a, i) => {
+        const optionen = mischen([a.richtig, ...a.falsch.slice(0, 2)]);
+        const karte = document.createElement("div");
+        karte.className = "konj-karte";
+        karte.id = "kk-" + i;
+
+        const botonesHTML = optionen.map(o =>
+            `<button onclick="konjAntworten(${i},'${o}','${a.richtig}',this)">${o}</button>`
+        ).join("");
+
+        const satzFormatted = a.kontext.replace("___",
+            `<strong style="color:var(--acento-osc)">___</strong>`);
+
+        karte.innerHTML = `
+            <div class="pronomen">${a.pronomen} · <em style="font-style:normal;color:var(--acento)">${a.verb}</em></div>
+            <div class="kontext">${satzFormatted}</div>
+            <div class="boton-reihe">${botonesHTML}</div>
+            <div class="mini-fb" id="kfb-${i}"></div>
+        `;
+        gitter.appendChild(karte);
+    });
+}
+
+function konjAntworten(idx, gewaehlt, richtig, btn) {
+    const karte = document.getElementById("kk-" + idx);
+    if (karte.classList.contains("acierto") || karte.classList.contains("error")) return;
+
+    karte.querySelectorAll("button").forEach(b => {
+        if (b.textContent === richtig) b.classList.add("correcto");
+    });
+
+    const fb = document.getElementById("kfb-" + idx);
+    konjBeantw++;
+    if (gewaehlt === richtig) {
+        karte.classList.add("acierto");
+        btn.classList.add("correcto");
+        fb.textContent = "✓ Richtig!";
+        konjRich++;
+    } else {
+        karte.classList.add("error");
+        btn.classList.add("incorrecto");
+        fb.textContent = `✗ → „${richtig}"`;
+    }
+    karte.querySelectorAll("button").forEach(b => { b.style.pointerEvents = "none"; });
+    document.getElementById("konj-punkte").textContent = `${konjBeantw} / 10 beantwortet`;
+    if (konjBeantw === 10) setTimeout(konjErgebnis, 500);
+}
+
+function konjErgebnis() {
+    const pct = konjRich / 10;
+    const emoji = pct === 1 ? "🏆" : pct >= .8 ? "😊" : pct >= .5 ? "🙂" : "💪";
+    const text  = pct === 1 ? "Perfekt! 10 von 10 richtig!" : `${konjRich} von 10 richtig. ${pct >= .7 ? "Super!" : "Nochmal üben!"}`;
+    document.getElementById("konj-emoji").textContent = emoji;
+    document.getElementById("konj-texto").textContent = text;
+    const box = document.getElementById("konj-ergebnis");
+    box.style.display = "block";
+    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function konjNeustart() { konjAufbauen(); }
+
+/* ════════════════════════════════════════
+   ÜBUNG 3 – MIT / OHNE
+════════════════════════════════════════ */
+let moBeantw = 0, moRich = 0;
+
+function moAufbauen() {
+    moBeantw = 0; moRich = 0;
+    document.getElementById("mo-punkte").textContent = "0 / 8 beantwortet";
+    document.getElementById("mo-ergebnis").style.display = "none";
+
+    const gitter = document.getElementById("mo-gitter");
+    gitter.innerHTML = "";
+
+    mischen(MO_AUFGABEN).forEach((a, i) => {
+        const optionen = mischen([a.richtig, ...a.falsch.slice(0, 2)]);
+        const karte = document.createElement("div");
+        karte.className = "mo-karte";
+        karte.id = "mo-" + i;
+
+        const satzFormatted = a.satz.replace("___",
+            `<span class="blank">___</span>`);
+
+        const botonesHTML = optionen.map(o =>
+            `<button onclick="moAntworten(${i},'${o}','${a.richtig}',this)">${o}</button>`
+        ).join("");
+
+        karte.innerHTML = `
+            <div class="mo-satz">${satzFormatted}</div>
+            <div class="boton-reihe">${botonesHTML}</div>
+            <div class="mini-fb" id="mofb-${i}"></div>
+        `;
+        gitter.appendChild(karte);
+    });
+}
+
+function moAntworten(idx, gewaehlt, richtig, btn) {
+    const karte = document.getElementById("mo-" + idx);
+    if (karte.classList.contains("acierto") || karte.classList.contains("error")) return;
+
+    karte.querySelectorAll("button").forEach(b => {
+        if (b.textContent === richtig) b.classList.add("correcto");
+    });
+
+    const fb = document.getElementById("mofb-" + idx);
+    moBeantw++;
+    if (gewaehlt === richtig) {
+        karte.classList.add("acierto");
+        btn.classList.add("correcto");
+        fb.textContent = "✓ Richtig!";
+        moRich++;
+    } else {
+        karte.classList.add("error");
+        btn.classList.add("incorrecto");
+        fb.textContent = `✗ → „${richtig}"`;
+    }
+    karte.querySelectorAll("button").forEach(b => { b.style.pointerEvents = "none"; });
+    document.getElementById("mo-punkte").textContent = `${moBeantw} / 8 beantwortet`;
+    if (moBeantw === 8) setTimeout(moErgebnis, 500);
+}
+
+function moErgebnis() {
+    const pct = moRich / 8;
+    const emoji = pct === 1 ? "🏆" : pct >= .75 ? "😊" : pct >= .5 ? "🙂" : "💪";
+    const text  = pct === 1 ? "Perfekt! 8 von 8 richtig!" : `${moRich} von 8 richtig. ${pct >= .75 ? "Sehr gut!" : "Nochmal üben!"}`;
+    document.getElementById("mo-emoji").textContent = emoji;
+    document.getElementById("mo-texto").textContent = text;
+    const box = document.getElementById("mo-ergebnis");
+    box.style.display = "block";
+    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function moNeustart() { moAufbauen(); }
+
+/* ════════════════════════════════════════
+   ÜBUNG 4 – LÜCKENTEXT
+════════════════════════════════════════ */
+function lueckeAufbauen() {
+    document.getElementById("luecke-resultado").style.display = "none";
+    document.getElementById("luecke-punkte").textContent = "0 / 8 beantwortet";
+    const grid = document.getElementById("luecke-grid");
+    grid.innerHTML = "";
+
+    mischen(LUECKEN).forEach((s, i) => {
+        const teile  = s.satz.split("___");
+        const optHtml = ["", ...mischen(s.optionen)]
+            .map(o => `<option value="${o}">${o || "— wählen —"}</option>`).join("");
+
+        const zeile = document.createElement("div");
+        zeile.className = "luecke-zeile";
+        zeile.id = "lz-" + i;
+        zeile.dataset.richtig = s.richtig;
+        zeile.innerHTML = `
+            <span class="luecke-nr">${i + 1}.</span>
+            <span>${teile[0]}</span>
+            <select id="lsel-${i}" onchange="lueckeZaehlen()">
+                ${optHtml}
+            </select>
+            <span>${teile[1] || ""}</span>
+            <span class="pista">${s.pista}</span>
+            <span class="rm" id="lrm-${i}"></span>
+        `;
+        grid.appendChild(zeile);
+    });
+}
+
+function lueckeZaehlen() {
+    const n = [...document.querySelectorAll("#luecke-grid select")].filter(s => s.value !== "").length;
+    document.getElementById("luecke-punkte").textContent = `${n} / 8 beantwortet`;
+}
+
+function lueckePruefen() {
+    let richtig = 0;
+    document.querySelectorAll(".luecke-zeile").forEach((zeile, i) => {
+        const sel    = document.getElementById("lsel-" + i);
+        const rm     = document.getElementById("lrm-" + i);
+        const korrekt = zeile.dataset.richtig;
+        sel.disabled = true;
+        if (sel.value === korrekt) {
+            sel.className = "korrekt";
+            rm.textContent = "✓";
+            rm.className = "rm ok";
+            richtig++;
+        } else {
+            sel.className = "falsch";
+            rm.textContent = `✗ → „${korrekt}"`;
+            rm.className = "rm err";
+        }
+    });
+    const pct = richtig / 8;
+    const el  = document.getElementById("luecke-resultado");
+    el.textContent = pct === 1 ? "🏆 Perfekt! 8 von 8 richtig!" :
+                     pct >= .75 ? `😊 ${richtig} von 8 richtig – sehr gut!` :
+                     pct >= .5  ? `🙂 ${richtig} von 8 richtig – weiter üben!` :
+                                  `💪 ${richtig} von 8 richtig – schau die Referenz nochmal an.`;
+    el.style.display = "block";
+}
+
+function lueckeNeustart() { lueckeAufbauen(); }
+
+/* ════════════════════════════════════════
+   ÜBUNG 5 – AUF JEDEN FALL / AUF KEINEN FALL
+════════════════════════════════════════ */
+let ajfBeantw = 0, ajfRich = 0;
+
+function ajfAufbauen() {
+    ajfBeantw = 0; ajfRich = 0;
+    document.getElementById("ajf-punkte").textContent = "0 / 6 beantwortet";
+    document.getElementById("ajf-ergebnis").style.display = "none";
+
+    const gitter = document.getElementById("ajf-gitter");
+    gitter.innerHTML = "";
+
+    mischen(AJF_AUFGABEN).forEach((a, i) => {
+        const karte = document.createElement("div");
+        karte.className = "konj-karte";
+        karte.id = "ajfk-" + i;
+        karte.innerHTML = `
+            <div class="kontext" style="font-style:italic;color:var(--muted);">"${a.aussage}"</div>
+            <div class="kontext" style="font-size:0.8rem;color:var(--acento-osc);font-weight:700">${a.label}</div>
+            <div class="boton-reihe">
+                <button style="background:#EEF5EB;color:var(--acento-osc);" onclick="ajfAntworten(${i},'AJF','${a.richtig}',this)">✅ auf jeden Fall</button>
+                <button style="background:#FDECEA;color:#8a1a14;" onclick="ajfAntworten(${i},'AKF','${a.richtig}',this)">❌ auf keinen Fall</button>
+            </div>
+            <div class="mini-fb" id="ajffb-${i}"></div>
+        `;
+        gitter.appendChild(karte);
+    });
+}
+
+function ajfAntworten(idx, gewaehlt, richtig, btn) {
+    const karte = document.getElementById("ajfk-" + idx);
+    if (karte.classList.contains("acierto") || karte.classList.contains("error")) return;
+
+    const fb = document.getElementById("ajffb-" + idx);
+    ajfBeantw++;
+    if (gewaehlt === richtig) {
+        karte.classList.add("acierto");
+        btn.style.opacity = "1";
+        fb.textContent = richtig === "AJF" ? "✓ Richtig! Auf jeden Fall! 🎉" : "✓ Richtig! Auf keinen Fall! 🙅";
+        ajfRich++;
+    } else {
+        karte.classList.add("error");
+        fb.textContent = richtig === "AJF" ? `✗ → auf jeden Fall` : `✗ → auf keinen Fall`;
+    }
+    karte.querySelectorAll("button").forEach(b => { b.style.pointerEvents = "none"; b.style.opacity = "0.4"; });
+    btn.style.opacity = "1";
+    document.getElementById("ajf-punkte").textContent = `${ajfBeantw} / 6 beantwortet`;
+    if (ajfBeantw === 6) setTimeout(ajfErgebnis, 500);
+}
+
+function ajfErgebnis() {
+    const pct = ajfRich / 6;
+    const emoji = pct === 1 ? "🏆" : pct >= .7 ? "😊" : pct >= .5 ? "🙂" : "💪";
+    const text  = pct === 1 ? "Perfekt! 6 von 6 richtig!" : `${ajfRich} von 6 richtig.`;
+    document.getElementById("ajf-emoji").textContent = emoji;
+    document.getElementById("ajf-texto").textContent = text;
+    const box = document.getElementById("ajf-ergebnis");
+    box.style.display = "block";
+    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function ajfNeustart() { ajfAufbauen(); }
+
+/* ════════════════════════════════════════
+   INIT
+════════════════════════════════════════ */
+verbindenAufbauen();
+konjAufbauen();
+moAufbauen();
+lueckeAufbauen();
+ajfAufbauen();
+</script>
+</body>
+</html>
