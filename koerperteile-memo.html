@@ -281,6 +281,19 @@
       from { transform: scale(.7); opacity: 0; }
       to   { transform: scale(1);  opacity: 1; }
     }
+    .win-box { position: relative; }
+    .win-close {
+      position: absolute;
+      top: 12px; right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #aaa;
+      cursor: pointer;
+      padding: 0;
+    }
+    .win-close:hover { color: #333; }
     .win-box .trophy { font-size: 4rem; }
     .win-box h2 { font-size: 1.8rem; margin: 12px 0 6px; color: var(--card-back); }
     .win-box p  { color: #666; margin-bottom: 20px; }
@@ -357,6 +370,7 @@
 <!-- ══════════════ WIN OVERLAY ══════════════ -->
 <div id="win-overlay">
   <div class="win-box">
+    <button class="win-close" onclick="document.getElementById('win-overlay').classList.remove('show')" title="Cerrar">✕</button>
     <div class="trophy">🏆</div>
     <h2>Ausgezeichnet!</h2>
     <p>Du hast alle Paare gefunden!</p>
