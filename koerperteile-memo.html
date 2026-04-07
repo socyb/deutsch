@@ -194,7 +194,9 @@
 
     .memo-card.flipped .card-inner  { transform: rotateY(180deg); }
     .memo-card.matched .card-inner  { transform: rotateY(180deg); }
-    .memo-card.matched .card-front  { background: #d4f5e4 !important; border: 3px solid var(--neu) !important; }
+    .memo-card.matched.fem .card-front { background: #fde8e8 !important; border: 3px solid var(--fem) !important; }
+    .memo-card.matched.mas .card-front { background: #e8f0fd !important; border: 3px solid var(--mas) !important; }
+    .memo-card.matched.neu .card-front { background: #d4f5e4 !important; border: 3px solid var(--neu) !important; }
 
     .card-back-face, .card-front {
       position: absolute;
@@ -518,8 +520,8 @@ function onCardClick(el, item, idx) {
     const [a, b] = flipped;
     if (a.item.id === b.item.id && a.item.type !== b.item.type) {
       // Match!
-      a.el.classList.add('matched');
-      b.el.classList.add('matched');
+      a.el.classList.add('matched', a.item.vocab.gender);
+      b.el.classList.add('matched', b.item.vocab.gender);
       matched++;
       document.getElementById('stat-pairs').textContent = `${matched}/${pairCount}`;
       flipped = [];
