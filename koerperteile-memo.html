@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Körperteile – Memospiel</title>
+  <style>
+    :root {
+      --fem:  #d94f4f;
+      --mas:  #3d7fd4;
+      --neu:  #37a06b;
+      --bg:   #f0f4f8;
+      --card-back: #2c3e6b;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: #1a1a2e;
+    }
+
+    /* ── NAV ─────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 28px;
+      background: var(--card-back);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    }
+    nav h1 { font-size: 1.3rem; font-weight: 700; flex: 1; }
+    nav .tab-btn {
+      padding: 8px 20px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-radius: 30px;
+      background: transparent;
+      color: #fff;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    nav .tab-btn.active, nav .tab-btn:hover {
+      background: #fff;
+      color: var(--card-back);
+      border-color: #fff;
+    }
+
+    /* ── SCREENS ─────────────────────────────── */
+    .screen { display: none; padding: 30px 24px; max-width: 1100px; margin: 0 auto; }
+    .screen.active { display: block; }
+
+    /* ── VOCABULARY PAGE ─────────────────────── */
+    .vocab-intro {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .vocab-intro h2 { font-size: 1.8rem; color: var(--card-back); }
+    .vocab-intro p  { color: #555; margin-top: 6px; }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 7px; font-size: .9rem; font-weight: 600; }
+    .legend-dot  { width: 14px; height: 14px; border-radius: 50%; }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 18px;
+    }
+
+    .vocab-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 12px rgba(0,0,0,.09);
+      text-align: center;
+      padding: 20px 12px 14px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .vocab-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.14);
+    }
+    .vocab-card .emoji { font-size: 3rem; line-height: 1; margin-bottom: 10px; }
+    .vocab-card .word  { font-size: 1.05rem; font-weight: 700; }
+    .vocab-card .article { font-size: .85rem; font-weight: 600; margin-top: 3px; }
+
+    .fem  .article { color: var(--fem); }
+    .mas  .article { color: var(--mas); }
+    .neu  .article { color: var(--neu); }
+    .fem  { border-top: 5px solid var(--fem); }
+    .mas  { border-top: 5px solid var(--mas); }
+    .neu  { border-top: 5px solid var(--neu); }
+
+    /* ── GAME PAGE ───────────────────────────── */
+    .game-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .game-header h2 { font-size: 1.5rem; color: var(--card-back); }
+
+    .stats {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    .stat-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px 16px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+      min-width: 80px;
+    }
+    .stat-box .label { font-size: .7rem; color: #888; text-transform: uppercase; letter-spacing: .05em; }
+    .stat-box .value { font-size: 1.3rem; font-weight: 700; color: var(--card-back); }
+
+    .game-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 10px 22px;
+      border: none;
+      border-radius: 30px;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-primary { background: var(--card-back); color: #fff; }
+    .btn-primary:hover { background: #1a2a5e; }
+    .btn-secondary { background: #e0e7ef; color: var(--card-back); }
+    .btn-secondary:hover { background: #c8d5e8; }
+
+    .difficulty-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .difficulty-row span { font-size: .9rem; font-weight: 600; color: #555; }
+    .diff-btn {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 2px solid #d0dbe9;
+      background: #fff;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .diff-btn.active, .diff-btn:hover {
+      border-color: var(--card-back);
+      background: var(--card-back);
+      color: #fff;
+    }
+
+    /* ── MEMO BOARD ──────────────────────────── */
+    #memo-board {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    /* card container */
+    .memo-card {
+      perspective: 800px;
+      cursor: pointer;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      padding-top: 110%;        /* aspect ratio ~1:1.1 */
+      transform-style: preserve-3d;
+      transition: transform .4s ease;
+      border-radius: var(--radius);
+    }
+
+    .memo-card.flipped .card-inner  { transform: rotateY(180deg); }
+    .memo-card.matched .card-inner  { transform: rotateY(180deg); }
+    .memo-card.matched .card-front  { background: #d4f5e4 !important; border: 3px solid var(--neu) !important; }
+
+    .card-back-face, .card-front {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.15);
+    }
+
+    /* face shown when hidden */
+    .card-back-face {
+      background: var(--card-back);
+      color: #fff;
+      font-size: 2rem;
+    }
+    .card-back-face::after { content: '?'; font-size: 2.4rem; font-weight: 700; opacity: .5; }
+
+    /* face shown when flipped */
+    .card-front {
+      background: #fff;
+      transform: rotateY(180deg);
+      gap: 6px;
+    }
+
+    /* picture card */
+    .card-front.picture .emoji { font-size: 2.6rem; line-height: 1; }
+    .card-front.picture .svg-img svg { width: 54px; height: 54px; }
+    .card-front.picture .caption {
+      font-size: .65rem;
+      color: #aaa;
+      text-align: center;
+    }
+
+    /* vocab svg */
+    .vocab-card .svg-img svg { width: 58px; height: 58px; }
+
+    /* word card */
+    .card-front.word-card .article-label {
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .card-front.word-card .word-label {
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+    }
+    .card-front.word-card.fem { border-top: 5px solid var(--fem); }
+    .card-front.word-card.fem .article-label { color: var(--fem); }
+    .card-front.word-card.mas { border-top: 5px solid var(--mas); }
+    .card-front.word-card.mas .article-label { color: var(--mas); }
+    .card-front.word-card.neu { border-top: 5px solid var(--neu); }
+    .card-front.word-card.neu .article-label { color: var(--neu); }
+
+    /* ── WIN OVERLAY ─────────────────────────── */
+    #win-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    #win-overlay.show { display: flex; }
+    .win-box {
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px 48px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      max-width: 380px;
+      animation: popIn .4s cubic-bezier(.18,.89,.32,1.28);
+    }
+    @keyframes popIn {
+      from { transform: scale(.7); opacity: 0; }
+      to   { transform: scale(1);  opacity: 1; }
+    }
+    .win-box .trophy { font-size: 4rem; }
+    .win-box h2 { font-size: 1.8rem; margin: 12px 0 6px; color: var(--card-back); }
+    .win-box p  { color: #666; margin-bottom: 20px; }
+    .win-stats  { display: flex; justify-content: center; gap: 30px; margin-bottom: 24px; }
+    .win-stat   { text-align: center; }
+    .win-stat .n { font-size: 2rem; font-weight: 700; color: var(--card-back); }
+    .win-stat .l { font-size: .8rem; color: #999; }
+
+    /* ── RESPONSIVE GRID COLUMNS ─────────────── */
+    @media (min-width: 500px)  { #memo-board { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width: 700px)  { #memo-board { grid-template-columns: repeat(5, 1fr); } }
+    @media (min-width: 900px)  { #memo-board { grid-template-columns: repeat(6, 1fr); } }
+    @media (max-width: 499px)  { #memo-board { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <h1>🧠 Körperteile</h1>
+  <button class="tab-btn active" onclick="showScreen('vocab')">📚 Wortschatz</button>
+  <button class="tab-btn"        onclick="showScreen('game')">🎴 Memospiel</button>
+</nav>
+
+<!-- ══════════════ VOCABULARY SCREEN ══════════════ -->
+<div id="screen-vocab" class="screen active">
+  <div class="vocab-intro">
+    <h2>Der menschliche Körper</h2>
+    <p>Lerne den Wortschatz, bevor du das Spiel spielst!</p>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--fem)"></div> feminin (die)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--mas)"></div> maskulin (der)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--neu)"></div> neutral (das)</div>
+  </div>
+
+  <div class="vocab-grid" id="vocab-grid"></div>
+</div>
+
+<!-- ══════════════ GAME SCREEN ══════════════ -->
+<div id="screen-game" class="screen">
+  <div class="game-header">
+    <h2>🎴 Memospiel</h2>
+    <div class="stats">
+      <div class="stat-box">
+        <div class="label">Versuche</div>
+        <div class="value" id="stat-attempts">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="label">Paare</div>
+        <div class="value" id="stat-pairs">0/0</div>
+      </div>
+      <div class="stat-box">
+        <div class="label">Zeit</div>
+        <div class="value" id="stat-time">0:00</div>
+      </div>
+    </div>
+    <div class="game-controls">
+      <button class="btn btn-secondary" onclick="showScreen('vocab')">📚 Wortschatz</button>
+      <button class="btn btn-primary"   onclick="startGame()">🔄 Neu starten</button>
+    </div>
+  </div>
+
+  <div class="difficulty-row">
+    <span>Schwierigkeit:</span>
+    <button class="diff-btn active" data-count="8"  onclick="setDifficulty(this,8)">Leicht (8 Paare)</button>
+    <button class="diff-btn"        data-count="12" onclick="setDifficulty(this,12)">Mittel (12 Paare)</button>
+    <button class="diff-btn"        data-count="15" onclick="setDifficulty(this,15)">Schwer (15 Paare)</button>
+  </div>
+
+  <div id="memo-board"></div>
+</div>
+
+<!-- ══════════════ WIN OVERLAY ══════════════ -->
+<div id="win-overlay">
+  <div class="win-box">
+    <div class="trophy">🏆</div>
+    <h2>Ausgezeichnet!</h2>
+    <p>Du hast alle Paare gefunden!</p>
+    <div class="win-stats">
+      <div class="win-stat"><div class="n" id="win-attempts">—</div><div class="l">Versuche</div></div>
+      <div class="win-stat"><div class="n" id="win-time">—</div><div class="l">Zeit</div></div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;margin-bottom:10px" onclick="startGame()">🔄 Nochmal spielen</button>
+    <button class="btn btn-secondary" style="width:100%" onclick="showScreen('vocab')">📚 Wortschatz ansehen</button>
+  </div>
+</div>
+
+<script>
+// ── VOCABULARY DATA ────────────────────────────────────────
+const vocab = [
+  { word: 'Brust',  article: 'die', gender: 'fem', hint: 'chest / breast', svg: `<svg viewBox="0 0 60 58" xmlns="http://www.w3.org/2000/svg"><path d="M8,10 C8,5 18,2 30,2 C42,2 52,5 52,10 L54,52 C42,57 18,57 6,52 Z" fill="#F5C8A8" stroke="#C8956C" stroke-width="1.5"/><line x1="30" y1="10" x2="30" y2="44" stroke="#C8956C" stroke-width="1" stroke-dasharray="2,3" opacity=".6"/><path d="M11,16 Q21,26 29,16" stroke="#C8956C" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M31,16 Q39,26 49,16" stroke="#C8956C" stroke-width="2.2" fill="none" stroke-linecap="round"/><circle cx="20" cy="29" r="2.2" fill="#C8956C" opacity=".55"/><circle cx="40" cy="29" r="2.2" fill="#C8956C" opacity=".55"/></svg>` },
+  { word: 'Rücken', article: 'der', gender: 'mas', hint: 'back', svg: `<svg viewBox="0 0 60 58" xmlns="http://www.w3.org/2000/svg"><path d="M8,10 C8,5 18,2 30,2 C42,2 52,5 52,10 L54,52 C42,57 18,57 6,52 Z" fill="#F5C8A8" stroke="#C8956C" stroke-width="1.5"/><line x1="30" y1="8" x2="30" y2="52" stroke="#C8956C" stroke-width="1.8" opacity=".5"/><path d="M12,16 Q18,28 22,34 Q18,36 13,33 Z" fill="#E8B590" stroke="#C8956C" stroke-width="1"/><path d="M48,16 Q42,28 38,34 Q42,36 47,33 Z" fill="#E8B590" stroke="#C8956C" stroke-width="1"/><circle cx="30" cy="16" r="1.8" fill="#C8956C" opacity=".45"/><circle cx="30" cy="23" r="1.8" fill="#C8956C" opacity=".45"/><circle cx="30" cy="30" r="1.8" fill="#C8956C" opacity=".45"/><circle cx="30" cy="37" r="1.8" fill="#C8956C" opacity=".45"/><circle cx="30" cy="44" r="1.8" fill="#C8956C" opacity=".45"/></svg>` },
+  { word: 'Bauch',  article: 'der', gender: 'mas', emoji: '🤰', hint: 'belly / stomach' },
+  { word: 'Arm',    article: 'der', gender: 'mas', emoji: '💪', hint: 'arm' },
+  { word: 'Hand',   article: 'die', gender: 'fem', emoji: '✋', hint: 'hand' },
+  { word: 'Finger', article: 'der', gender: 'mas', emoji: '☝️', hint: 'finger' },
+  { word: 'Bein',   article: 'das', gender: 'neu', emoji: '🦵', hint: 'leg' },
+  { word: 'Knie',   article: 'das', gender: 'neu', emoji: '🧎', hint: 'knee' },
+  { word: 'Fuß',    article: 'der', gender: 'mas', emoji: '🦶', hint: 'foot' },
+  { word: 'Auge',   article: 'das', gender: 'neu', emoji: '👁️', hint: 'eye' },
+  { word: 'Hals',   article: 'der', gender: 'mas', hint: 'neck / throat', img: 'pngs/2309131.png' },
+  { word: 'Mund',   article: 'der', gender: 'mas', emoji: '👄', hint: 'mouth' },
+  { word: 'Kopf',   article: 'der', gender: 'mas', hint: 'head', svg: `<svg viewBox="0 0 60 64" xmlns="http://www.w3.org/2000/svg"><path d="M9,24 Q9,3 30,2 Q51,3 51,24 Q50,9 30,9 Q10,9 9,24 Z" fill="#5D4037"/><ellipse cx="30" cy="32" rx="22" ry="26" fill="#F5C8A8" stroke="#C8956C" stroke-width="1.5"/><ellipse cx="8" cy="33" rx="3.5" ry="5.5" fill="#F5C8A8" stroke="#C8956C" stroke-width="1.2"/><ellipse cx="52" cy="33" rx="3.5" ry="5.5" fill="#F5C8A8" stroke="#C8956C" stroke-width="1.2"/><ellipse cx="22" cy="30" rx="4.5" ry="3.5" fill="white" stroke="#666" stroke-width="1"/><circle cx="22" cy="30" r="2.2" fill="#2C1810"/><ellipse cx="38" cy="30" rx="4.5" ry="3.5" fill="white" stroke="#666" stroke-width="1"/><circle cx="38" cy="30" r="2.2" fill="#2C1810"/><path d="M30,36 Q27,42 28,44 Q30,45 32,44 Q33,42 30,36" fill="#E8B590" stroke="#C8956C" stroke-width=".8"/><path d="M23,49 Q30,54 37,49" stroke="#C8956C" stroke-width="1.8" fill="none" stroke-linecap="round"/><rect x="24" y="57" width="12" height="7" rx="4" fill="#F5C8A8" stroke="#C8956C" stroke-width="1.2"/></svg>` },
+  { word: 'Nase',   article: 'die', gender: 'fem', emoji: '👃', hint: 'nose' },
+  { word: 'Ohr',    article: 'das', gender: 'neu', emoji: '👂', hint: 'ear' },
+];
+
+// ── HELPERS ────────────────────────────────────────────────
+function imgHTML(v, size) {
+  if (v.img) return `<img src="${v.img}" style="width:54px;height:54px;object-fit:contain;" alt="${v.word}">`;
+  if (v.svg) return `<div class="svg-img">${v.svg}</div>`;
+  return `<div class="emoji" style="font-size:${size}rem;line-height:1">${v.emoji}</div>`;
+}
+
+// ── VOCABULARY GRID ────────────────────────────────────────
+const vocabGrid = document.getElementById('vocab-grid');
+vocab.forEach(v => {
+  const card = document.createElement('div');
+  card.className = `vocab-card ${v.gender}`;
+  card.innerHTML = `
+    ${imgHTML(v, 3)}
+    <div class="word">${v.article} ${v.word}</div>
+    <div class="article">${v.gender === 'fem' ? '♦ feminin' : v.gender === 'mas' ? '♦ maskulin' : '♦ neutral'}</div>
+    <div style="font-size:.75rem;color:#aaa;margin-top:4px">${v.hint}</div>
+  `;
+  vocabGrid.appendChild(card);
+});
+
+// ── GAME STATE ─────────────────────────────────────────────
+let pairCount   = 8;
+let cards       = [];
+let flipped     = [];
+let matched     = 0;
+let attempts    = 0;
+let locked      = false;
+let timerID     = null;
+let seconds     = 0;
+
+// ── UI HELPERS ─────────────────────────────────────────────
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.querySelectorAll('.tab-btn')[name === 'vocab' ? 0 : 1].classList.add('active');
+  if (name === 'game' && cards.length === 0) startGame();
+}
+
+function setDifficulty(btn, n) {
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  pairCount = n;
+  startGame();
+}
+
+function formatTime(s) {
+  return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+}
+
+// ── GAME LOGIC ─────────────────────────────────────────────
+function startGame() {
+  clearInterval(timerID);
+  seconds  = 0;
+  attempts = 0;
+  matched  = 0;
+  locked   = false;
+  flipped  = [];
+  cards    = [];
+  document.getElementById('win-overlay').classList.remove('show');
+  document.getElementById('stat-attempts').textContent = 0;
+  document.getElementById('stat-pairs').textContent    = `0/${pairCount}`;
+  document.getElementById('stat-time').textContent     = '0:00';
+
+  // Pick a random subset
+  const pool = shuffle([...vocab]).slice(0, pairCount);
+
+  // Build pairs: one 'word' card + one 'picture' card per vocab item
+  const deck = [];
+  pool.forEach((v, i) => {
+    deck.push({ id: i, type: 'word',    vocab: v });
+    deck.push({ id: i, type: 'picture', vocab: v });
+  });
+  shuffle(deck);
+
+  const board = document.getElementById('memo-board');
+  board.innerHTML = '';
+
+  deck.forEach((item, idx) => {
+    const cell = document.createElement('div');
+    cell.className = 'memo-card';
+    cell.dataset.idx = idx;
+
+    let frontHTML = '';
+    if (item.type === 'picture') {
+      frontHTML = `<div class="card-front picture">
+        ${imgHTML(item.vocab, 2.6)}
+        <div class="caption">${item.vocab.hint}</div>
+      </div>`;
+    } else {
+      frontHTML = `<div class="card-front word-card ${item.vocab.gender}">
+        <div class="article-label">${item.vocab.article}</div>
+        <div class="word-label">${item.vocab.word}</div>
+      </div>`;
+    }
+
+    cell.innerHTML = `
+      <div class="card-inner">
+        <div class="card-back-face"></div>
+        ${frontHTML}
+      </div>`;
+
+    cell.addEventListener('click', () => onCardClick(cell, item, idx));
+    board.appendChild(cell);
+    cards.push({ el: cell, item });
+  });
+
+  // Start timer
+  timerID = setInterval(() => {
+    seconds++;
+    document.getElementById('stat-time').textContent = formatTime(seconds);
+  }, 1000);
+}
+
+function onCardClick(el, item, idx) {
+  if (locked) return;
+  if (el.classList.contains('flipped') || el.classList.contains('matched')) return;
+  if (flipped.length === 2) return;
+
+  el.classList.add('flipped');
+  flipped.push({ el, item, idx });
+
+  if (flipped.length === 2) {
+    locked = true;
+    attempts++;
+    document.getElementById('stat-attempts').textContent = attempts;
+
+    const [a, b] = flipped;
+    if (a.item.id === b.item.id && a.item.type !== b.item.type) {
+      // Match!
+      a.el.classList.add('matched');
+      b.el.classList.add('matched');
+      matched++;
+      document.getElementById('stat-pairs').textContent = `${matched}/${pairCount}`;
+      flipped = [];
+      locked  = false;
+      if (matched === pairCount) onWin();
+    } else {
+      // No match — flip back after delay
+      setTimeout(() => {
+        a.el.classList.remove('flipped');
+        b.el.classList.remove('flipped');
+        flipped = [];
+        locked  = false;
+      }, 1100);
+    }
+  }
+}
+
+function onWin() {
+  clearInterval(timerID);
+  document.getElementById('win-attempts').textContent = attempts;
+  document.getElementById('win-time').textContent     = formatTime(seconds);
+  setTimeout(() => {
+    document.getElementById('win-overlay').classList.add('show');
+  }, 400);
+}
+
+// ── UTILS ──────────────────────────────────────────────────
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+</script>
+</body>
+</html>
