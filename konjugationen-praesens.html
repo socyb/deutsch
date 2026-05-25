@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konjugationen — Präsens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4ede0;
+    --paper-2: #ebe2cf;
+    --ink: #1b1f2a;
+    --ink-soft: #4a4f5c;
+    --accent: #c14a2b;
+    --accent-soft: #f0c7b8;
+    --green: #3f6e3d;
+    --green-soft: #d8e4cf;
+    --amber: #b8732a;
+    --amber-soft: #f0d9b5;
+    --rule: #2a2e38;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(27, 31, 42, 0.04) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+
+  /* LANGUAGE TOGGLE BAR */
+  .lang-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--paper);
+    border-bottom: 1px solid var(--ink);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 14px;
+    backdrop-filter: blur(6px);
+    background: rgba(244, 237, 224, 0.92);
+  }
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px 8px 8px;
+    background: var(--paper-2);
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 500;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .lang-toggle:hover {
+    background: var(--accent-soft);
+    transform: translateY(-1px);
+  }
+  .lang-toggle:active {
+    transform: translateY(0);
+  }
+  .flag {
+    width: 30px;
+    height: 20px;
+    border-radius: 3px;
+    overflow: hidden;
+    display: inline-flex;
+    border: 1px solid rgba(27, 31, 42, 0.2);
+    flex-shrink: 0;
+  }
+  .flag span {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+  /* Mexican flag */
+  .flag-mx span:nth-child(1) { background: #006847; }
+  .flag-mx span:nth-child(2) { background: #ffffff; color: #8b1818; font-weight: 700; }
+  .flag-mx span:nth-child(3) { background: #ce1126; }
+  /* German flag */
+  .flag-de span:nth-child(1) { background: #000000; }
+  .flag-de span:nth-child(2) { background: #dd0000; }
+  .flag-de span:nth-child(3) { background: #ffce00; }
+
+  .page {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 60px 48px 80px;
+  }
+
+  /* HEADER */
+  header.masthead {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 56px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+  h1.title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-style: italic;
+  }
+  h1.title em {
+    font-style: normal;
+    font-weight: 600;
+  }
+  .meta {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    text-transform: uppercase;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 18px 22px;
+    background: var(--paper-2);
+    border: 1px solid var(--ink);
+    margin-bottom: 56px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .legend-swatch {
+    display: inline-block;
+    padding: 3px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 13px;
+    border-radius: 2px;
+  }
+  .swatch-stem {
+    background: transparent;
+    color: var(--ink);
+    border: 1px dashed var(--ink-soft);
+  }
+  .swatch-ending {
+    background: var(--accent);
+    color: var(--paper);
+  }
+  .swatch-reg {
+    background: var(--green-soft);
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+  .swatch-irr {
+    background: var(--amber-soft);
+    color: var(--amber);
+    border: 1px solid var(--amber);
+  }
+
+  /* VERB BLOCK */
+  .verb {
+    margin-bottom: 64px;
+    position: relative;
+  }
+  .verb-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: 20px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 14px;
+    margin-bottom: 0;
+  }
+  .verb-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.1em;
+  }
+  .verb-name {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .verb-translation {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-left: 8px;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 2px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .tag.regular {
+    background: var(--green-soft);
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+  .tag.irregular {
+    background: var(--amber-soft);
+    color: var(--amber);
+    border: 1px solid var(--amber);
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+  }
+  thead th {
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--ink-soft);
+    font-weight: 500;
+  }
+  thead th.col-form { width: 34%; }
+  thead th.col-num { width: 90px; }
+  thead th.col-person { width: 90px; }
+  thead th.col-pronoun { width: 140px; }
+
+  tbody td {
+    padding: 16px 12px;
+    border-bottom: 1px dotted rgba(27, 31, 42, 0.2);
+    vertical-align: middle;
+  }
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+  tbody tr:hover {
+    background: rgba(193, 74, 43, 0.04);
+  }
+
+  .person-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .person-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .pronoun {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .form {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .stem {
+    color: var(--ink);
+  }
+  .ending {
+    color: var(--accent);
+    font-weight: 600;
+    position: relative;
+    padding: 0 2px;
+    background: linear-gradient(transparent 68%, var(--accent-soft) 68%);
+  }
+  .change {
+    color: var(--amber);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: var(--amber);
+    text-underline-offset: 4px;
+  }
+  .full-irr {
+    color: var(--amber);
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  /* NOTES */
+  .note {
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: var(--paper-2);
+    border-left: 3px solid var(--accent);
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    font-family: 'Manrope', sans-serif;
+  }
+  .note strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .note code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--paper);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* PATTERN BOX (for regular verbs) */
+  .pattern {
+    margin-top: 18px;
+    padding: 16px 20px;
+    background: var(--paper-2);
+    border: 1px solid var(--ink-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .pattern-label {
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 10px;
+    margin-right: 4px;
+  }
+  .pattern-item {
+    color: var(--ink);
+  }
+  .pattern-item .ending {
+    background: transparent;
+    color: var(--accent);
+    padding: 0;
+    font-weight: 700;
+  }
+
+  /* PERSONS SECTION */
+  .persons-block {
+    margin-bottom: 64px;
+  }
+  .persons-block .verb-head {
+    margin-bottom: 28px;
+  }
+  .persons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--ink);
+    background: var(--paper-2);
+  }
+  .persons-col {
+    padding: 24px 26px;
+  }
+  .persons-col + .persons-col {
+    border-left: 1px solid var(--ink);
+  }
+  .persons-col h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .persons-col .col-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+    display: block;
+  }
+  .person-row {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dotted rgba(27, 31, 42, 0.18);
+  }
+  .person-row:last-child { border-bottom: none; }
+  .person-row .n {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+  .person-row .pron {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .person-row .pron .sub {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-left: 8px;
+    letter-spacing: 0;
+  }
+  .person-row.highlight .pron { color: var(--accent); }
+  .person-row.highlight .pron .sub { color: var(--accent); }
+
+  /* DETAIL CARDS */
+  .person-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .person-card {
+    padding: 16px 18px;
+    background: var(--paper-2);
+    border: 1px solid var(--ink-soft);
+    border-left: 3px solid var(--ink);
+  }
+  .person-card.accent { border-left-color: var(--accent); }
+  .person-card .pc-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    gap: 8px;
+  }
+  .person-card .pc-pron {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .person-card .pc-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 3px 6px;
+    border: 1px solid var(--ink-soft);
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .person-card .pc-body {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .person-card .pc-body strong { color: var(--ink); font-weight: 600; }
+  .person-card .pc-body em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* SIE TRAP */
+  .sie-trap {
+    margin-top: 28px;
+    border: 1px solid var(--accent);
+    background: linear-gradient(180deg, rgba(193, 74, 43, 0.06), transparent);
+    padding: 24px 26px;
+  }
+  .sie-trap .trap-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 26px;
+    color: var(--accent);
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .sie-trap .trap-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .sie-rows {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .sie-row {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    align-items: center;
+    gap: 18px;
+    padding: 14px 16px;
+    background: var(--paper);
+    border: 1px solid rgba(27, 31, 42, 0.15);
+  }
+  .sie-row .sr-form {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .sie-row .sr-form .cap {
+    background: var(--accent);
+    color: var(--paper);
+    padding: 0 6px;
+    border-radius: 2px;
+  }
+  .sie-row .sr-mean {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .sie-row .sr-mean strong { font-weight: 700; }
+  .sie-row .sr-mean .ex {
+    display: block;
+    margin-top: 4px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+  }
+  .sie-row .sr-mean .ex code {
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    background: var(--paper-2);
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-size: 11.5px;
+    color: var(--ink);
+  }
+  .sie-row .sr-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+    background: var(--paper-2);
+    color: var(--ink-soft);
+    border: 1px solid var(--ink-soft);
+  }
+  .trap-tip {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: var(--paper-2);
+    border-left: 3px solid var(--accent);
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .trap-tip strong { color: var(--ink); }
+  .trap-tip code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--paper);
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-size: 12px;
+  }
+
+  @media (max-width: 720px) {
+    .persons-grid { grid-template-columns: 1fr; }
+    .persons-col + .persons-col { border-left: none; border-top: 1px solid var(--ink); }
+    .person-cards { grid-template-columns: 1fr; }
+    .sie-row { grid-template-columns: 80px 1fr; gap: 12px; }
+    .sie-row .sr-form { font-size: 26px; }
+    .sie-row .sr-key { grid-column: 1 / -1; justify-self: start; }
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 720px) {
+    .page { padding: 36px 22px 60px; }
+    header.masthead { grid-template-columns: 1fr; }
+    .meta { text-align: left; }
+    .verb-head { grid-template-columns: 1fr; gap: 8px; }
+    .verb-name { font-size: 38px; }
+    .form { font-size: 22px; }
+    thead th.col-pronoun { width: auto; }
+    thead th.col-person { display: none; }
+    tbody td.col-person { display: none; }
+    .lang-bar { padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-bar">
+  <button class="lang-toggle" id="langToggle" type="button" aria-label="Idioma / Sprache">
+    <span class="flag flag-mx" id="flagEl">
+      <span></span><span>★</span><span></span>
+    </span>
+    <span id="langLabel">Ver en español</span>
+  </button>
+</div>
+
+<div class="page">
+
+  <header class="masthead">
+    <div>
+      <div class="eyebrow" data-de="Deutsch A1 · Präsens · Vollständige Konjugation"
+                            data-es="Alemán A1 · Presente · Conjugación completa">Deutsch A1 · Präsens · Vollständige Konjugation</div>
+      <h1 class="title">Was macht ihr <em>beruflich?</em></h1>
+    </div>
+    <div class="meta">
+      <span data-de="Vier Verben" data-es="Cuatro verbos">Vier Verben</span><br>
+      <span data-de="Sechs Personen" data-es="Seis personas">Sechs Personen</span><br>
+      <span data-de="Tafel № 02" data-es="Tabla № 02">Tafel № 02</span>
+    </div>
+  </header>
+
+  <div class="legend">
+    <div class="legend-item">
+      <span class="legend-swatch swatch-stem" data-de="stamm" data-es="raíz">stamm</span>
+      <span data-de="Stamm" data-es="Raíz">Stamm</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-swatch swatch-ending" data-de="‑endung" data-es="‑terminación">‑endung</span>
+      <span data-de="Endung" data-es="Terminación">Endung</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-swatch swatch-reg" data-de="regelmäßig" data-es="regular">regelmäßig</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-swatch swatch-irr" data-de="unregelmäßig" data-es="irregular">unregelmäßig</span>
+    </div>
+  </div>
+
+  <!-- ============ PERSONAS / PERSONEN ============ -->
+  <section class="verb persons-block">
+    <div class="verb-head">
+      <div class="verb-number">00</div>
+      <div>
+        <span class="verb-name"
+              data-de="Personen"
+              data-es="Personas">Personen</span>
+        <span class="verb-translation"
+              data-de="— Singular & Plural im Überblick"
+              data-es="— singular y plural de un vistazo">— Singular & Plural im Überblick</span>
+      </div>
+      <span class="tag regular"
+            data-de="Grundlage"
+            data-es="base">Grundlage</span>
+    </div>
+
+    <!-- SINGULAR vs PLURAL -->
+    <div class="persons-grid">
+      <div class="persons-col">
+        <h3 data-de="Singular" data-es="Singular">Singular</h3>
+        <span class="col-sub"
+              data-de="eine Person"
+              data-es="una sola persona">eine Person</span>
+
+        <div class="person-row">
+          <span class="n">1</span>
+          <span class="pron">ich <span class="sub"
+            data-de="ich (Sprecher)"
+            data-es="yo">ich (Sprecher)</span></span>
+        </div>
+        <div class="person-row">
+          <span class="n">2</span>
+          <span class="pron">du <span class="sub"
+            data-de="du (informell)"
+            data-es="tú (informal, una persona)">du (informell)</span></span>
+        </div>
+        <div class="person-row">
+          <span class="n">3</span>
+          <span class="pron">er / sie / es <span class="sub"
+            data-de="3. Person Singular"
+            data-es="él / ella / ello">3. Person Singular</span></span>
+        </div>
+      </div>
+
+      <div class="persons-col">
+        <h3 data-de="Plural" data-es="Plural">Plural</h3>
+        <span class="col-sub"
+              data-de="mehrere Personen"
+              data-es="varias personas">mehrere Personen</span>
+
+        <div class="person-row">
+          <span class="n">4</span>
+          <span class="pron">wir <span class="sub"
+            data-de="wir alle"
+            data-es="nosotros / nosotras">wir alle</span></span>
+        </div>
+        <div class="person-row highlight">
+          <span class="n">5</span>
+          <span class="pron">ihr <span class="sub"
+            data-de="2. Person Plural"
+            data-es="vosotros (ES) · ustedes informal (MX)">2. Person Plural</span></span>
+        </div>
+        <div class="person-row">
+          <span class="n">6</span>
+          <span class="pron">sie / Sie <span class="sub"
+            data-de="sie (Plural) · Sie (formell)"
+            data-es="ellos/ellas · Usted/Ustedes">sie (Plural) · Sie (formell)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL CARDS -->
+    <div class="person-cards">
+      <div class="person-card">
+        <div class="pc-head">
+          <span class="pc-pron">ich</span>
+          <span class="pc-tag" data-de="1. Sg." data-es="1ª sing.">1. Sg.</span>
+        </div>
+        <div class="pc-body"
+             data-de="Der Sprecher selbst. Im Deutschen <strong>nie</strong> mit Großbuchstaben, außer am Satzanfang."
+             data-es="<strong>yo</strong> — la persona que habla. En alemán, a diferencia del inglés <em>I</em>, se escribe en minúscula salvo al inicio de frase.">
+          Der Sprecher selbst. Im Deutschen <strong>nie</strong> mit Großbuchstaben, außer am Satzanfang.
+        </div>
+      </div>
+
+      <div class="person-card">
+        <div class="pc-head">
+          <span class="pc-pron">du</span>
+          <span class="pc-tag" data-de="2. Sg." data-es="2ª sing.">2. Sg.</span>
+        </div>
+        <div class="pc-body"
+             data-de="Informell, eine Person: Freunde, Familie, Kinder, Kollegen."
+             data-es="<strong>tú</strong> — informal, una sola persona: amigos, familia, niños, gente joven. Equivale al <em>tú</em> mexicano.">
+          Informell, eine Person: Freunde, Familie, Kinder, Kollegen.
+        </div>
+      </div>
+
+      <div class="person-card">
+        <div class="pc-head">
+          <span class="pc-pron">er / sie / es</span>
+          <span class="pc-tag" data-de="3. Sg." data-es="3ª sing.">3. Sg.</span>
+        </div>
+        <div class="pc-body"
+             data-de="Drittes Genus folgt dem Artikel: <em>der Mann → er</em>, <em>die Frau → sie</em>, <em>das Kind → es</em>."
+             data-es="<strong>él / ella / ello</strong> — el género sigue al artículo: <em>der Mann → er</em>, <em>die Frau → sie</em>, <em>das Kind → es</em>. ¡Incluso objetos tienen género!">
+          Drittes Genus folgt dem Artikel: <em>der Mann → er</em>, <em>die Frau → sie</em>, <em>das Kind → es</em>.
+        </div>
+      </div>
+
+      <div class="person-card">
+        <div class="pc-head">
+          <span class="pc-pron">wir</span>
+          <span class="pc-tag" data-de="1. Pl." data-es="1ª pl.">1. Pl.</span>
+        </div>
+        <div class="pc-body"
+             data-de="Der Sprecher zusammen mit anderen — wie <em>nosotros</em>."
+             data-es="<strong>nosotros / nosotras</strong> — la persona que habla incluida en un grupo.">
+          Der Sprecher zusammen mit anderen — wie <em>nosotros</em>.
+        </div>
+      </div>
+
+      <div class="person-card accent">
+        <div class="pc-head">
+          <span class="pc-pron">ihr</span>
+          <span class="pc-tag" data-de="2. Pl." data-es="2ª pl. · ¡ojo!">2. Pl.</span>
+        </div>
+        <div class="pc-body"
+             data-de="Informell, mehrere Personen — eine Gruppe von Freunden, Klassenkameraden, Kindern. Englisch hat dafür kein eigenes Wort (<em>you all</em>)."
+             data-es="<strong>vosotros / vosotras</strong> en España · <strong>ustedes (informal)</strong> en México. Se usa cuando hablas con <em>varias</em> personas a las que tutearías una por una. ¡México no tiene un pronombre único equivalente — usamos <em>ustedes</em> tanto para informal como formal, pero alemán sí distingue!">
+          Informell, mehrere Personen — eine Gruppe von Freunden, Klassenkameraden, Kindern. Englisch hat dafür kein eigenes Wort (<em>you all</em>).
+        </div>
+      </div>
+
+      <div class="person-card accent">
+        <div class="pc-head">
+          <span class="pc-pron">sie / Sie</span>
+          <span class="pc-tag" data-de="3. Pl. + formell" data-es="3ª pl. + formal">3. Pl. + formell</span>
+        </div>
+        <div class="pc-body"
+             data-de="Dieselbe Form, zwei Bedeutungen: <em>sie</em> (klein) = Plural „sie/ellos“, <em>Sie</em> (groß) = höfliche Anrede. Siehe Falle unten."
+             data-es="<strong>ellos/ellas</strong> (con minúscula) o <strong>Usted/Ustedes</strong> formal (con mayúscula). Misma conjugación, distinto significado — ver la trampa abajo.">
+          Dieselbe Form, zwei Bedeutungen: <em>sie</em> (klein) = Plural „sie/ellos", <em>Sie</em> (groß) = höfliche Anrede. Siehe Falle unten.
+        </div>
+      </div>
+    </div>
+
+    <!-- SIE TRAP -->
+    <div class="sie-trap">
+      <div class="trap-title"
+           data-de="Die sie / Sie ‑ Falle"
+           data-es="La trampa de los tres sie / Sie">Die sie / Sie ‑ Falle</div>
+      <div class="trap-sub"
+           data-de="Drei Bedeutungen, eine Schreibweise"
+           data-es="Tres significados, una sola palabra">Drei Bedeutungen, eine Schreibweise</div>
+
+      <div class="sie-rows">
+        <div class="sie-row">
+          <span class="sr-form">sie</span>
+          <span class="sr-mean"
+                data-de='<strong>3. Person Singular feminin</strong> — „sie" = eine Frau / weibliches Substantiv. <span class="ex"><code>sie ist</code> Lehrerin. (Maria → sie)</span>'
+                data-es='<strong>ella</strong> — 3ª persona <strong>singular femenina</strong>. Una mujer o un sustantivo femenino. <span class="ex"><code>sie ist</code> — María es maestra → <em>ella es</em></span>'>
+            <strong>3. Person Singular feminin</strong> — „sie" = eine Frau / weibliches Substantiv. <span class="ex"><code>sie ist</code> Lehrerin. (Maria → sie)</span>
+          </span>
+          <span class="sr-key"
+                data-de="Verb: ‑t"
+                data-es="verbo: ‑t · singular">Verb: ‑t</span>
+        </div>
+
+        <div class="sie-row">
+          <span class="sr-form">sie</span>
+          <span class="sr-mean"
+                data-de='<strong>3. Person Plural</strong> — „sie" = mehrere Personen (ellos/ellas). <span class="ex"><code>sie sind</code> Studenten. (Maria und Jorge → sie)</span>'
+                data-es='<strong>ellos / ellas</strong> — 3ª persona <strong>plural</strong>. Un grupo. <span class="ex"><code>sie sind</code> — María y Jorge son estudiantes → <em>ellos son</em></span>'>
+            <strong>3. Person Plural</strong> — „sie" = mehrere Personen (ellos/ellas). <span class="ex"><code>sie sind</code> Studenten. (Maria und Jorge → sie)</span>
+          </span>
+          <span class="sr-key"
+                data-de="Verb: ‑en"
+                data-es="verbo: ‑en · plural">Verb: ‑en</span>
+        </div>
+
+        <div class="sie-row">
+          <span class="sr-form"><span class="cap">S</span>ie</span>
+          <span class="sr-mean"
+                data-de='<strong>Höflichkeitsform</strong> — „Sie" (immer groß!) = formelle Anrede für eine oder mehrere Personen. <span class="ex"><code>Sie sind</code> Herr Müller? (formal)</span>'
+                data-es='<strong>Usted / Ustedes</strong> formal — <strong>siempre con mayúscula</strong>. Se usa con desconocidos, jefes, gente mayor. Sirve tanto para singular como para plural. <span class="ex"><code>Sie sind</code> — ¿<em>Usted es</em> el señor Müller? · ¿<em>Ustedes son</em>…?</span>'>
+            <strong>Höflichkeitsform</strong> — „Sie" (immer groß!) = formelle Anrede für eine oder mehrere Personen. <span class="ex"><code>Sie sind</code> Herr Müller? (formal)</span>
+          </span>
+          <span class="sr-key"
+                data-de="Verb: ‑en · formell"
+                data-es="verbo: ‑en · formal">Verb: ‑en · formell</span>
+        </div>
+      </div>
+
+      <div class="trap-tip"
+           data-de='<strong>Trick:</strong> Bei <code>sie</code> klein verrät dir das Verb, ob Singular oder Plural — <code>sie <em>ist</em></code> (ella) vs. <code>sie <em>sind</em></code> (ellos). <code>Sie</code> mit großem S ist immer Höflichkeit, egal ob eine oder mehrere Personen.'
+           data-es='<strong>Truco práctico:</strong> con <code>sie</code> en minúscula, el verbo te dice cuál es: <code>sie <em>ist</em></code> = <em>ella es</em> · <code>sie <em>sind</em></code> = <em>ellos/ellas son</em>. Con <code>Sie</code> en mayúscula, siempre es la forma de cortesía (<em>Usted/Ustedes</em>), sin importar cuántas personas haya. En texto escrito la mayúscula es obvia; al hablar, el contexto manda.'>
+        <strong>Trick:</strong> Bei <code>sie</code> klein verrät dir das Verb, ob Singular oder Plural — <code>sie <em>ist</em></code> (ella) vs. <code>sie <em>sind</em></code> (ellos). <code>Sie</code> mit großem S ist immer Höflichkeit, egal ob eine oder mehrere Personen.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WOHNEN ============ -->
+  <section class="verb">
+    <div class="verb-head">
+      <div class="verb-number">01</div>
+      <div>
+        <span class="verb-name">wohnen</span>
+        <span class="verb-translation" data-de="— to live, to reside" data-es="— vivir, residir">— to live, to reside</span>
+      </div>
+      <span class="tag regular" data-de="regelmäßig" data-es="regular">regelmäßig</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-num">№</th>
+          <th class="col-person" data-de="Person" data-es="Persona">Person</th>
+          <th class="col-pronoun" data-de="Pronomen" data-es="Pronombre">Pronomen</th>
+          <th class="col-form" data-de="Form" data-es="Forma">Form</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="person-num">1</span></td>
+          <td class="col-person"><span class="person-label">1. Sg.</span></td>
+          <td><span class="pronoun">ich</span></td>
+          <td><span class="form"><span class="stem">wohn</span><span class="ending">e</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">2</span></td>
+          <td class="col-person"><span class="person-label">2. Sg.</span></td>
+          <td><span class="pronoun">du</span></td>
+          <td><span class="form"><span class="stem">wohn</span><span class="ending">st</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">3</span></td>
+          <td class="col-person"><span class="person-label">3. Sg.</span></td>
+          <td><span class="pronoun">er / sie / es</span></td>
+          <td><span class="form"><span class="stem">wohn</span><span class="ending">t</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">4</span></td>
+          <td class="col-person"><span class="person-label">1. Pl.</span></td>
+          <td><span class="pronoun">wir</span></td>
+          <td><span class="form"><span class="stem">wohn</span><span class="ending">en</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">5</span></td>
+          <td class="col-person"><span class="person-label">2. Pl.</span></td>
+          <td><span class="pronoun">ihr</span></td>
+          <td><span class="form"><span class="stem">wohn</span><span class="ending">t</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">6</span></td>
+          <td class="col-person"><span class="person-label">3. Pl.</span></td>
+          <td><span class="pronoun">sie / Sie</span></td>
+          <td><span class="form"><span class="stem">wohn</span><span class="ending">en</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pattern">
+      <span class="pattern-label" data-de="Endungen" data-es="Terminaciones">Endungen</span>
+      <span class="pattern-item">‑<span class="ending">e</span></span>
+      <span class="pattern-item">‑<span class="ending">st</span></span>
+      <span class="pattern-item">‑<span class="ending">t</span></span>
+      <span class="pattern-item">‑<span class="ending">en</span></span>
+      <span class="pattern-item">‑<span class="ending">t</span></span>
+      <span class="pattern-item">‑<span class="ending">en</span></span>
+    </div>
+  </section>
+
+  <!-- ============ LEBEN ============ -->
+  <section class="verb">
+    <div class="verb-head">
+      <div class="verb-number">02</div>
+      <div>
+        <span class="verb-name">leben</span>
+        <span class="verb-translation" data-de="— to live" data-es="— vivir">— to live</span>
+      </div>
+      <span class="tag regular" data-de="regelmäßig" data-es="regular">regelmäßig</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-num">№</th>
+          <th class="col-person" data-de="Person" data-es="Persona">Person</th>
+          <th class="col-pronoun" data-de="Pronomen" data-es="Pronombre">Pronomen</th>
+          <th class="col-form" data-de="Form" data-es="Forma">Form</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="person-num">1</span></td>
+          <td class="col-person"><span class="person-label">1. Sg.</span></td>
+          <td><span class="pronoun">ich</span></td>
+          <td><span class="form"><span class="stem">leb</span><span class="ending">e</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">2</span></td>
+          <td class="col-person"><span class="person-label">2. Sg.</span></td>
+          <td><span class="pronoun">du</span></td>
+          <td><span class="form"><span class="stem">leb</span><span class="ending">st</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">3</span></td>
+          <td class="col-person"><span class="person-label">3. Sg.</span></td>
+          <td><span class="pronoun">er / sie / es</span></td>
+          <td><span class="form"><span class="stem">leb</span><span class="ending">t</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">4</span></td>
+          <td class="col-person"><span class="person-label">1. Pl.</span></td>
+          <td><span class="pronoun">wir</span></td>
+          <td><span class="form"><span class="stem">leb</span><span class="ending">en</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">5</span></td>
+          <td class="col-person"><span class="person-label">2. Pl.</span></td>
+          <td><span class="pronoun">ihr</span></td>
+          <td><span class="form"><span class="stem">leb</span><span class="ending">t</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">6</span></td>
+          <td class="col-person"><span class="person-label">3. Pl.</span></td>
+          <td><span class="pronoun">sie / Sie</span></td>
+          <td><span class="form"><span class="stem">leb</span><span class="ending">en</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pattern">
+      <span class="pattern-label" data-de="Endungen" data-es="Terminaciones">Endungen</span>
+      <span class="pattern-item">‑<span class="ending">e</span></span>
+      <span class="pattern-item">‑<span class="ending">st</span></span>
+      <span class="pattern-item">‑<span class="ending">t</span></span>
+      <span class="pattern-item">‑<span class="ending">en</span></span>
+      <span class="pattern-item">‑<span class="ending">t</span></span>
+      <span class="pattern-item">‑<span class="ending">en</span></span>
+    </div>
+    <div class="note"
+         data-de='<strong>Identisches Muster:</strong> <code>wohnen</code> und <code>leben</code> folgen exakt denselben Endungen. Das ist das Standardmuster aller regelmäßigen Verben im Präsens.'
+         data-es='<strong>Patrón idéntico:</strong> <code>wohnen</code> y <code>leben</code> siguen exactamente las mismas terminaciones. Es el patrón estándar de todos los verbos regulares en presente.'>
+      <strong>Identisches Muster:</strong> <code>wohnen</code> und <code>leben</code> folgen exakt denselben Endungen. Das ist das Standardmuster aller regelmäßigen Verben im Präsens.
+    </div>
+  </section>
+
+  <!-- ============ HABEN ============ -->
+  <section class="verb">
+    <div class="verb-head">
+      <div class="verb-number">03</div>
+      <div>
+        <span class="verb-name">haben</span>
+        <span class="verb-translation" data-de="— to have" data-es="— tener">— to have</span>
+      </div>
+      <span class="tag irregular" data-de="unregelmäßig" data-es="irregular">unregelmäßig</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-num">№</th>
+          <th class="col-person" data-de="Person" data-es="Persona">Person</th>
+          <th class="col-pronoun" data-de="Pronomen" data-es="Pronombre">Pronomen</th>
+          <th class="col-form" data-de="Form" data-es="Forma">Form</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="person-num">1</span></td>
+          <td class="col-person"><span class="person-label">1. Sg.</span></td>
+          <td><span class="pronoun">ich</span></td>
+          <td><span class="form"><span class="stem">hab</span><span class="ending">e</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">2</span></td>
+          <td class="col-person"><span class="person-label">2. Sg.</span></td>
+          <td><span class="pronoun">du</span></td>
+          <td><span class="form"><span class="change">ha</span><span class="ending">st</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">3</span></td>
+          <td class="col-person"><span class="person-label">3. Sg.</span></td>
+          <td><span class="pronoun">er / sie / es</span></td>
+          <td><span class="form"><span class="change">ha</span><span class="ending">t</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">4</span></td>
+          <td class="col-person"><span class="person-label">1. Pl.</span></td>
+          <td><span class="pronoun">wir</span></td>
+          <td><span class="form"><span class="stem">hab</span><span class="ending">en</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">5</span></td>
+          <td class="col-person"><span class="person-label">2. Pl.</span></td>
+          <td><span class="pronoun">ihr</span></td>
+          <td><span class="form"><span class="stem">hab</span><span class="ending">t</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">6</span></td>
+          <td class="col-person"><span class="person-label">3. Pl.</span></td>
+          <td><span class="pronoun">sie / Sie</span></td>
+          <td><span class="form"><span class="stem">hab</span><span class="ending">en</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note"
+         data-de='<strong>Stammänderung:</strong> Bei <code>du</code> und <code>er/sie/es</code> verschwindet das <code>‑b‑</code>: <em>du hast</em>, <em>er hat</em> (nicht <em>habst</em>, <em>habt</em>). Die Endungen bleiben aber regelmäßig.'
+         data-es='<strong>Cambio de raíz:</strong> En <code>du</code> y <code>er/sie/es</code> desaparece la <code>‑b‑</code>: <em>du hast</em>, <em>er hat</em> (no <em>habst</em>, <em>habt</em>). Sin embargo, las terminaciones siguen siendo regulares.'>
+      <strong>Stammänderung:</strong> Bei <code>du</code> und <code>er/sie/es</code> verschwindet das <code>‑b‑</code>: <em>du hast</em>, <em>er hat</em> (nicht <em>habst</em>, <em>habt</em>). Die Endungen bleiben aber regelmäßig.
+    </div>
+  </section>
+
+  <!-- ============ SEIN ============ -->
+  <section class="verb">
+    <div class="verb-head">
+      <div class="verb-number">04</div>
+      <div>
+        <span class="verb-name">sein</span>
+        <span class="verb-translation" data-de="— to be" data-es="— ser / estar">— to be</span>
+      </div>
+      <span class="tag irregular" data-de="unregelmäßig" data-es="irregular">unregelmäßig</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-num">№</th>
+          <th class="col-person" data-de="Person" data-es="Persona">Person</th>
+          <th class="col-pronoun" data-de="Pronomen" data-es="Pronombre">Pronomen</th>
+          <th class="col-form" data-de="Form" data-es="Forma">Form</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="person-num">1</span></td>
+          <td class="col-person"><span class="person-label">1. Sg.</span></td>
+          <td><span class="pronoun">ich</span></td>
+          <td><span class="form full-irr">bin</span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">2</span></td>
+          <td class="col-person"><span class="person-label">2. Sg.</span></td>
+          <td><span class="pronoun">du</span></td>
+          <td><span class="form"><span class="full-irr">bi</span><span class="ending">st</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">3</span></td>
+          <td class="col-person"><span class="person-label">3. Sg.</span></td>
+          <td><span class="pronoun">er / sie / es</span></td>
+          <td><span class="form full-irr">ist</span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">4</span></td>
+          <td class="col-person"><span class="person-label">1. Pl.</span></td>
+          <td><span class="pronoun">wir</span></td>
+          <td><span class="form full-irr">sind</span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">5</span></td>
+          <td class="col-person"><span class="person-label">2. Pl.</span></td>
+          <td><span class="pronoun">ihr</span></td>
+          <td><span class="form"><span class="full-irr">sei</span><span class="ending">d</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="person-num">6</span></td>
+          <td class="col-person"><span class="person-label">3. Pl.</span></td>
+          <td><span class="pronoun">sie / Sie</span></td>
+          <td><span class="form full-irr">sind</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note"
+         data-de='<strong>Komplett unregelmäßig:</strong> <code>sein</code> ist das unregelmäßigste Verb der deutschen Sprache. Der Stamm verändert sich in jeder Person — es gibt kein erkennbares Muster. Auswendig lernen! Nur bei <em>du bist</em> und <em>ihr seid</em> erkennt man Reste der typischen Endungen <span class="ending">‑st</span> und <span class="ending">‑d</span> (statt ‑t).'
+         data-es='<strong>Totalmente irregular:</strong> <code>sein</code> es el verbo más irregular del alemán. La raíz cambia en cada persona — no hay un patrón reconocible. ¡Memorizar! Solo en <em>du bist</em> y <em>ihr seid</em> se ven restos de las terminaciones típicas <span class="ending">‑st</span> y <span class="ending">‑d</span> (en lugar de ‑t).'>
+      <strong>Komplett unregelmäßig:</strong> <code>sein</code> ist das unregelmäßigste Verb der deutschen Sprache. Der Stamm verändert sich in jeder Person — es gibt kein erkennbares Muster. Auswendig lernen! Nur bei <em>du bist</em> und <em>ihr seid</em> erkennt man Reste der typischen Endungen <span class="ending">‑st</span> und <span class="ending">‑d</span> (statt ‑t).
+    </div>
+  </section>
+
+  <footer>
+    <span data-de="Konjugationstafel · Präsens Indikativ" data-es="Tabla de conjugación · Presente de indicativo">Konjugationstafel · Präsens Indikativ</span>
+    <span>Jorge Cardiel · Power Notes · 2026</span>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    const btn = document.getElementById('langToggle');
+    const flag = document.getElementById('flagEl');
+    const label = document.getElementById('langLabel');
+    let lang = 'es';
+
+    function apply(targetLang) {
+      document.querySelectorAll('[data-de][data-es]').forEach(el => {
+        const next = el.getAttribute('data-' + targetLang);
+        if (next != null) el.innerHTML = next;
+      });
+      document.documentElement.lang = targetLang;
+      if (targetLang === 'es') {
+        flag.className = 'flag flag-de';
+        flag.innerHTML = '<span></span><span></span><span></span>';
+        label.textContent = 'Auf Deutsch';
+      } else {
+        flag.className = 'flag flag-mx';
+        flag.innerHTML = '<span></span><span>★</span><span></span>';
+        label.textContent = 'Ver en español';
+      }
+    }
+
+    apply(lang);
+
+    btn.addEventListener('click', () => {
+      lang = (lang === 'de') ? 'es' : 'de';
+      apply(lang);
+    });
+  })();
+</script>
+
+</body>
+</html>
