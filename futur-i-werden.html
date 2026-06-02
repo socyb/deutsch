@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Übungen · Futur I mit werden</title>
+<style>
+  :root{
+    --cream:#f8f3e9; --cream2:#fffaf0; --ink:#2b2a26; --muted:#6f6a5f;
+    --accent:#9c3b22; --accent-soft:#c97a5f; --green:#6f8f4f; --green-dark:#4f6e38;
+    --blue:#2f6fb0; --red:#c0392b; --line:#e3d9c6; --card:#fffdf8;
+    --ok:#e7f1dc; --okline:#9ec07a; --bad:#fbe6e1; --badline:#e0a99c;
+    --shadow:0 10px 30px rgba(60,45,30,.10);
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:Georgia,'Times New Roman',serif;color:var(--ink);margin:0;
+    background:radial-gradient(circle at 25% -5%, var(--cream2), var(--cream) 70%) fixed;
+    line-height:1.5;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:3rem 1.4rem 6rem}
+  header.top{text-align:center;margin-bottom:2rem}
+  .eyebrow{font-family:'Courier New',monospace;letter-spacing:.3em;text-transform:uppercase;font-size:.78rem;color:var(--accent)}
+  h1{font-size:2.8rem;line-height:1.05;margin:.3em 0 .1em}
+  h1 .green{color:var(--green-dark)}
+  .sub{color:var(--muted);font-size:1.15rem}
+  .accent{color:var(--accent);font-weight:bold}
+  .blue{color:var(--blue);font-weight:bold}
+  .green{color:var(--green-dark);font-weight:bold}
+  em{color:var(--accent);font-style:italic}
+
+  .gram{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.4rem 1.7rem;box-shadow:var(--shadow);margin-bottom:2rem}
+  .gram h2{margin:.1em 0 .6em;font-size:1.5rem;color:var(--green-dark)}
+  table{border-collapse:collapse;width:100%;background:var(--card);font-size:1rem;margin:.5rem 0}
+  th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:center}
+  thead th{background:var(--green);color:#fff}
+  tbody th{background:#f0ead9;text-align:left}
+  .formel{font-size:1.15rem;text-align:center;background:#fff7e9;border-radius:12px;padding:.7rem;margin:.6rem 0;border:1px dashed var(--accent-soft)}
+  .formel .box{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:.1em .55em;margin:0 .15em}
+
+  .ex{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.5rem 1.7rem;box-shadow:var(--shadow);margin-bottom:1.8rem}
+  .ex h3{font-size:1.35rem;margin:0 0 .2em}
+  .ex .num{font-family:'Courier New',monospace;color:var(--accent);letter-spacing:.1em;font-size:.85rem;text-transform:uppercase}
+  .ex .task{color:var(--muted);margin:.1em 0 1rem;font-size:1.05rem}
+  .item{margin:.7rem 0;font-size:1.13rem;display:flex;flex-wrap:wrap;align-items:center;gap:.3rem}
+  .item .n{color:var(--accent-soft);font-weight:bold;min-width:1.4em}
+  .cue{color:var(--muted);font-style:italic}
+
+  input.fill{
+    font-family:Georgia,serif;font-size:1.08rem;color:var(--ink);
+    border:none;border-bottom:2px solid var(--accent-soft);background:#fdf7ec;
+    padding:.18em .5em;border-radius:6px 6px 0 0;outline:none;min-width:5em;
+  }
+  input.fill.long{min-width:min(28em,80vw);flex:1}
+  input.fill:focus{background:#fff;border-color:var(--accent)}
+  input.fill.ok{background:var(--ok);border-color:var(--okline)}
+  input.fill.bad{background:var(--bad);border-color:var(--badline)}
+  .sol{display:none;color:var(--green-dark);font-weight:bold;margin-left:.3em}
+  .sol.show{display:inline}
+  .sol::before{content:"✓ "}
+
+  .btns{margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap}
+  button{
+    font-family:Georgia,serif;font-size:1rem;cursor:pointer;border-radius:10px;
+    padding:.5em 1.1em;border:1px solid var(--line);background:#fff;color:var(--ink)
+  }
+  button.primary{background:var(--green);color:#fff;border-color:var(--green-dark)}
+  button.primary:hover{background:var(--green-dark)}
+  button:hover{background:#f3ece0}
+  .feedback{margin-top:.7rem;font-weight:bold;min-height:1.2em}
+  .feedback.good{color:var(--green-dark)}
+  .feedback.partial{color:var(--accent)}
+
+  .toolbar{position:sticky;top:0;z-index:10;background:rgba(248,243,233,.95);
+    backdrop-filter:blur(4px);border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;
+    padding:.7rem 1.4rem;margin:-3rem -1.4rem 2rem;}
+  .toolbar .score{font-family:'Courier New',monospace;color:var(--accent);font-size:1rem}
+  .speak .item{flex-direction:column;align-items:flex-start;gap:.2rem;background:#fff7e9;border-radius:12px;padding:.7rem 1rem}
+  .speak .muster{color:var(--green-dark)}
+  .tip{background:#fdeee8;border-left:5px solid var(--accent);border-radius:0 12px 12px 0;padding:.7rem 1rem;margin-top:1rem;font-size:1rem}
+  footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:2rem}
+  .wb{background:#eef2e6;border-left:5px solid var(--green);border-radius:0 12px 12px 0;padding:.7rem 1rem;margin-top:.6rem;font-size:1rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="toolbar">
+    <span class="eyebrow">Futur I · werden</span>
+    <span class="score" id="score">— / 0</span>
+    <span>
+      <button onclick="checkAll()">✓ Alles prüfen</button>
+      <button onclick="showAll()">👁 Lösungen</button>
+      <button onclick="resetAll()">↺ Neu</button>
+    </span>
+  </div>
+
+  <header class="top">
+    <div class="eyebrow">Deutsch A1/A2 · Lektion 19 · Wortschatz von heute</div>
+    <h1>Die Zukunft: <span class="green">Futur I</span> mit <span class="accent">werden</span></h1>
+    <p class="sub">Was <em>wirst</em> du im Haushalt machen? — Übungen zum Selbermachen</p>
+  </header>
+
+  <!-- GRAMMATIK -->
+  <section class="gram">
+    <h2>Kurz erinnert</h2>
+    <div class="formel">
+      <span class="box"><b>werden</b> (Position 2)</span> + … + <span class="box"><b>Infinitiv</b> (am Ende)</span>
+    </div>
+    <p style="text-align:center;font-size:1.1rem">
+      Heute: <em>Am Sonntag <b>habe</b> ich das Bett <b>gemacht</b>.</em> (Vergangenheit)<br>
+      Zukunft: <em>Morgen <b>werde</b> ich das Bett <b>machen</b>.</em>
+    </p>
+    <table>
+      <thead><tr><th>ich</th><th>du</th><th>er/es/sie</th><th>wir</th><th>ihr</th><th>sie/Sie</th></tr></thead>
+      <tbody><tr><td class="accent">werde</td><td class="accent">wirst</td><td class="accent">wird</td><td class="accent">werden</td><td class="accent">werdet</td><td class="accent">werden</td></tr></tbody>
+    </table>
+    <div class="wb"><b>Achtung — trennbare Verben bleiben zusammen:</b> <em>Ich räume auf → Ich werde <b>aufräumen</b>. · Ich kaufe ein → Ich werde <b>einkaufen</b>. · Ich bringe raus → Ich werde <b>rausbringen</b>.</em></div>
+  </section>
+
+  <!-- ÜBUNG 1 -->
+  <section class="ex" id="ex1">
+    <span class="num">Übung 1</span>
+    <h3>Ergänze die richtige Form von <span class="accent">werden</span></h3>
+    <p class="task">Schreib werde / wirst / wird / werden / werdet in die Lücke.</p>
+    <div class="item"><span class="n">1</span> Ich <input class="fill" data-a="werde"> morgen mein Zimmer aufräumen.<span class="sol">werde</span></div>
+    <div class="item"><span class="n">2</span> <input class="fill" data-a="wirst"> du heute Abend kochen?<span class="sol">Wirst</span></div>
+    <div class="item"><span class="n">3</span> Petra <input class="fill" data-a="wird"> den Müll rausbringen.<span class="sol">wird</span></div>
+    <div class="item"><span class="n">4</span> Wir <input class="fill" data-a="werden"> am Freitag einkaufen.<span class="sol">werden</span></div>
+    <div class="item"><span class="n">5</span> <input class="fill" data-a="werdet"> ihr die Küche sauber machen?<span class="sol">Werdet</span></div>
+    <div class="item"><span class="n">6</span> Die Kollegen <input class="fill" data-a="werden"> das Geschirr abwaschen.<span class="sol">werden</span></div>
+    <div class="item"><span class="n">7</span> <input class="fill" data-a="werden"> Sie das Fenster zumachen?<span class="sol">Werden</span></div>
+    <div class="item"><span class="n">8</span> Tim <input class="fill" data-a="wird"> den Beamer suchen.<span class="sol">wird</span></div>
+    <div class="btns"><button class="primary" onclick="check('ex1')">Prüfen</button><button onclick="show('ex1')">Lösung</button></div>
+    <div class="feedback" id="fb-ex1"></div>
+  </section>
+
+  <!-- ÜBUNG 2 -->
+  <section class="ex" id="ex2">
+    <span class="num">Übung 2</span>
+    <h3>Schreib die Sätze im <span class="accent">Futur I</span></h3>
+    <p class="task">Vom Präsens zum Futur I. Beispiel: <em>Ich mache das Bett.</em> → <em>Ich werde das Bett machen.</em></p>
+    <div class="item"><span class="n">1</span> <span class="cue">Du wäschst die Wäsche.</span></div>
+    <div class="item"><input class="fill long" data-a="du wirst die waesche waschen"><span class="sol">Du wirst die Wäsche waschen.</span></div>
+    <div class="item"><span class="n">2</span> <span class="cue">Wir räumen die Spülmaschine aus.</span></div>
+    <div class="item"><input class="fill long" data-a="wir werden die spuelmaschine ausraeumen"><span class="sol">Wir werden die Spülmaschine ausräumen.</span></div>
+    <div class="item"><span class="n">3</span> <span class="cue">Nadine bringt den Müll raus.</span></div>
+    <div class="item"><input class="fill long" data-a="nadine wird den muell rausbringen"><span class="sol">Nadine wird den Müll rausbringen.</span></div>
+    <div class="item"><span class="n">4</span> <span class="cue">Ihr putzt das Bad.</span></div>
+    <div class="item"><input class="fill long" data-a="ihr werdet das bad putzen"><span class="sol">Ihr werdet das Bad putzen.</span></div>
+    <div class="item"><span class="n">5</span> <span class="cue">Ich kaufe Lebensmittel ein.</span></div>
+    <div class="item"><input class="fill long" data-a="ich werde lebensmittel einkaufen"><span class="sol">Ich werde Lebensmittel einkaufen.</span></div>
+    <div class="item"><span class="n">6</span> <span class="cue">Lars wischt den Boden.</span></div>
+    <div class="item"><input class="fill long" data-a="lars wird den boden wischen"><span class="sol">Lars wird den Boden wischen.</span></div>
+    <div class="btns"><button class="primary" onclick="check('ex2')">Prüfen</button><button onclick="show('ex2')">Lösung</button></div>
+    <div class="feedback" id="fb-ex2"></div>
+  </section>
+
+  <!-- ÜBUNG 3 -->
+  <section class="ex" id="ex3">
+    <span class="num">Übung 3</span>
+    <h3>Bau den Satz (<span class="accent">Wortstellung</span>)</h3>
+    <p class="task">werden auf <b>Position 2</b>, der Infinitiv ans <b>Ende</b>. (Mehrere Lösungen möglich.)</p>
+    <div class="item"><span class="n">1</span> <span class="cue">morgen / ich / mein Zimmer / aufräumen / werde</span></div>
+    <div class="item"><input class="fill long" data-a="morgen werde ich mein zimmer aufraeumen|ich werde morgen mein zimmer aufraeumen"><span class="sol">Morgen werde ich mein Zimmer aufräumen.</span></div>
+    <div class="item"><span class="n">2</span> <span class="cue">ihr / das Geschirr / abwaschen / werdet / ?</span></div>
+    <div class="item"><input class="fill long" data-a="werdet ihr das geschirr abwaschen"><span class="sol">Werdet ihr das Geschirr abwaschen?</span></div>
+    <div class="item"><span class="n">3</span> <span class="cue">am Freitag / wir / einkaufen / werden</span></div>
+    <div class="item"><input class="fill long" data-a="am freitag werden wir einkaufen|wir werden am freitag einkaufen"><span class="sol">Am Freitag werden wir einkaufen.</span></div>
+    <div class="item"><span class="n">4</span> <span class="cue">Alex / die Kaffeemaschine / ausmachen / wird</span></div>
+    <div class="item"><input class="fill long" data-a="alex wird die kaffeemaschine ausmachen"><span class="sol">Alex wird die Kaffeemaschine ausmachen.</span></div>
+    <div class="item"><span class="n">5</span> <span class="cue">heute Abend / ich / das Bett / machen / werde</span></div>
+    <div class="item"><input class="fill long" data-a="heute abend werde ich das bett machen|ich werde heute abend das bett machen"><span class="sol">Heute Abend werde ich das Bett machen.</span></div>
+    <div class="btns"><button class="primary" onclick="check('ex3')">Prüfen</button><button onclick="show('ex3')">Lösung</button></div>
+    <div class="feedback" id="fb-ex3"></div>
+  </section>
+
+  <!-- ÜBUNG 4 -->
+  <section class="ex" id="ex4">
+    <span class="num">Übung 4</span>
+    <h3>Futur I + <span class="accent">Akkusativ-Pronomen</span></h3>
+    <p class="task">Antworte mit einem Pronomen (ihn / es / sie). Beispiel: <em>Der Müll ist voll. (ich – rausbringen)</em> → <em>Ich werde ihn rausbringen.</em></p>
+    <div class="item"><span class="n">1</span> <span class="cue">Die Wäsche ist schmutzig. (ich – waschen)</span></div>
+    <div class="item"><input class="fill long" data-a="ich werde sie waschen"><span class="sol">Ich werde sie waschen.</span></div>
+    <div class="item"><span class="n">2</span> <span class="cue">Das Geschirr ist nicht sauber. (Alex – abwaschen)</span></div>
+    <div class="item"><input class="fill long" data-a="alex wird es abwaschen"><span class="sol">Alex wird es abwaschen.</span></div>
+    <div class="item"><span class="n">3</span> <span class="cue">Die Fenster sind zu. (wir – aufmachen)</span></div>
+    <div class="item"><input class="fill long" data-a="wir werden sie aufmachen"><span class="sol">Wir werden sie aufmachen.</span></div>
+    <div class="item"><span class="n">4</span> <span class="cue">Der Beamer ist weg. (Tim – suchen)</span></div>
+    <div class="item"><input class="fill long" data-a="tim wird ihn suchen"><span class="sol">Tim wird ihn suchen.</span></div>
+    <div class="item"><span class="n">5</span> <span class="cue">Das Bad ist schmutzig. (du – putzen)</span></div>
+    <div class="item"><input class="fill long" data-a="du wirst es putzen"><span class="sol">Du wirst es putzen.</span></div>
+    <div class="btns"><button class="primary" onclick="check('ex4')">Prüfen</button><button onclick="show('ex4')">Lösung</button></div>
+    <div class="feedback" id="fb-ex4"></div>
+    <div class="tip"><b>Erinnerung:</b> der Müll → <span class="accent">ihn</span> · das Geschirr → <span class="accent">es</span> · die Wäsche / die Fenster → <span class="accent">sie</span></div>
+  </section>
+
+  <!-- ÜBUNG 5 frei -->
+  <section class="ex speak" id="ex5">
+    <span class="num">Übung 5 · Sprechen / Schreiben</span>
+    <h3>Antworte frei im <span class="accent">Futur I</span></h3>
+    <p class="task">Sag oder schreib einen ganzen Satz. Klick auf „Muster“ für ein Beispiel.</p>
+    <div class="item"><b>1 · Was wirst du heute Abend machen?</b><span class="sol muster">Heute Abend werde ich kochen und einen Film sehen.</span></div>
+    <div class="item"><b>2 · Was wirst du am Wochenende im Haushalt machen?</b><span class="sol muster">Am Wochenende werde ich die Wäsche waschen und mein Zimmer aufräumen.</span></div>
+    <div class="item"><b>3 · Wer wird bei euch nächste Woche einkaufen?</b><span class="sol muster">Nächste Woche werde ich einkaufen. / Meine Mutter wird einkaufen.</span></div>
+    <div class="item"><b>4 · Was wirst du morgen <u>nicht</u> machen?</b><span class="sol muster">Morgen werde ich das Bad nicht putzen.</span></div>
+    <div class="btns"><button onclick="show('ex5')">👁 Muster zeigen</button></div>
+  </section>
+
+  <footer>Übungsblatt zur Lektion 19 · Wortschatz aus der Klasse vom 1. Juni · Futur I mit <i>werden</i></footer>
+</div>
+
+<script>
+  function norm(s){
+    return (s||'').toString().toLowerCase().trim()
+      .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+      .replace(/[.!?,;:]/g,'')
+      .replace(/\s+/g,' ');
+  }
+  function inputs(id){return [...document.querySelectorAll('#'+id+' input.fill')]}
+  function check(id){
+    let ok=0,total=0;
+    inputs(id).forEach(inp=>{
+      total++;
+      const accepted=inp.dataset.a.split('|').map(norm);
+      const val=norm(inp.value);
+      if(val && accepted.includes(val)){inp.classList.add('ok');inp.classList.remove('bad');ok++;}
+      else{inp.classList.add('bad');inp.classList.remove('ok');}
+    });
+    const fb=document.getElementById('fb-'+id);
+    if(fb){
+      fb.textContent= ok===total ? '★ Super! Alles richtig ('+ok+'/'+total+').' : ok+' von '+total+' richtig. Versuch es nochmal oder schau die Lösung an.';
+      fb.className='feedback '+(ok===total?'good':'partial');
+    }
+    updateScore();
+  }
+  function show(id){document.querySelectorAll('#'+id+' .sol').forEach(s=>s.classList.add('show'))}
+  function checkAll(){['ex1','ex2','ex3','ex4'].forEach(check)}
+  function showAll(){document.querySelectorAll('.sol').forEach(s=>s.classList.add('show'))}
+  function resetAll(){
+    document.querySelectorAll('input.fill').forEach(i=>{i.value='';i.classList.remove('ok','bad')});
+    document.querySelectorAll('.sol').forEach(s=>s.classList.remove('show'));
+    document.querySelectorAll('.feedback').forEach(f=>{f.textContent='';f.className='feedback'});
+    updateScore();
+  }
+  function updateScore(){
+    const all=[...document.querySelectorAll('input.fill')];
+    const ok=all.filter(i=>i.classList.contains('ok')).length;
+    document.getElementById('score').textContent=ok+' / '+all.length;
+  }
+  document.querySelectorAll('input.fill').forEach(inp=>{
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){const sec=inp.closest('.ex');if(sec)check(sec.id);}});
+  });
+  updateScore();
+</script>
+</body>
+</html>
