@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lektion 20 · Das Team sieht sehr sympathisch aus!</title>
+<style>
+  :root{
+    --acento:#5E8A58; --acento-oscuro:#3F5F3A; --fondo:#F6F5F1; --fondo-suave:#EEF2E8;
+    --tarjeta:#FFFFFF; --texto:#1E241F; --borde:#D8DDD2; --muted:#5A6558;
+    --rojo:#c0392b; --azul:#2f6fb0; --amarillo:#E0A21B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"Trebuchet MS","Segoe UI",sans-serif;color:var(--texto);
+    background:
+      radial-gradient(circle at 10% -5%, #E6EDE0 0%, transparent 36%),
+      radial-gradient(circle at 92% 0%, #F1F4EB 0%, transparent 38%),
+      var(--fondo);
+    overflow:hidden;
+  }
+
+  /* ---- estructura diapositiva ---- */
+  .deck{height:100vh;width:100vw;position:relative}
+  .slide{
+    position:absolute;inset:0;display:none;
+    flex-direction:column;justify-content:center;
+    padding:clamp(1.4rem,4vw,4rem) clamp(1.4rem,6vw,6rem);
+    animation:fade .35s ease;
+  }
+  .slide.active{display:flex}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .kicker{
+    font-family:'Courier New',monospace;letter-spacing:.28em;text-transform:uppercase;
+    font-size:clamp(.7rem,1.3vw,.95rem);color:var(--acento-oscuro);margin-bottom:.6rem;font-weight:bold;
+  }
+  h1{font-size:clamp(2.2rem,6vw,4.4rem);line-height:1.04;color:var(--acento-oscuro);margin-bottom:.4em}
+  h2{font-size:clamp(1.7rem,4.4vw,3rem);line-height:1.1;color:var(--acento-oscuro);margin-bottom:.5em}
+  .slide p,.slide li{font-size:clamp(1.05rem,2.4vw,1.7rem);line-height:1.45}
+  .sub{color:var(--muted);font-size:clamp(1.1rem,2.6vw,1.9rem)}
+  ul{padding-left:1.4em;margin:.4em 0}
+  li{margin:.35em 0}
+  em{color:var(--rojo);font-style:italic;font-weight:bold}
+  .azul{color:var(--azul);font-weight:bold}
+  .verde{color:var(--acento-oscuro);font-weight:bold}
+  .rojo{color:var(--rojo);font-weight:bold}
+
+  /* cajas */
+  .card{background:var(--tarjeta);border:1px solid var(--borde);border-radius:18px;
+    padding:clamp(1rem,2.5vw,1.8rem);box-shadow:0 12px 30px rgba(24,29,24,.10)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.8rem,2vw,1.6rem)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.8rem,2vw,1.4rem)}
+  .chips{display:flex;flex-wrap:wrap;gap:.5em .6em;margin-top:.4em}
+  .chip{background:#E9EEE4;color:#3F5F3A;border-radius:999px;padding:.3em .9em;
+    font-size:clamp(1rem,2.2vw,1.5rem);font-weight:bold;border:1px solid #cdd8c4}
+  .chip.neg{background:#fbe6e1;color:#9c3b22;border-color:#e0a99c}
+  .chip.pos{background:#e7f1dc;color:#4f6e38;border-color:#9ec07a}
+
+  table{border-collapse:collapse;width:100%;background:var(--tarjeta);font-size:clamp(1rem,2.1vw,1.5rem)}
+  th,td{border:1px solid var(--borde);padding:.4em .7em;text-align:center}
+  thead th{background:var(--acento);color:#fff}
+  tbody th{background:#f0ead9;text-align:left}
+  .satzklammer td{font-size:clamp(1rem,2.2vw,1.6rem)}
+  .klammer{position:relative;color:var(--rojo);font-weight:bold}
+
+  .formel{font-size:clamp(1.1rem,2.6vw,1.8rem);text-align:center;background:#fff7e9;
+    border-radius:14px;padding:.8rem 1rem;border:1px dashed var(--amarillo);margin:.6rem 0}
+  .formel .box{display:inline-block;background:#fff;border:1px solid var(--borde);
+    border-radius:8px;padding:.05em .5em;margin:0 .15em;font-weight:bold}
+
+  .tip{background:#fdeee8;border-left:6px solid var(--rojo);border-radius:0 14px 14px 0;
+    padding:.7rem 1.1rem;margin-top:.8rem;font-size:clamp(1rem,2.2vw,1.5rem)}
+  .note{background:#eef2e6;border-left:6px solid var(--acento);border-radius:0 14px 14px 0;
+    padding:.7rem 1.1rem;margin-top:.8rem;font-size:clamp(1rem,2.2vw,1.5rem)}
+
+  .team{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:.6rem}
+  .person{background:var(--tarjeta);border:1px solid var(--borde);border-radius:14px;padding:.7rem .9rem}
+  .person b{color:var(--acento-oscuro);font-size:clamp(1.1rem,2.4vw,1.6rem)}
+  .person span{display:block;color:var(--muted);font-size:clamp(.95rem,2vw,1.3rem)}
+
+  .react{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:.6rem}
+  .react .col{border-radius:16px;padding:1rem;text-align:center}
+  .react .happy{background:#e7f1dc;border:1px solid #9ec07a}
+  .react .surprise{background:#fff7e9;border:1px solid var(--amarillo)}
+  .react .sad{background:#fbe6e1;border:1px solid #e0a99c}
+  .react h3{font-size:clamp(1.4rem,3.2vw,2.2rem);margin-bottom:.3em}
+  .react p{font-size:clamp(1.05rem,2.3vw,1.6rem);margin:.2em 0;font-weight:bold}
+
+  .big{font-size:clamp(1.4rem,3.6vw,2.6rem);font-weight:bold;text-align:center;line-height:1.3}
+
+  /* ejercicio revelable (warm-up) */
+  .quiz{list-style:none;padding:0;margin:.4em 0}
+  .quiz li{margin:.45em 0;font-size:clamp(1.05rem,2.4vw,1.6rem);display:flex;flex-wrap:wrap;align-items:baseline;gap:.3em}
+  .quiz .n{color:var(--acento);font-weight:bold;min-width:1.4em}
+  .loesung{cursor:pointer;border-bottom:2px dashed var(--acento-soft,#c97a5f);
+    color:transparent;background:#eef2e6;border-radius:6px;padding:.05em .5em;min-width:2.5em;
+    display:inline-block;user-select:none;transition:.15s}
+  .loesung::after{content:"?";color:var(--muted)}
+  .loesung.show{color:var(--rojo);background:#fbe6e1;border-bottom-color:var(--rojo);font-weight:bold}
+  .loesung.show::after{content:""}
+  .qbtn{font-family:inherit;cursor:pointer;border:1px solid var(--acento-oscuro);
+    background:var(--acento);color:#fff;border-radius:10px;padding:.4em 1em;font-size:1rem;margin-top:.6rem}
+  .qbtn:hover{background:var(--acento-oscuro)}
+
+  /* ---- barra de control ---- */
+  .bar{position:fixed;bottom:0;left:0;right:0;height:6px;background:#dfe5d8;z-index:30}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--acento),var(--acento-oscuro));width:0;transition:width .3s}
+  .hud{position:fixed;bottom:14px;right:18px;z-index:30;display:flex;gap:.4rem;align-items:center;
+    background:rgba(255,255,255,.85);backdrop-filter:blur(4px);border:1px solid var(--borde);
+    border-radius:999px;padding:.3rem .5rem;box-shadow:0 6px 16px rgba(0,0,0,.08)}
+  .hud button{font-family:inherit;cursor:pointer;border:none;background:var(--acento);color:#fff;
+    width:34px;height:34px;border-radius:50%;font-size:1.1rem;line-height:1;display:grid;place-items:center}
+  .hud button:hover{background:var(--acento-oscuro)}
+  .hud .count{font-variant-numeric:tabular-nums;font-weight:bold;color:var(--acento-oscuro);min-width:3.4em;text-align:center;font-size:1rem}
+  .corner{position:fixed;top:14px;left:18px;z-index:30;font-family:'Courier New',monospace;
+    letter-spacing:.18em;text-transform:uppercase;font-size:.78rem;color:var(--acento-oscuro);font-weight:bold;opacity:.8}
+  .hint{position:fixed;top:14px;right:18px;z-index:30;font-size:.8rem;color:var(--muted)}
+
+  @media(max-width:680px){
+    .grid2,.grid3,.team,.react{grid-template-columns:1fr}
+    .hint{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="corner">Momente A1.2 · Lektion 20</div>
+<div class="hint">← → para navegar · F: pantalla completa</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 · Título -->
+  <section class="slide active">
+    <div class="kicker">Deutsch A1/A2 · Modul 7 · Lektion 20</div>
+    <h1>Das Team sieht<br>sehr <span class="rojo">sympathisch</span> aus!</h1>
+    <p class="sub">Berufe · Aussehen &amp; Charakter · Perfekt (nicht trennbare Verben) · reagieren</p>
+    <p class="sub" style="margin-top:1.2rem">👋 Heute: <b>Kapitel&nbsp;20 — wir starten ein Start-up!</b></p>
+  </section>
+
+  <!-- 2 · Warm-up + Wiederholung -->
+  <section class="slide" id="warmup">
+    <div class="kicker">Zum Anfang · Sprechen &amp; Wiederholung</div>
+    <h2>Warm-up: <span class="rojo">Perfekt</span></h2>
+    <p class="sub" style="margin-bottom:.6rem">Erst sprechen: <em>Was hast du am Wochenende gemacht?</em> — dann ergänzen wir das Partizip. <span style="font-size:.8em;color:var(--muted)">(Klick auf das Feld = Lösung)</span></p>
+    <div class="card no-nav">
+      <ul class="quiz" id="q1">
+        <li><span class="n">1</span> Ich <span class="loesung" onclick="reveal(this)">bin</span> heute um 7 Uhr <span class="loesung" onclick="reveal(this)">aufgestanden</span>. <span style="color:var(--muted);font-size:.8em">(aufstehen)</span></li>
+        <li><span class="n">2</span> Du <span class="loesung" onclick="reveal(this)">hast</span> den Bus <span class="loesung" onclick="reveal(this)">verpasst</span>. <span style="color:var(--muted);font-size:.8em">(verpassen)</span></li>
+        <li><span class="n">3</span> Wir <span class="loesung" onclick="reveal(this)">haben</span> am Samstag <span class="loesung" onclick="reveal(this)">eingekauft</span>. <span style="color:var(--muted);font-size:.8em">(einkaufen)</span></li>
+        <li><span class="n">4</span> Sie <span class="loesung" onclick="reveal(this)">hat</span> mir eine Geschichte <span class="loesung" onclick="reveal(this)">erzählt</span>. <span style="color:var(--muted);font-size:.8em">(erzählen)</span></li>
+        <li><span class="n">5</span> Ich <span class="loesung" onclick="reveal(this)">habe</span> meinen Schlüssel <span class="loesung" onclick="reveal(this)">vergessen</span>. <span style="color:var(--muted);font-size:.8em">(vergessen)</span></li>
+        <li><span class="n">6</span> Er <span class="loesung" onclick="reveal(this)">hat</span> eine neue Stelle <span class="loesung" onclick="reveal(this)">bekommen</span>. <span style="color:var(--muted);font-size:.8em">(bekommen)</span></li>
+      </ul>
+      <button class="qbtn" onclick="revealAll('q1')">👁 Alle Lösungen zeigen</button>
+    </div>
+    <div class="tip">🔎 <b>Schon gemerkt?</b> <em>aufstehen, einkaufen</em> → ge- in der Mitte (auf<b>ge</b>standen). Aber <em>verpassen, erzählen, vergessen, bekommen</em> → <span class="rojo">kein ge-!</span> Das ist unser Thema heute.</div>
+  </section>
+
+  <!-- 3 · Lernziele -->
+  <section class="slide">
+    <div class="kicker">Lernziele · Was lernen wir heute?</div>
+    <h2>Unsere Ziele</h2>
+    <div class="grid2">
+      <div class="card">
+        <p>🎧 <b>HÖREN</b> — Gespräch über die neue Arbeitsstelle</p>
+        <p style="margin-top:.5em">📖 <b>LESEN</b> — eine Firmen-Website</p>
+        <p style="margin-top:.5em">💬 <b>SPRECHEN</b> — Personen beschreiben + reagieren</p>
+      </div>
+      <div class="card">
+        <p>🗣️ <b>WÖRTER</b> — Beruf, Aussehen und Charakter</p>
+        <p style="margin-top:.5em">📐 <b>GRAMMATIK</b> — Perfekt: <em>gefallen, bekommen …</em></p>
+        <p style="margin-top:.5em">🔤 <b>WORTBILDUNG</b> — Vorsilbe <span class="rojo">un-</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Einstieg SUPS -->
+  <section class="slide">
+    <div class="kicker">Einstieg · Aufgabe 1 (S. 123)</div>
+    <h2>„Ihr wollt ein Start-up gründen?"</h2>
+    <p class="sub">Die Firma <b>SUPS</b> = der <b>S</b>tart-<b>up</b> <b>S</b>ervice.</p>
+    <div class="card" style="margin-top:1rem">
+      <p><b>Frage:</b> Was macht die Firma SUPS? Was ist richtig?</p>
+      <p style="margin-top:.6em">1 · SUPS berät und hilft Start-ups. &nbsp;&nbsp; 2 · SUPS will ein Start-up gründen.</p>
+      <div class="note"><b>Lösung:</b> ✓ 1 — <em>SUPS berät und hilft Start-ups.</em></div>
+    </div>
+    <div class="tip">💡 Frag die Klasse: <b>Wer ist was von Beruf?</b> (Bild S. 123) — <em>„Ich glaube, die Frau ist die IT-Beraterin."</em></div>
+  </section>
+
+  <!-- 4 · Berufe Wortschatz -->
+  <section class="slide">
+    <div class="kicker">Wortschatz · Berufe</div>
+    <h2>Berufe im Team</h2>
+    <div class="chips">
+      <span class="chip">der/die IT-Berater/in</span>
+      <span class="chip">der/die Logistik-Experte/-Expertin</span>
+      <span class="chip">der/die Projektmanager/in</span>
+      <span class="chip">der/die Chef/in</span>
+      <span class="chip">der Psychologe / die Psychologin</span>
+      <span class="chip">Fachmann/Fachfrau für Medien und Kommunikation</span>
+    </div>
+    <div class="note">🔧 <b>Verb → Beruf:</b> <em>managen → der Manager</em> · <em>beraten → die Beraterin</em> · <em>organisieren → die Organisation</em> · <em>transportieren → der Transport</em></div>
+  </section>
+
+  <!-- 5 · Das SUPS-Team -->
+  <section class="slide">
+    <div class="kicker">Aufgabe 3 · Wer macht was im SUPS-Team?</div>
+    <h2>Das ist das Team</h2>
+    <div class="team">
+      <div class="person"><b>May</b><span>Chefin · hat SUPS gegründet</span></div>
+      <div class="person"><b>Nour</b><span>Projektmanagerin</span></div>
+      <div class="person"><b>Tamy</b><span>Organisations-Psychologin</span></div>
+      <div class="person"><b>Kevin</b><span>Logistik-Experte</span></div>
+      <div class="person"><b>Lina</b><span>Fachfrau für Medien &amp; Kommunikation</span></div>
+      <div class="person"><b>Arno</b><span>IT-Berater</span></div>
+    </div>
+    <div class="tip">🎯 <b>Spiel:</b> <em>„Ich kann die Arbeit und ein Team perfekt organisieren."</em> → Wer ist das? (<span class="verde">Nour</span>)</div>
+  </section>
+
+  <!-- 6 · Aussehen -->
+  <section class="slide">
+    <div class="kicker">Wortschatz · das Aussehen</div>
+    <h2>Wie sieht die Person aus?</h2>
+    <div class="grid2">
+      <div class="card">
+        <p><b>Haare 💇</b></p>
+        <div class="chips">
+          <span class="chip">lange Haare</span><span class="chip">kurze Haare</span>
+          <span class="chip">glatte Haare</span><span class="chip">die Locken</span>
+          <span class="chip">blonde · dunkle · graue Haare</span><span class="chip">der Bart</span>
+        </div>
+      </div>
+      <div class="card">
+        <p><b>Körper &amp; Alter</b></p>
+        <div class="chips">
+          <span class="chip">groß</span><span class="chip">klein</span>
+          <span class="chip">jung</span><span class="chip">alt</span>
+          <span class="chip">schlank</span><span class="chip">kräftig</span>
+        </div>
+      </div>
+    </div>
+    <div class="note">📌 Wir benutzen <em>aussehen</em>: <b>Er sieht jung aus.</b> · <b>Sie hat lange, dunkle Haare.</b></div>
+  </section>
+
+  <!-- 7 · Charakter + un- -->
+  <section class="slide">
+    <div class="kicker">Wortschatz · der Charakter + Vorsilbe un-</div>
+    <h2>Wie ist die Person?</h2>
+    <div class="grid2">
+      <div class="card">
+        <p class="pos" style="font-weight:bold">😊 positiv</p>
+        <div class="chips">
+          <span class="chip pos">sympathisch</span><span class="chip pos">nett</span>
+          <span class="chip pos">freundlich</span><span class="chip pos">interessant</span>
+          <span class="chip pos">fröhlich</span><span class="chip pos">intelligent</span>
+          <span class="chip pos">lustig</span><span class="chip pos">kreativ</span><span class="chip pos">ruhig</span>
+        </div>
+      </div>
+      <div class="card">
+        <p class="rojo" style="font-weight:bold">😕 negativ</p>
+        <div class="chips">
+          <span class="chip neg">unsympathisch</span><span class="chip neg">unfreundlich</span>
+          <span class="chip neg">uninteressant</span><span class="chip neg">langweilig</span>
+        </div>
+      </div>
+    </div>
+    <div class="tip">🔤 <b>Vorsilbe <span class="rojo">un-</span> = das Gegenteil:</b> sympathisch ↔ <span class="rojo">un</span>sympathisch · freundlich ↔ <span class="rojo">un</span>freundlich · interessant ↔ <span class="rojo">un</span>interessant</div>
+  </section>
+
+  <!-- 8 · Personen beschreiben -->
+  <section class="slide">
+    <div class="kicker">Sprechen · Aufgabe 5 (S. 125)</div>
+    <h2>Wer ist das? — beschreiben &amp; raten</h2>
+    <div class="card">
+      <p class="big">„Sie ist klein. Sie hat glatte und dunkle Haare.<br>Ich finde, sie sieht sehr sympathisch und freundlich aus. Und intelligent!"</p>
+      <p style="text-align:center;margin-top:.6em">o <b>Das ist Lina.</b> &nbsp;■ <b>Nein, Lina ist doch …</b></p>
+    </div>
+    <div class="note">🗣️ <b>Partnerübung:</b> Beschreibt eine Person aus dem Team (oder im Kurs!). Die/der andere rät: <em>Wer ist das?</em></div>
+  </section>
+
+  <!-- 9 · Hören Stefan -->
+  <section class="slide">
+    <div class="kicker">Hören · Aufgabe 6 (Track 4|04)</div>
+    <h2>Stefan &amp; Melissa</h2>
+    <p class="sub">Stefan erzählt von seiner neuen Arbeitsstelle bei SUPS.</p>
+    <div class="card" style="margin-top:.8rem">
+      <p>1 · Die Stelle bei der Marketing-Agentur hat ihm <b>nicht</b> gefallen.</p>
+      <p>2 · Er hat <b>eine Stelle</b> bei SUPS bekommen — er ist <b>sehr zufrieden</b>.</p>
+      <p>3 · Er hat Melissa <b>nichts</b> erzählt — er hat es <b>vergessen</b>.</p>
+      <p>4 · Er findet das SUPS-Team <b>nett</b>.</p>
+    </div>
+    <div class="tip">👂 Wichtiger Satz: <em>„Das Team sieht sehr sympathisch aus!"</em> → <b>Hey, super! Das freut mich so!</b></div>
+  </section>
+
+  <!-- 10 · Grammatik Perfekt -->
+  <section class="slide">
+    <div class="kicker">Grammatik · Perfekt — nicht trennbare Verben</div>
+    <h2>Partizip <span class="rojo">ohne ge-</span></h2>
+    <p class="sub">Verben mit be-, er-, ver-, ge- bekommen <b>kein</b> ge- im Partizip.</p>
+    <table style="margin-top:.6rem">
+      <thead><tr><th>Infinitiv</th><th>er/es/sie hat …</th></tr></thead>
+      <tbody>
+        <tr><td><b>ge</b>fallen</td><td>hat <span class="rojo">gefallen</span></td></tr>
+        <tr><td><b>be</b>kommen</td><td>hat <span class="rojo">bekommen</span></td></tr>
+        <tr><td><b>er</b>zählen</td><td>hat <span class="rojo">erzählt</span></td></tr>
+        <tr><td><b>ver</b>gessen</td><td>hat <span class="rojo">vergessen</span></td></tr>
+      </tbody>
+    </table>
+    <div class="note">↔️ Vergleich: <em>kaufen → ge<b>kauf</b>t</em>, aber <em>bekommen → bekommen</em> (kein ge-!).</div>
+  </section>
+
+  <!-- 11 · Satzklammer -->
+  <section class="slide">
+    <div class="kicker">Grammatik · die Satzklammer</div>
+    <h2>haben (Position 2) … Partizip (Ende)</h2>
+    <table class="satzklammer" style="margin-top:.6rem">
+      <thead><tr><th></th><th>Position 2</th><th></th><th>Ende</th></tr></thead>
+      <tbody>
+        <tr><td>Stefan</td><td class="klammer">hat</td><td>die Stelle bei SUPS</td><td class="klammer">bekommen.</td></tr>
+        <tr><td>Er</td><td class="klammer">hat</td><td>mir nichts</td><td class="klammer">erzählt.</td></tr>
+        <tr><td>Das Team</td><td class="klammer">hat</td><td>mir</td><td class="klammer">gefallen.</td></tr>
+      </tbody>
+    </table>
+    <div class="formel"><span class="box">haben</span> + … + <span class="box">Partizip</span> → die <b>Satzklammer</b> 🔗</div>
+  </section>
+
+  <!-- 12 · trennbar vs nicht trennbar -->
+  <section class="slide">
+    <div class="kicker">Aussprache · Wortakzent (Aufgabe 8)</div>
+    <h2>Trennbar oder nicht trennbar?</h2>
+    <div class="grid2">
+      <div class="card">
+        <p class="verde" style="font-weight:bold">trennbar — Akzent auf der Vorsilbe</p>
+        <div class="chips">
+          <span class="chip"><b>ab</b>holen</span><span class="chip"><b>auf</b>stehen</span>
+          <span class="chip"><b>aus</b>sehen</span><span class="chip"><b>ein</b>kaufen</span>
+          <span class="chip"><b>ein</b>laden</span><span class="chip"><b>zurück</b>rufen</span>
+        </div>
+        <p style="margin-top:.5em">Partizip: <em>ab → ab<b>ge</b>holt</em></p>
+      </div>
+      <div class="card">
+        <p class="rojo" style="font-weight:bold">nicht trennbar — Akzent auf dem Verb</p>
+        <div class="chips">
+          <span class="chip neg">be<b>kommen</b></span><span class="chip neg">er<b>zählen</b></span>
+          <span class="chip neg">ver<b>gessen</b></span><span class="chip neg">ver<b>passen</b></span>
+          <span class="chip neg">ge<b>fallen</b></span><span class="chip neg">be<b>suchen</b></span>
+        </div>
+        <p style="margin-top:.5em">Partizip: <em>verpassen → verpasst</em> (kein ge-)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · reagieren -->
+  <section class="slide">
+    <div class="kicker">Kommunikation · auf Aussagen reagieren (Aufgabe 8)</div>
+    <h2>„Das ist aber schade!"</h2>
+    <div class="react">
+      <div class="col happy">
+        <h3>😄 froh</h3>
+        <p>Hey, super!</p><p>Wow!</p><p>Oh, cool!</p><p>Das freut mich so!</p>
+      </div>
+      <div class="col surprise">
+        <h3>😮 überrascht</h3>
+        <p>Echt?</p><p>Ach komm!</p><p>Ach was!</p><p>Ach nee!</p>
+      </div>
+      <div class="col sad">
+        <h3>🙁 traurig</h3>
+        <p>Oje!</p><p>Oh nein!</p><p>Puh!</p><p>Das ist aber schade!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · Sprechübung reagieren -->
+  <section class="slide">
+    <div class="kicker">Sprechen · zu dritt (Aufgabe 8c)</div>
+    <h2>Reagiert spontan!</h2>
+    <p class="sub">Eine/r sagt einen Satz — die anderen reagieren.</p>
+    <div class="card" style="margin-top:.8rem">
+      <p>🗨️ <em>„Ich habe schon mal einen Flug verpasst."</em> → <b>Oje! / Echt?</b></p>
+      <p style="margin-top:.5em">🗨️ <em>„Ich habe die Stelle bei Intel &amp; Co. bekommen!"</em> → <b>Hey, super!</b></p>
+      <p style="margin-top:.5em">🗨️ <em>„Alice und Toni haben geheiratet."</em> → <b>Echt? / Das freut mich!</b></p>
+    </div>
+    <div class="note">Themen: <em>mit Brad Pitt sprechen · einen Triathlon machen · lila Haare haben · einen Flug verpassen …</em></div>
+  </section>
+
+  <!-- 15 · Abschluss -->
+  <section class="slide">
+    <div class="kicker">Zusammenfassung · Hausaufgabe</div>
+    <h2>Puh! Das war ein Tag 🎉</h2>
+    <div class="grid2">
+      <div class="card">
+        <p><b>Das können wir jetzt:</b></p>
+        <ul>
+          <li>Personen beschreiben (Aussehen + Charakter)</li>
+          <li>Perfekt mit <em>nicht trennbaren Verben</em></li>
+          <li>auf Nachrichten reagieren</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p><b>📚 Hausaufgabe:</b></p>
+        <ul>
+          <li>Arbeitsbuch S. 132–135 · Aufgaben 1–12</li>
+          <li>Partneraufgabe: Sprachnachricht — <em>Wer ist das?</em></li>
+        </ul>
+      </div>
+    </div>
+    <p class="big" style="margin-top:1.2rem">Bis zum nächsten Mal! 👋</p>
+  </section>
+
+</div>
+
+<div class="hud">
+  <button onclick="go(-1)" aria-label="zurück">‹</button>
+  <span class="count" id="count">1 / 15</span>
+  <button onclick="go(1)" aria-label="weiter">›</button>
+</div>
+<div class="bar"><i id="prog"></i></div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  function render(){
+    slides.forEach((s,n)=>s.classList.toggle('active',n===i));
+    document.getElementById('count').textContent=(i+1)+' / '+slides.length;
+    document.getElementById('prog').style.width=((i+1)/slides.length*100)+'%';
+  }
+  function go(d){i=Math.min(slides.length-1,Math.max(0,i+d));render();}
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){go(1);e.preventDefault();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(-1);e.preventDefault();}
+    else if(e.key==='Home'){i=0;render();}
+    else if(e.key==='End'){i=slides.length-1;render();}
+    else if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement)document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+  // tap/click en la mitad derecha/izquierda
+  document.getElementById('deck').addEventListener('click',e=>{
+    if(e.target.closest('.hud')||e.target.closest('.no-nav'))return;
+    go(e.clientX > window.innerWidth/2 ? 1 : -1);
+  });
+  // revelar respuestas del ejercicio
+  function reveal(el){el.classList.toggle('show');}
+  function revealAll(id){document.querySelectorAll('#'+id+' .loesung').forEach(s=>s.classList.add('show'));}
+  window.reveal=reveal;window.revealAll=revealAll;
+  render();
+</script>
+</body>
+</html>

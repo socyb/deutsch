@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Übungen · Das stört mich total!</title>
+<style>
+  :root{
+    --cream:#f8f3e9; --cream2:#fffaf0; --ink:#2b2a26; --muted:#6f6a5f;
+    --accent:#9c3b22; --accent-soft:#c97a5f; --green:#6f8f4f; --green-dark:#4f6e38;
+    --blue:#2f6fb0; --blue-soft:#dce8f5; --red:#c0392b; --line:#e3d9c6; --card:#fffdf8;
+    --ok:#e7f1dc; --okline:#9ec07a; --bad:#fbe6e1; --badline:#e0a99c;
+    --shadow:0 10px 30px rgba(60,45,30,.10);
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:Georgia,'Times New Roman',serif;color:var(--ink);margin:0;
+    background:radial-gradient(circle at 25% -5%, var(--cream2), var(--cream) 70%) fixed;
+    line-height:1.5;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:3rem 1.4rem 6rem}
+  header.top{text-align:center;margin-bottom:2rem}
+  .eyebrow{font-family:'Courier New',monospace;letter-spacing:.3em;text-transform:uppercase;font-size:.78rem;color:var(--accent)}
+  h1{font-size:2.7rem;line-height:1.05;margin:.3em 0 .1em}
+  h1 .green{color:var(--green-dark)}
+  .sub{color:var(--muted);font-size:1.15rem}
+  .accent{color:var(--accent);font-weight:bold}
+  .blue{color:var(--blue);font-weight:bold}
+  .green{color:var(--green-dark);font-weight:bold}
+  em{color:var(--accent);font-style:italic}
+  .es{color:var(--muted);font-style:italic;font-size:.95rem}
+
+  .gram{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.4rem 1.7rem;box-shadow:var(--shadow);margin-bottom:2rem}
+  .gram h2{margin:.1em 0 .6em;font-size:1.5rem;color:var(--green-dark)}
+  .gram h4{margin:1.2em 0 .3em;font-size:1.1rem;color:var(--accent)}
+  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:.6rem 0}
+  table{border-collapse:collapse;width:100%;background:var(--card);font-size:1rem}
+  th,td{border:1px solid var(--line);padding:.4rem .55rem;text-align:center;white-space:nowrap}
+  thead th{background:var(--green);color:#fff}
+  tbody th{background:#f0ead9;text-align:left}
+  td.irr{color:var(--accent);font-weight:bold;background:#fdf3ec}
+  table.vok td,table.vok th{white-space:normal;text-align:left}
+  table.vok td:first-child{font-weight:bold}
+  .formel{font-size:1.1rem;text-align:center;background:#fff7e9;border-radius:12px;padding:.8rem;margin:.7rem 0;border:1px dashed var(--accent-soft)}
+  .formel .box{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:.1em .55em;margin:.15em}
+  .formel .box.v{background:#eef4e6;border-color:var(--green)}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:.6rem}
+  .cardlet{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;background:#fffaf2}
+  .cardlet.dat{background:var(--blue-soft);border-color:#a9c6e2}
+  .cardlet.akk{background:#fdeee8;border-color:#e8bda9}
+  .cardlet h5{margin:0 0 .3em;font-size:1.05rem}
+
+  .ex{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.5rem 1.7rem;box-shadow:var(--shadow);margin-bottom:1.8rem}
+  .ex h3{font-size:1.35rem;margin:0 0 .2em}
+  .ex .num{font-family:'Courier New',monospace;color:var(--accent);letter-spacing:.1em;font-size:.85rem;text-transform:uppercase}
+  .ex .task{color:var(--muted);margin:.1em 0 1rem;font-size:1.05rem}
+  .item{margin:.7rem 0;font-size:1.13rem;display:flex;flex-wrap:wrap;align-items:center;gap:.3rem}
+  .item .n{color:var(--accent-soft);font-weight:bold;min-width:1.4em}
+  .cue{color:var(--muted);font-style:italic}
+  .wortbank{background:#f0ead9;border-radius:12px;padding:.6rem 1rem;margin-bottom:1rem;font-size:1.02rem}
+  .wortbank span{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:.1em .55em;margin:.15em}
+
+  input.fill{
+    font-family:Georgia,serif;font-size:1.08rem;color:var(--ink);
+    border:none;border-bottom:2px solid var(--accent-soft);background:#fdf7ec;
+    padding:.18em .5em;border-radius:6px 6px 0 0;outline:none;min-width:5em;
+  }
+  input.fill.short{min-width:4em;width:7em}
+  input.fill.long{min-width:min(28em,80vw);flex:1}
+  input.fill:focus{background:#fff;border-color:var(--accent)}
+  input.fill.ok{background:var(--ok);border-color:var(--okline)}
+  input.fill.bad{background:var(--bad);border-color:var(--badline)}
+  td input.fill{width:8.5em;min-width:0;text-align:center}
+  .sol{display:none;color:var(--green-dark);font-weight:bold;margin-left:.3em}
+  .sol.show{display:inline}
+  .sol::before{content:"✓ "}
+
+  .btns{margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap}
+  button{
+    font-family:Georgia,serif;font-size:1rem;cursor:pointer;border-radius:10px;
+    padding:.5em 1.1em;border:1px solid var(--line);background:#fff;color:var(--ink)
+  }
+  button.primary{background:var(--green);color:#fff;border-color:var(--green-dark)}
+  button.primary:hover{background:var(--green-dark)}
+  button:hover{background:#f3ece0}
+  .feedback{margin-top:.7rem;font-weight:bold;min-height:1.2em}
+  .feedback.good{color:var(--green-dark)}
+  .feedback.partial{color:var(--accent)}
+
+  .toolbar{position:sticky;top:0;z-index:10;background:rgba(248,243,233,.95);
+    backdrop-filter:blur(4px);border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap;
+    padding:.7rem 1.4rem;margin:-3rem -1.4rem 2rem;}
+  .toolbar .score{font-family:'Courier New',monospace;color:var(--accent);font-size:1rem}
+  .speak .item{flex-direction:column;align-items:flex-start;gap:.2rem;background:#fff7e9;border-radius:12px;padding:.7rem 1rem}
+  .speak .muster{color:var(--green-dark)}
+  .tip{background:#fdeee8;border-left:5px solid var(--accent);border-radius:0 12px 12px 0;padding:.7rem 1rem;margin-top:1rem;font-size:1rem}
+  .wb{background:#eef2e6;border-left:5px solid var(--green);border-radius:0 12px 12px 0;padding:.7rem 1rem;margin-top:.6rem;font-size:1rem}
+  footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:2rem}
+  a.back{color:var(--blue);text-decoration:none}
+  a.back:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="toolbar">
+    <span class="eyebrow">Das stört mich total!</span>
+    <span class="score" id="score">— / 0</span>
+    <span>
+      <button onclick="checkAll()">✓ Alles prüfen</button>
+      <button onclick="showAll()">👁 Lösungen</button>
+      <button onclick="resetAll()">↺ Neu</button>
+    </span>
+  </div>
+
+  <header class="top">
+    <div class="eyebrow">Deutsch A1/A2 · Was machen die Leute?</div>
+    <h1><span class="green">Das stört</span> mich <span class="accent">total!</span></h1>
+    <p class="sub">Verben, Wortschatz und Satzbau — <em>Ein Mann grillt auf dem Balkon.</em></p>
+  </header>
+
+  <!-- ============ 1. WORTSCHATZ ============ -->
+  <section class="gram">
+    <h2>1 · Wortschatz</h2>
+
+    <h4>Die Verben</h4>
+    <div class="scroll">
+      <table class="vok">
+        <thead><tr><th>Verb</th><th>Bedeutung (Spanisch)</th><th>Beispiel</th></tr></thead>
+        <tbody>
+          <tr><td>grillen</td><td class="es">hacer barbacoa / asar</td><td><em>Er grillt auf dem Balkon.</em></td></tr>
+          <tr><td>werfen <span class="accent">(e→i)</span></td><td class="es">tirar, lanzar</td><td><em>Sie wirft Müll auf die Straße.</em></td></tr>
+          <tr><td>gehen</td><td class="es">ir (a pie)</td><td><em>Er geht bei Rot über die Ampel.</em></td></tr>
+          <tr><td>hören</td><td class="es">escuchar, oír</td><td><em>Sie hören laut Musik im Park.</em></td></tr>
+          <tr><td>fahren <span class="accent">(a→ä)</span></td><td class="es">ir (en vehículo), conducir</td><td><em>Sie fährt ohne Helm Fahrrad.</em></td></tr>
+          <tr><td>telefonieren</td><td class="es">hablar por teléfono</td><td><em>Er telefoniert und fährt Fahrrad.</em></td></tr>
+          <tr><td>stören</td><td class="es">molestar</td><td><em>Das stört mich total!</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Die Nomen und Ausdrücke</h4>
+    <div class="scroll">
+      <table class="vok">
+        <thead><tr><th>Deutsch</th><th>Plural</th><th>Spanisch</th></tr></thead>
+        <tbody>
+          <tr><td>der Balkon</td><td>die Balkone</td><td class="es">el balcón</td></tr>
+          <tr><td>der Müll</td><td>— (kein Plural)</td><td class="es">la basura</td></tr>
+          <tr><td>die Straße</td><td>die Straßen</td><td class="es">la calle</td></tr>
+          <tr><td>die Ampel</td><td>die Ampeln</td><td class="es">el semáforo</td></tr>
+          <tr><td>der Park</td><td>die Parks</td><td class="es">el parque</td></tr>
+          <tr><td>der Helm</td><td>die Helme</td><td class="es">el casco</td></tr>
+          <tr><td>das Fahrrad</td><td>die Fahrräder</td><td class="es">la bicicleta</td></tr>
+          <tr><td>die Musik</td><td>— (kein Plural)</td><td class="es">la música</td></tr>
+          <tr><td>die Haltestelle</td><td>die Haltestellen</td><td class="es">la parada</td></tr>
+          <tr><td>bei Rot / bei Grün</td><td>—</td><td class="es">con el semáforo en rojo / verde</td></tr>
+          <tr><td>laut ↔ leise</td><td>—</td><td class="es">alto (fuerte) ↔ bajo (suave)</td></tr>
+          <tr><td>ohne Helm ↔ mit Helm</td><td>—</td><td class="es">sin casco ↔ con casco</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="wb"><b>Redemittel:</b> <em>Das stört mich total. · Das finde ich schlimm. · Das ist gefährlich. · Das darf man nicht! · Das ist verboten.</em></div>
+  </section>
+
+  <!-- ============ 2. KONJUGATION ============ -->
+  <section class="gram">
+    <h2>2 · Konjugation im Präsens</h2>
+    <div class="formel">
+      Stamm + Endung: <span class="box">grill<b class="accent">en</b></span> → <span class="box">ich grill<b class="accent">e</b></span>
+      <span class="box">du grill<b class="accent">st</b></span> <span class="box">er grill<b class="accent">t</b></span>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>Person</th><th>grillen</th><th>werfen ⚡</th><th>gehen</th><th>hören</th><th>fahren ⚡</th><th>telefonieren</th><th>stören</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>ich</th><td>grille</td><td>werfe</td><td>gehe</td><td>höre</td><td>fahre</td><td>telefoniere</td><td>störe</td></tr>
+          <tr><th>du</th><td>grillst</td><td class="irr">wirfst</td><td>gehst</td><td>hörst</td><td class="irr">fährst</td><td>telefonierst</td><td>störst</td></tr>
+          <tr><th>er/es/sie</th><td>grillt</td><td class="irr">wirft</td><td>geht</td><td>hört</td><td class="irr">fährt</td><td>telefoniert</td><td>stört</td></tr>
+          <tr><th>wir</th><td>grillen</td><td>werfen</td><td>gehen</td><td>hören</td><td>fahren</td><td>telefonieren</td><td>stören</td></tr>
+          <tr><th>ihr</th><td>grillt</td><td>werft</td><td>geht</td><td>hört</td><td>fahrt</td><td>telefoniert</td><td>stört</td></tr>
+          <tr><th>sie/Sie</th><td>grillen</td><td>werfen</td><td>gehen</td><td>hören</td><td>fahren</td><td>telefonieren</td><td>stören</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="wb">
+      <b>⚡ Vokalwechsel nur bei <span class="accent">du</span> und <span class="accent">er/es/sie</span>:</b><br>
+      wer<b>fe</b>n → du w<b class="accent">i</b>rfst, er w<b class="accent">i</b>rft &nbsp;·&nbsp; f<b>a</b>hren → du f<b class="accent">ä</b>hrst, sie f<b class="accent">ä</b>hrt<br>
+      <span class="es">El cambio de vocal aparece SOLO en <b>du</b> y <b>er/es/sie</b>. En plural el verbo vuelve a ser normal.</span>
+    </div>
+    <div class="tip">
+      <b>Achtung:</b> <em>die Leute</em>, <em>die Kinder</em>, <em>die Jugendlichen</em> sind <b>Plural</b> → Verb wie <b>sie</b>:
+      <em>Die Leute hör<b>en</b> Musik.</em> &nbsp;|&nbsp; <em>Ein Mann</em>, <em>eine Frau</em>, <em>man</em> sind <b>Singular</b> → <em>Ein Mann grill<b>t</b>.</em>
+    </div>
+  </section>
+
+  <!-- ============ 3. SATZBAU ============ -->
+  <section class="gram">
+    <h2>3 · Wie baut man die Sätze?</h2>
+    <p class="es">Cómo se forman los enunciados: sujeto + verbo en <b>posición 2</b> + complementos + lugar al final.</p>
+
+    <div class="formel">
+      <span class="box">1 · WER?<br><small>Subjekt</small></span>
+      <span class="box v">2 · VERB<br><small>konjugiert</small></span>
+      <span class="box">3 · WAS?<br><small>Objekt</small></span>
+      <span class="box">4 · WO? / WOHIN?<br><small>Ort</small></span>
+    </div>
+
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Wer?</th><th>Verb (Pos. 2)</th><th>Was? / Wie?</th><th>Wo? / Wohin?</th></tr></thead>
+        <tbody>
+          <tr><td>Ein Mann</td><td class="irr">grillt</td><td>—</td><td>auf dem Balkon.</td></tr>
+          <tr><td>Eine Frau</td><td class="irr">wirft</td><td>Müll</td><td>auf die Straße.</td></tr>
+          <tr><td>Ein Mann</td><td class="irr">geht</td><td>bei Rot</td><td>über die Ampel.</td></tr>
+          <tr><td>Die Leute</td><td class="irr">hören</td><td>laut Musik</td><td>im Park.</td></tr>
+          <tr><td>Eine Frau</td><td class="irr">fährt</td><td>ohne Helm Fahrrad</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Wo? oder Wohin? — Dativ oder Akkusativ</h4>
+    <p class="es">Las preposiciones <b>auf, in, über, an, unter, neben, vor, hinter, zwischen</b> pueden llevar dativo o acusativo:</p>
+    <div class="cols">
+      <div class="cardlet dat">
+        <h5 class="blue">WO? → Dativ (Position, kein Weg)</h5>
+        der/das → <b>dem</b> · die → <b>der</b> · Plural → <b>den</b><br>
+        <em>auf <b>dem</b> Balkon</em> (der Balkon)<br>
+        <em>in <b>dem</b> Park = <b>im</b> Park</em><br>
+        <em>auf <b>der</b> Straße</em> (= er ist dort)
+      </div>
+      <div class="cardlet akk">
+        <h5 class="accent">WOHIN? → Akkusativ (Bewegung, Richtung)</h5>
+        der → <b>den</b> · das → <b>das</b> · die → <b>die</b><br>
+        <em>Müll auf <b>die</b> Straße werfen</em> (Richtung!)<br>
+        <em>über <b>die</b> Ampel gehen</em><br>
+        <em>in <b>den</b> Park gehen</em>
+      </div>
+    </div>
+    <div class="wb">
+      <b>Immer Akkusativ:</b> <em><b>ohne</b> den Helm → ohne Helm</em>, <em>für, durch, gegen, um</em>.<br>
+      <b>Immer Dativ:</b> <em><b>bei</b> Rot</em>, <em>mit, aus, von, zu, nach, seit</em>.
+    </div>
+
+    <h4>Und die Meinung: <span class="accent">Das stört mich!</span></h4>
+    <div class="formel">
+      <span class="box">Das / Es</span> <span class="box v">stört</span> <span class="box">mich</span>
+      &nbsp;→&nbsp; <span class="box">Das</span> <span class="box v">finde</span> <span class="box">ich</span> <span class="box">schlimm.</span>
+    </div>
+    <p style="text-align:center">
+      Akkusativpronomen: <span class="accent">mich · dich · ihn · sie · es · uns · euch · sie/Sie</span>
+    </p>
+  </section>
+
+  <!-- ============ ÜBUNG 1 ============ -->
+  <section class="ex" id="ex1">
+    <span class="num">Übung 1</span>
+    <h3>Konjugationstraining <span class="accent">(Vokalwechsel!)</span></h3>
+    <p class="task">Ergänze die Tabelle. Achte auf <b>du</b> und <b>er/es/sie</b>.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Person</th><th>werfen</th><th>fahren</th><th>hören</th><th>gehen</th></tr></thead>
+        <tbody>
+          <tr><th>ich</th><td><input class="fill" data-a="werfe"></td><td><input class="fill" data-a="fahre"></td><td><input class="fill" data-a="höre"></td><td><input class="fill" data-a="gehe"></td></tr>
+          <tr><th>du</th><td><input class="fill" data-a="wirfst"></td><td><input class="fill" data-a="fährst"></td><td><input class="fill" data-a="hörst"></td><td><input class="fill" data-a="gehst"></td></tr>
+          <tr><th>er/es/sie</th><td><input class="fill" data-a="wirft"></td><td><input class="fill" data-a="fährt"></td><td><input class="fill" data-a="hört"></td><td><input class="fill" data-a="geht"></td></tr>
+          <tr><th>wir</th><td><input class="fill" data-a="werfen"></td><td><input class="fill" data-a="fahren"></td><td><input class="fill" data-a="hören"></td><td><input class="fill" data-a="gehen"></td></tr>
+          <tr><th>ihr</th><td><input class="fill" data-a="werft"></td><td><input class="fill" data-a="fahrt"></td><td><input class="fill" data-a="hört"></td><td><input class="fill" data-a="geht"></td></tr>
+          <tr><th>sie/Sie</th><td><input class="fill" data-a="werfen"></td><td><input class="fill" data-a="fahren"></td><td><input class="fill" data-a="hören"></td><td><input class="fill" data-a="gehen"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="btns"><button class="primary" onclick="check('ex1')">Prüfen</button><button onclick="show('ex1')">Lösung</button></div>
+    <div class="feedback" id="fb-ex1"></div>
+  </section>
+
+  <!-- ============ ÜBUNG 2 ============ -->
+  <section class="ex" id="ex2">
+    <span class="num">Übung 2</span>
+    <h3>Das richtige Verb in der richtigen Form</h3>
+    <p class="task">Schreib das Verb aus der Klammer in der richtigen Form.</p>
+    <div class="item"><span class="n">1</span> Ein Mann <input class="fill short" data-a="grillt"> auf dem Balkon. <span class="cue">(grillen)</span><span class="sol">grillt</span></div>
+    <div class="item"><span class="n">2</span> Eine Frau <input class="fill short" data-a="wirft"> Müll auf die Straße. <span class="cue">(werfen)</span><span class="sol">wirft</span></div>
+    <div class="item"><span class="n">3</span> Ein Mann <input class="fill short" data-a="geht"> bei Rot über die Ampel. <span class="cue">(gehen)</span><span class="sol">geht</span></div>
+    <div class="item"><span class="n">4</span> Die Leute <input class="fill short" data-a="hören"> laut Musik im Park. <span class="cue">(hören)</span><span class="sol">hören</span></div>
+    <div class="item"><span class="n">5</span> Die Frau <input class="fill short" data-a="fährt"> ohne Helm Fahrrad. <span class="cue">(fahren)</span><span class="sol">fährt</span></div>
+    <div class="item"><span class="n">6</span> Sie <input class="fill short" data-a="telefoniert"> und fährt Fahrrad. <span class="cue">(telefonieren)</span><span class="sol">telefoniert</span></div>
+    <div class="item"><span class="n">7</span> <input class="fill short" data-a="fährst"> du immer mit Helm? <span class="cue">(fahren)</span><span class="sol">Fährst</span></div>
+    <div class="item"><span class="n">8</span> Warum <input class="fill short" data-a="werft"> ihr den Müll auf die Straße? <span class="cue">(werfen)</span><span class="sol">werft</span></div>
+    <div class="item"><span class="n">9</span> Wir <input class="fill short" data-a="gehen"> nie bei Rot über die Ampel. <span class="cue">(gehen)</span><span class="sol">gehen</span></div>
+    <div class="item"><span class="n">10</span> Das <input class="fill short" data-a="stört"> mich total! <span class="cue">(stören)</span><span class="sol">stört</span></div>
+    <div class="btns"><button class="primary" onclick="check('ex2')">Prüfen</button><button onclick="show('ex2')">Lösung</button></div>
+    <div class="feedback" id="fb-ex2"></div>
+  </section>
+
+  <!-- ============ ÜBUNG 3 ============ -->
+  <section class="ex" id="ex3">
+    <span class="num">Übung 3</span>
+    <h3>Was machen die Leute? <span class="accent">Schreib ganze Sätze.</span></h3>
+    <p class="task">Beispiel: <em>grillen: auf dem Balkon</em> → <em>Ein Mann grillt auf dem Balkon.</em></p>
+    <div class="wortbank">
+      <span>werfen: Müll / auf die Straße</span>
+      <span>gehen: bei Rot / über die Ampel</span>
+      <span>hören: laut Musik / im Park</span>
+      <span>fahren: ohne Helm / telefonieren / Fahrrad</span>
+    </div>
+    <div class="item"><span class="n">1</span> <span class="cue">werfen: Müll / auf die Straße (eine Frau)</span></div>
+    <div class="item"><input class="fill long" data-a="eine frau wirft müll auf die straße|eine frau wirft den müll auf die straße"><span class="sol">Eine Frau wirft Müll auf die Straße.</span></div>
+    <div class="item"><span class="n">2</span> <span class="cue">gehen: bei Rot / über die Ampel (ein Mann)</span></div>
+    <div class="item"><input class="fill long" data-a="ein mann geht bei rot über die ampel|ein mann geht über die ampel bei rot"><span class="sol">Ein Mann geht bei Rot über die Ampel.</span></div>
+    <div class="item"><span class="n">3</span> <span class="cue">hören: laut Musik / im Park (die Leute)</span></div>
+    <div class="item"><input class="fill long" data-a="die leute hören laut musik im park|die leute hören laute musik im park|die leute hören im park laut musik"><span class="sol">Die Leute hören laut Musik im Park.</span></div>
+    <div class="item"><span class="n">4</span> <span class="cue">fahren: ohne Helm / Fahrrad (eine Frau)</span></div>
+    <div class="item"><input class="fill long" data-a="eine frau fährt ohne helm fahrrad|eine frau fährt fahrrad ohne helm"><span class="sol">Eine Frau fährt ohne Helm Fahrrad.</span></div>
+    <div class="item"><span class="n">5</span> <span class="cue">telefonieren / Fahrrad fahren (sie)</span></div>
+    <div class="item"><input class="fill long" data-a="sie telefoniert und fährt fahrrad|sie fährt fahrrad und telefoniert"><span class="sol">Sie telefoniert und fährt Fahrrad.</span></div>
+    <div class="btns"><button class="primary" onclick="check('ex3')">Prüfen</button><button onclick="show('ex3')">Lösung</button></div>
+    <div class="feedback" id="fb-ex3"></div>
+    <div class="tip"><b>Tipp:</b> Das Verb steht immer auf <b>Position 2</b>. Der Ort kommt meistens ans Ende.</div>
+  </section>
+
+  <!-- ============ ÜBUNG 4 ============ -->
+  <section class="ex" id="ex4">
+    <span class="num">Übung 4</span>
+    <h3>Wo? oder Wohin? — <span class="blue">Dativ</span> oder <span class="accent">Akkusativ</span></h3>
+    <p class="task">Ergänze den Artikel: <b>dem · der · den · die · das</b>.</p>
+    <div class="item"><span class="n">1</span> Der Mann grillt auf <input class="fill short" data-a="dem"> Balkon. <span class="cue">(Wo?)</span><span class="sol">dem</span></div>
+    <div class="item"><span class="n">2</span> Sie wirft den Müll auf <input class="fill short" data-a="die"> Straße. <span class="cue">(Wohin?)</span><span class="sol">die</span></div>
+    <div class="item"><span class="n">3</span> Er geht über <input class="fill short" data-a="die"> Ampel. <span class="cue">(Wohin?)</span><span class="sol">die</span></div>
+    <div class="item"><span class="n">4</span> Die Kinder spielen in <input class="fill short" data-a="dem"> Park. <span class="cue">(Wo? = im Park)</span><span class="sol">dem</span></div>
+    <div class="item"><span class="n">5</span> Wir gehen in <input class="fill short" data-a="den"> Park. <span class="cue">(Wohin? – der Park)</span><span class="sol">den</span></div>
+    <div class="item"><span class="n">6</span> Das Fahrrad steht vor <input class="fill short" data-a="der"> Haltestelle. <span class="cue">(Wo? – die Haltestelle)</span><span class="sol">der</span></div>
+    <div class="item"><span class="n">7</span> Sie stellt das Fahrrad an <input class="fill short" data-a="die"> Haltestelle. <span class="cue">(Wohin?)</span><span class="sol">die</span></div>
+    <div class="item"><span class="n">8</span> Der Müll liegt auf <input class="fill short" data-a="der"> Straße. <span class="cue">(Wo?)</span><span class="sol">der</span></div>
+    <div class="btns"><button class="primary" onclick="check('ex4')">Prüfen</button><button onclick="show('ex4')">Lösung</button></div>
+    <div class="feedback" id="fb-ex4"></div>
+    <div class="tip"><b>Merke:</b> <span class="blue">Wo? → Dativ</span> (der/das → <b>dem</b>, die → <b>der</b>) · <span class="accent">Wohin? → Akkusativ</span> (der → <b>den</b>, das → <b>das</b>, die → <b>die</b>)</div>
+  </section>
+
+  <!-- ============ ÜBUNG 5 ============ -->
+  <section class="ex" id="ex5">
+    <span class="num">Übung 5</span>
+    <h3>Bau den Satz — <span class="accent">Wortstellung</span></h3>
+    <p class="task">Verb auf <b>Position 2</b>. (Mehrere Lösungen sind möglich.)</p>
+    <div class="item"><span class="n">1</span> <span class="cue">auf dem Balkon / grillt / ein Mann</span></div>
+    <div class="item"><input class="fill long" data-a="ein mann grillt auf dem balkon|auf dem balkon grillt ein mann"><span class="sol">Ein Mann grillt auf dem Balkon.</span></div>
+    <div class="item"><span class="n">2</span> <span class="cue">im Park / die Jugendlichen / laut Musik / hören</span></div>
+    <div class="item"><input class="fill long" data-a="die jugendlichen hören laut musik im park|im park hören die jugendlichen laut musik|die jugendlichen hören im park laut musik"><span class="sol">Die Jugendlichen hören laut Musik im Park.</span></div>
+    <div class="item"><span class="n">3</span> <span class="cue">bei Rot / du / über die Ampel / gehst / ? </span></div>
+    <div class="item"><input class="fill long" data-a="gehst du bei rot über die ampel|gehst du über die ampel bei rot"><span class="sol">Gehst du bei Rot über die Ampel?</span></div>
+    <div class="item"><span class="n">4</span> <span class="cue">ohne Helm / immer / fährt / meine Schwester</span></div>
+    <div class="item"><input class="fill long" data-a="meine schwester fährt immer ohne helm|immer fährt meine schwester ohne helm"><span class="sol">Meine Schwester fährt immer ohne Helm.</span></div>
+    <div class="item"><span class="n">5</span> <span class="cue">total / mich / das / stört</span></div>
+    <div class="item"><input class="fill long" data-a="das stört mich total"><span class="sol">Das stört mich total!</span></div>
+    <div class="btns"><button class="primary" onclick="check('ex5')">Prüfen</button><button onclick="show('ex5')">Lösung</button></div>
+    <div class="feedback" id="fb-ex5"></div>
+  </section>
+
+  <!-- ============ ÜBUNG 6 ============ -->
+  <section class="ex" id="ex6">
+    <span class="num">Übung 6</span>
+    <h3>Meine Meinung: <span class="accent">Das stört mich!</span></h3>
+    <p class="task">Ergänze das Akkusativpronomen: <b>mich · dich · uns · euch</b>.</p>
+    <div class="item"><span class="n">1</span> Der Müll auf der Straße stört <input class="fill short" data-a="mich"> total. <span class="cue">(ich)</span><span class="sol">mich</span></div>
+    <div class="item"><span class="n">2</span> Die laute Musik stört <input class="fill short" data-a="uns">. <span class="cue">(wir)</span><span class="sol">uns</span></div>
+    <div class="item"><span class="n">3</span> Stört <input class="fill short" data-a="dich"> der Rauch vom Balkon? <span class="cue">(du)</span><span class="sol">dich</span></div>
+    <div class="item"><span class="n">4</span> Stört <input class="fill short" data-a="euch"> das Telefonieren im Bus? <span class="cue">(ihr)</span><span class="sol">euch</span></div>
+    <div class="item"><span class="n">5</span> Meine Nachbarn grillen jeden Tag. Das finde <input class="fill short" data-a="ich"> schlimm. <span class="cue">(ich)</span><span class="sol">ich</span></div>
+    <div class="btns"><button class="primary" onclick="check('ex6')">Prüfen</button><button onclick="show('ex6')">Lösung</button></div>
+    <div class="feedback" id="fb-ex6"></div>
+  </section>
+
+  <!-- ============ ÜBUNG 7 ============ -->
+  <section class="ex speak" id="ex7">
+    <span class="num">Übung 7 · Sprechen</span>
+    <h3>Und du? Was stört dich?</h3>
+    <p class="task">Sprich oder schreib ganze Sätze. Klick auf „Muster“ für ein Beispiel.</p>
+    <div class="item"><b>1 · Was stört dich in deiner Stadt?</b><span class="sol muster">In meiner Stadt stört mich der Müll auf der Straße. Das finde ich schlimm.</span></div>
+    <div class="item"><b>2 · Was machen deine Nachbarn? Stört dich das?</b><span class="sol muster">Meine Nachbarn hören laut Musik. Ja, das stört mich total!</span></div>
+    <div class="item"><b>3 · Fährst du Fahrrad? Mit oder ohne Helm?</b><span class="sol muster">Ja, ich fahre Fahrrad, aber ich fahre immer mit Helm. Ohne Helm ist das gefährlich.</span></div>
+    <div class="item"><b>4 · Gehst du manchmal bei Rot über die Ampel?</b><span class="sol muster">Nein, ich gehe nie bei Rot über die Ampel. Das darf man nicht.</span></div>
+    <div class="item"><b>5 · Beschreib das Bild: Was machen die Leute?</b><span class="sol muster">Ein Mann grillt auf dem Balkon, eine Frau fährt ohne Helm Fahrrad und telefoniert, und die Leute hören laut Musik im Park.</span></div>
+    <div class="btns"><button onclick="show('ex7')">👁 Muster zeigen</button></div>
+  </section>
+
+  <footer>
+    Übungsblatt · <em>Das stört mich total!</em> · Verben, Wortschatz und Satzbau<br>
+    <a class="back" href="./index.html">← Zurück zur Übersicht</a>
+  </footer>
+</div>
+
+<script>
+  function norm(s){
+    return (s||'').toString().toLowerCase().trim()
+      .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+      .replace(/[.!?,;:]/g,'')
+      .replace(/\s+/g,' ');
+  }
+  function inputs(id){return [...document.querySelectorAll('#'+id+' input.fill')]}
+  function check(id){
+    let ok=0,total=0;
+    inputs(id).forEach(inp=>{
+      total++;
+      const accepted=inp.dataset.a.split('|').map(norm);
+      const val=norm(inp.value);
+      if(val && accepted.includes(val)){inp.classList.add('ok');inp.classList.remove('bad');ok++;}
+      else{inp.classList.add('bad');inp.classList.remove('ok');}
+    });
+    const fb=document.getElementById('fb-'+id);
+    if(fb){
+      fb.textContent= ok===total ? '★ Super! Alles richtig ('+ok+'/'+total+').' : ok+' von '+total+' richtig. Versuch es nochmal oder schau die Lösung an.';
+      fb.className='feedback '+(ok===total?'good':'partial');
+    }
+    updateScore();
+  }
+  function show(id){document.querySelectorAll('#'+id+' .sol').forEach(s=>s.classList.add('show'))}
+  function sections(){return [...document.querySelectorAll('.ex')].filter(s=>s.querySelector('input.fill')).map(s=>s.id)}
+  function checkAll(){sections().forEach(check)}
+  function showAll(){document.querySelectorAll('.sol').forEach(s=>s.classList.add('show'))}
+  function resetAll(){
+    document.querySelectorAll('input.fill').forEach(i=>{i.value='';i.classList.remove('ok','bad')});
+    document.querySelectorAll('.sol').forEach(s=>s.classList.remove('show'));
+    document.querySelectorAll('.feedback').forEach(f=>{f.textContent='';f.className='feedback'});
+    updateScore();
+  }
+  function updateScore(){
+    const all=[...document.querySelectorAll('input.fill')];
+    const ok=all.filter(i=>i.classList.contains('ok')).length;
+    document.getElementById('score').textContent=ok+' / '+all.length;
+  }
+  document.querySelectorAll('input.fill').forEach(inp=>{
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){const sec=inp.closest('.ex');if(sec)check(sec.id);}});
+  });
+  updateScore();
+</script>
+</body>
+</html>
