@@ -1,7 +1,19 @@
+# Material de trabajo: va en _local/, nunca se publica
+_local/
 tafel/
 buecher/
 screenshots_work/
-_local/
-.DS_Store
 25mai26/
 1jun26/
+.DS_Store
+
+# Formatos que no usa el sitio (fuentes, notas, respaldos)
+*.pdf
+*.md
+*.zip
+*.mbz
+*.docx
+*.pptx
+*.xlsx
+*.key
+*.pages

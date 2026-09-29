@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24. August · Darf man das? — Lektion 21 weiter</title>
+<style>
+  :root{
+    --acento:#5E8A58; --acento-oscuro:#3F5F3A; --fondo:#F6F5F1; --fondo-suave:#EEF2E8;
+    --tarjeta:#FFFFFF; --texto:#1E241F; --borde:#D8DDD2; --muted:#5A6558;
+    --rojo:#c0392b; --azul:#2f6fb0; --amarillo:#E0A21B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"Trebuchet MS","Segoe UI",sans-serif;color:var(--texto);
+    background:
+      radial-gradient(circle at 10% -5%, #E6EDE0 0%, transparent 36%),
+      radial-gradient(circle at 92% 0%, #F1F4EB 0%, transparent 38%),
+      var(--fondo);
+    overflow:hidden;
+  }
+
+  /* ---- estructura diapositiva ---- */
+  .deck{height:100vh;width:100vw;position:relative}
+  .slide{
+    position:absolute;inset:0;display:none;
+    flex-direction:column;justify-content:center;
+    padding:clamp(1.1rem,3vw,3rem) clamp(1.2rem,4.6vw,4.6rem) clamp(2.4rem,4vw,3.4rem);
+    animation:fade .35s ease;overflow-y:auto;
+  }
+  .slide.active{display:flex}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .kicker{
+    font-family:'Courier New',monospace;letter-spacing:.28em;text-transform:uppercase;
+    font-size:clamp(.66rem,1.1vw,.88rem);color:var(--acento-oscuro);margin-bottom:.5rem;font-weight:bold;
+  }
+  h1{font-size:clamp(2rem,5.4vw,4.1rem);line-height:1.04;color:var(--acento-oscuro);margin-bottom:.35em}
+  h2{font-size:clamp(1.4rem,3.6vw,2.6rem);line-height:1.1;color:var(--acento-oscuro);margin-bottom:.45em}
+  .slide p,.slide li{font-size:clamp(.94rem,1.85vw,1.35rem);line-height:1.42}
+  .sub{color:var(--muted);font-size:clamp(1.02rem,2.3vw,1.75rem)}
+  ul{padding-left:1.3em;margin:.35em 0}
+  li{margin:.26em 0}
+  em{color:var(--rojo);font-style:italic;font-weight:bold}
+  .azul{color:var(--azul);font-weight:bold}
+  .verde{color:var(--acento-oscuro);font-weight:bold}
+  .rojo{color:var(--rojo);font-weight:bold}
+  .amb{color:#a8760a;font-weight:bold}
+  .es{color:var(--muted);font-style:italic;font-size:.92em}
+
+  .card{background:var(--tarjeta);border:1px solid var(--borde);border-radius:18px;
+    padding:clamp(.8rem,1.8vw,1.4rem);box-shadow:0 12px 30px rgba(24,29,24,.10)}
+  .card h3{color:var(--acento-oscuro);font-size:clamp(1rem,2.1vw,1.5rem);margin-bottom:.3em}
+  .card h3.azul{color:var(--azul)}
+  .card h3.rojo{color:var(--rojo)}
+  .card h3.amb{color:#a8760a}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.7rem,1.7vw,1.3rem)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.6rem,1.5vw,1.1rem)}
+  .grid2.ancho-izq{grid-template-columns:1.25fr 1fr}
+  .chips{display:flex;flex-wrap:wrap;gap:.4em .5em;margin-top:.35em}
+  .chip{background:#E9EEE4;color:#3F5F3A;border-radius:999px;padding:.22em .75em;
+    font-size:clamp(.86rem,1.75vw,1.18rem);font-weight:bold;border:1px solid #cdd8c4}
+  .chip.neg{background:#fbe6e1;color:#9c3b22;border-color:#e0a99c}
+  .chip.pos{background:#e7f1dc;color:#4f6e38;border-color:#9ec07a}
+  .chip.azulchip{background:#e4eef7;color:#1f4f80;border-color:#9cbfe0}
+  .chip.amber{background:#fdf1d8;color:#8a6208;border-color:#e6c274}
+
+  table{border-collapse:collapse;width:100%;background:var(--tarjeta);font-size:clamp(.82rem,1.65vw,1.18rem)}
+  th,td{border:1px solid var(--borde);padding:.3em .5em;text-align:center}
+  thead th{background:var(--acento);color:#fff}
+  tbody th{background:#f0ead9;text-align:left;font-weight:bold}
+  td.l{text-align:left}
+  td.irr{color:var(--rojo);font-weight:bold;background:#fdf3ec}
+  td.mod{background:#e4eef7;color:#1f4f80;font-weight:bold}
+  .scroll{overflow-x:auto}
+  table.klein{font-size:clamp(.76rem,1.45vw,1.03rem)}
+  table.klein th,table.klein td{padding:.22em .4em}
+
+  .formel{font-size:clamp(.98rem,2.1vw,1.5rem);text-align:center;background:#fff7e9;
+    border-radius:14px;padding:.6rem 1rem;border:1px dashed var(--amarillo);margin:.5rem 0}
+  .formel .box{display:inline-block;background:#fff;border:1px solid var(--borde);
+    border-radius:8px;padding:.05em .5em;margin:0 .15em;font-weight:bold}
+  .formel .box.v{background:#eef4e6;border-color:var(--acento)}
+  .formel .box.p{background:#fbe6e1;border-color:#e0a99c}
+  .formel .box.m{background:#e4eef7;border-color:#9cbfe0}
+
+  .tip{background:#fdeee8;border-left:6px solid var(--rojo);border-radius:0 14px 14px 0;
+    padding:.55rem 1rem;margin-top:.55rem;font-size:clamp(.9rem,1.8vw,1.25rem)}
+  .note{background:#eef2e6;border-left:6px solid var(--acento);border-radius:0 14px 14px 0;
+    padding:.55rem 1rem;margin-top:.55rem;font-size:clamp(.9rem,1.8vw,1.25rem)}
+  .gelb{background:#fdf6e6;border-left:6px solid var(--amarillo);border-radius:0 14px 14px 0;
+    padding:.55rem 1rem;margin-top:.55rem;font-size:clamp(.9rem,1.8vw,1.25rem)}
+
+  .big{font-size:clamp(1.25rem,3vw,2.2rem);font-weight:bold;text-align:center;line-height:1.3}
+
+  .agenda{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-top:.5rem}
+  .agenda .step{background:var(--tarjeta);border:1px solid var(--borde);border-radius:16px;
+    padding:.9rem;box-shadow:0 8px 22px rgba(24,29,24,.08)}
+  .agenda .num{font-family:'Courier New',monospace;font-size:clamp(1.4rem,3.2vw,2.2rem);
+    font-weight:bold;color:var(--acento);line-height:1}
+  .agenda h3{color:var(--acento-oscuro);font-size:clamp(1rem,2.1vw,1.5rem);margin:.15em 0 .2em}
+  .agenda p{font-size:clamp(.88rem,1.7vw,1.18rem);color:var(--muted)}
+
+  .check{list-style:none;padding:0;margin:.25em 0}
+  .check li{position:relative;padding-left:1.5em;font-size:clamp(.92rem,1.9vw,1.28rem);margin:.26em 0}
+  .check li::before{content:"✓";color:var(--acento);font-weight:bold;position:absolute;left:0;top:0}
+  .kreuz{list-style:none;padding:0;margin:.25em 0}
+  .kreuz li{position:relative;padding-left:1.5em;font-size:clamp(.92rem,1.9vw,1.28rem);margin:.26em 0}
+  .kreuz li::before{content:"✗";color:var(--rojo);font-weight:bold;position:absolute;left:0;top:0}
+
+  .quiz{list-style:none;padding:0;margin:.35em 0}
+  .quiz li{margin:.35em 0;font-size:clamp(.92rem,1.9vw,1.32rem);display:flex;flex-wrap:wrap;align-items:baseline;gap:.3em}
+  .quiz .n{color:var(--acento);font-weight:bold;min-width:1.4em}
+  .loesung{cursor:pointer;border-bottom:2px dashed #c97a5f;
+    color:transparent;background:#eef2e6;border-radius:6px;padding:.05em .5em;min-width:2.5em;
+    display:inline-block;user-select:none;transition:.15s}
+  .loesung::after{content:"?";color:var(--muted)}
+  .loesung.show{color:var(--rojo);background:#fbe6e1;border-bottom-color:var(--rojo);font-weight:bold}
+  .loesung.show::after{content:""}
+  .qbtn{font-family:inherit;cursor:pointer;border:1px solid var(--acento-oscuro);
+    background:var(--acento);color:#fff;border-radius:10px;padding:.32em .85em;font-size:.92rem;margin-top:.45rem}
+  .qbtn:hover{background:var(--acento-oscuro)}
+
+  /* ---- Würfel / Zufallsgenerator ---- */
+  .wuerfel{display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:stretch;margin-top:.4rem}
+  .wuerfel .anzeige{background:var(--tarjeta);border:2px solid var(--acento);border-radius:18px;
+    padding:1rem;text-align:center;box-shadow:0 12px 30px rgba(24,29,24,.10);display:flex;
+    flex-direction:column;justify-content:center;gap:.35rem;min-height:clamp(8rem,20vh,12rem)}
+  .wuerfel .person{font-size:clamp(1.6rem,4vw,3rem);font-weight:bold;color:var(--azul)}
+  .wuerfel .schild{font-size:clamp(1.2rem,3vw,2.2rem);font-weight:bold;color:var(--acento-oscuro)}
+  .wuerfel .icon{font-size:clamp(2rem,5vw,3.4rem);line-height:1}
+  .wuerfel .satzhilfe{color:var(--muted);font-size:clamp(.85rem,1.7vw,1.12rem);font-style:italic}
+  .bigbtn{font-family:inherit;cursor:pointer;border:none;background:var(--acento);color:#fff;
+    border-radius:16px;padding:.7rem 1.2rem;font-size:clamp(1rem,2.2vw,1.5rem);font-weight:bold;
+    box-shadow:0 8px 18px rgba(63,95,58,.28)}
+  .bigbtn:hover{background:var(--acento-oscuro)}
+  .bigbtn.klein{font-size:clamp(.9rem,1.8vw,1.15rem);padding:.5rem .9rem;border-radius:12px}
+
+  /* ---- Schilder-Gitter ---- */
+  .schilder{display:grid;grid-template-columns:repeat(4,1fr);gap:.55rem;margin-top:.4rem}
+  .schilder .s{border:1px solid var(--borde);border-radius:14px;padding:.5rem .4rem;text-align:center;background:var(--tarjeta)}
+  .schilder .s.ja{background:#e7f1dc;border-color:#9ec07a}
+  .schilder .s.nein{background:#fbe6e1;border-color:#e0a99c}
+  .schilder .s .em{font-size:clamp(1.3rem,3vw,2rem);line-height:1.1;display:block}
+  .schilder .s b{display:block;font-size:clamp(.86rem,1.7vw,1.15rem);color:var(--texto)}
+  .schilder .s span{display:block;color:var(--muted);font-size:clamp(.74rem,1.4vw,.98rem)}
+
+  /* ---- Forum / Kommentare ---- */
+  .forum{display:grid;gap:.5rem}
+  .beitrag{background:var(--tarjeta);border:1px solid var(--borde);border-left:5px solid var(--azul);
+    border-radius:0 14px 14px 0;padding:.5rem .8rem;font-size:clamp(.86rem,1.7vw,1.15rem)}
+  .beitrag.pro{border-left-color:var(--acento)}
+  .beitrag.contra{border-left-color:var(--rojo)}
+  .beitrag .name{font-family:'Courier New',monospace;font-weight:bold;color:var(--muted);
+    font-size:.86em;letter-spacing:.06em}
+
+  .dialog{background:var(--tarjeta);border:1px solid var(--borde);border-radius:14px;padding:.6rem .9rem;
+    font-size:clamp(.88rem,1.75vw,1.18rem)}
+  .dialog .a{color:var(--azul);font-weight:bold}
+  .dialog .b{color:var(--acento-oscuro);font-weight:bold}
+
+  .bar{position:fixed;bottom:0;left:0;right:0;height:6px;background:#dfe5d8;z-index:30}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--acento),var(--acento-oscuro));width:0;transition:width .3s}
+  .hud{position:fixed;bottom:14px;right:18px;z-index:30;display:flex;gap:.4rem;align-items:center;
+    background:rgba(255,255,255,.85);backdrop-filter:blur(4px);border:1px solid var(--borde);
+    border-radius:999px;padding:.3rem .5rem;box-shadow:0 6px 16px rgba(0,0,0,.08)}
+  .hud button{font-family:inherit;cursor:pointer;border:none;background:var(--acento);color:#fff;
+    width:34px;height:34px;border-radius:50%;font-size:1.1rem;line-height:1;display:grid;place-items:center}
+  .hud button:hover{background:var(--acento-oscuro)}
+  .hud .count{font-variant-numeric:tabular-nums;font-weight:bold;color:var(--acento-oscuro);min-width:3.4em;text-align:center;font-size:1rem}
+  .corner{position:fixed;top:14px;left:18px;z-index:30;font-family:'Courier New',monospace;
+    letter-spacing:.18em;text-transform:uppercase;font-size:.76rem;color:var(--acento-oscuro);font-weight:bold;opacity:.8}
+  .hint{position:fixed;top:14px;right:18px;z-index:30;font-size:.78rem;color:var(--muted)}
+
+  .export{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.55rem 0 .1rem}
+  .export .ebtn{font-family:inherit;cursor:pointer;border:1px solid var(--acento-oscuro);
+    background:#fff;color:var(--acento-oscuro);border-radius:10px;padding:.35em .8em;
+    font-size:clamp(.82rem,1.5vw,1rem);font-weight:bold;display:inline-flex;align-items:center;gap:.35em}
+  .export .ebtn:hover{background:var(--acento);color:#fff}
+  .export .ehinweis{color:var(--muted);font-size:clamp(.76rem,1.4vw,.95rem);font-style:italic}
+
+  /* ---- Bereich zum Ausdrucken ---- */
+  /* Querformat: die Tabelle ist breit, so passt sie ganz auf ein Blatt. */
+  @page{size:A4 landscape;margin:10mm}
+  #printbereich{display:none}
+  @media print{
+    @page{size:A4 landscape;margin:10mm}
+    html,body{height:auto;overflow:visible;background:#fff}
+    .hud,.bar,.corner,.hint{display:none !important}
+    body.drucken .deck{display:none !important}
+    body.drucken #printbereich{display:block !important;padding:0;width:100%}
+    #printbereich h2{font-size:22pt;margin-bottom:.15em}
+    #printbereich .drucktitel{font-family:'Courier New',monospace;letter-spacing:.2em;
+      text-transform:uppercase;font-size:8.5pt;color:var(--muted);margin-bottom:.5em}
+    #printbereich table{width:100%;font-size:12pt;page-break-inside:avoid;margin-bottom:.5em}
+    #printbereich th,#printbereich td{padding:.4em .5em}
+    #printbereich .kaesten{columns:2;column-gap:8mm}
+    #printbereich .tip,#printbereich .note,#printbereich .gelb{font-size:10pt;
+      page-break-inside:avoid;break-inside:avoid;margin-top:0;margin-bottom:3mm}
+    #printbereich .druckfuss{margin-top:.5em;font-size:8.5pt;color:var(--muted);text-align:right}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+
+  @media(max-width:880px){
+    .agenda{grid-template-columns:1fr 1fr}
+    .schilder{grid-template-columns:repeat(3,1fr)}
+  }
+  @media(max-width:680px){
+    .grid2,.grid3,.agenda,.wuerfel,.grid2.ancho-izq{grid-template-columns:1fr}
+    .schilder{grid-template-columns:1fr 1fr}
+    .hint{display:none}
+    .corner{font-size:.66rem}
+  }
+</style>
+</head>
+<body>
+<div class="corner">Momente A1.2 · Lektion 21 · 24. August</div>
+<div class="hint">← → para navegar · F: pantalla completa</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 · Título -->
+  <section class="slide active">
+    <div class="kicker">Deutsch A1/A2 · 24. August 2026 · Lektion 21</div>
+    <h1>Darf man das?<br>Wir machen<br>weiter 🚦</h1>
+    <p class="sub">Heute: <b>müssen</b> und <b>dürfen</b>, die Schilder aus dem Bildlexikon, deine Meinung sagen — und der Rest von <b>Lektion 21</b>.</p>
+  </section>
+
+  <!-- 2 · Agenda -->
+  <section class="slide">
+    <div class="kicker">Programm · Was machen wir heute?</div>
+    <h2>Unser Plan für heute</h2>
+    <div class="agenda">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>🎲 Aufwärmen</h3>
+        <p>Blitzrunde: <em>Darf man hier …?</em> und deine Situation von zu Hause.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>🔁 Wiederholung</h3>
+        <p><em>erlaubt / verboten</em>, <em>Das stört mich</em>, <em>dürfen</em> + <em>man</em>.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>🆕 Was noch fehlt</h3>
+        <p><em>müssen</em>, die Schilder, die Meinung sagen, Fokus Beruf.</p>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <h3>📋 Tabellen</h3>
+        <p>Modalverben, Verben, Wortschatz — zum Nachschlagen.</p>
+      </div>
+    </div>
+    <div class="note">📌 Am Ende der Stunde kannst du sagen, <b>was man darf, was man muss und was verboten ist</b> — und du kannst deine Meinung dazu geben.</div>
+  </section>
+
+  <!-- 3 · Aufwärmen 1 · Würfel -->
+  <section class="slide">
+    <div class="kicker">Aufwärmen 1 · Blitzrunde</div>
+    <h2>Darf man hier …? 🎲</h2>
+    <div class="wuerfel">
+      <div class="anzeige" id="anzeige">
+        <div class="icon" id="w-icon">🎲</div>
+        <div class="person" id="w-person">Klick auf den Knopf</div>
+        <div class="schild" id="w-schild">→</div>
+        <div class="satzhilfe" id="w-hilfe">Person + Situation = dein Satz</div>
+      </div>
+      <div class="card">
+        <h3>So funktioniert es</h3>
+        <ol style="padding-left:1.2em">
+          <li>Du bekommst eine <span class="azul">Person</span> und ein <span class="verde">Schild</span>.</li>
+          <li>Sag einen Satz mit <em>dürfen</em> oder <em>müssen</em>.</li>
+          <li>Die nächste Person sagt das Gegenteil oder eine Frage.</li>
+        </ol>
+        <div class="formel" style="margin-top:.5rem">
+          <span class="box">Man</span> <span class="box m">darf</span> hier nicht <span class="box v">grillen</span>.<br>
+          <span class="box m">Darf</span> <span class="box">man</span> hier <span class="box v">zelten</span>?
+        </div>
+        <button class="bigbtn no-nav" onclick="wuerfeln()">🎲 Würfeln</button>
+        <button class="bigbtn klein no-nav" onclick="wuerfeln()">Noch einmal</button>
+      </div>
+    </div>
+    <div class="gelb">🗣️ Antworte immer mit einem ganzen Satz: <b>Ja, das darf man.</b> · <b>Nein, das ist verboten.</b> · <b>Ja, aber man muss leise sein.</b></div>
+  </section>
+
+  <!-- 4 · Aufwärmen 2 · Hausaufgabe -->
+  <section class="slide">
+    <div class="kicker">Aufwärmen 2 · Deine Aufgabe von letzter Woche</div>
+    <h2>Was stört dich? Was ist verboten? 🗣️</h2>
+    <div class="grid2 ancho-izq">
+      <div class="card">
+        <h3>Erzähl uns deine Situation — drei Sätze</h3>
+        <ol style="padding-left:1.2em">
+          <li><b>Was passiert?</b> <span class="es">Ein Mann grillt auf dem Balkon.</span></li>
+          <li><b>Wie findest du das?</b> <span class="es">Das stört mich total. / Das ist echt gefährlich.</span></li>
+          <li><b>Ist das erlaubt?</b> <span class="es">Ich denke, das ist verboten. Man darf hier nicht grillen.</span></li>
+        </ol>
+        <div class="note">Aus der letzten Stunde: <em>Lautes Handy in der Öffentlichkeit stört mich besonders.</em> · <em>Müll auf die Straße werfen.</em> · <em>Motorrad fahren ohne Helm ist gefährlich.</em></div>
+      </div>
+      <div class="card">
+        <h3 class="azul">Wörter für deinen Satz</h3>
+        <div class="chips">
+          <span class="chip">der Müll</span><span class="chip">der Lärm</span><span class="chip">der Rauch</span>
+          <span class="chip">der Helm</span><span class="chip">die Ampel</span><span class="chip">die Wiese</span>
+          <span class="chip">der Hund</span><span class="chip">die Leine</span><span class="chip">das Handy</span>
+        </div>
+        <div class="chips" style="margin-top:.5rem">
+          <span class="chip neg">verboten</span><span class="chip pos">erlaubt</span>
+          <span class="chip neg">gefährlich</span><span class="chip neg">unglaublich</span>
+          <span class="chip neg">unangenehm</span><span class="chip pos">kein Problem</span>
+        </div>
+      </div>
+    </div>
+    <div class="tip">⚠️ <b>stören</b> geht mit <span class="rojo">Akkusativ</span>: Das stört <span class="rojo">mich</span> / <span class="rojo">dich</span> / <span class="rojo">ihn</span>. — Nicht: <span style="text-decoration:line-through">Das stört mir.</span></div>
+  </section>
+
+  <!-- 5 · Wiederholung Redemittel -->
+  <section class="slide">
+    <div class="kicker">Wiederholung · Lektion 21</div>
+    <h2>Erlaubt oder verboten? Die Sätze 👍👎</h2>
+    <div class="grid3">
+      <div class="card">
+        <h3 class="verde">👍 Das ist okay</h3>
+        <ul class="check">
+          <li>Das ist (doch) <span class="verde">erlaubt</span>.</li>
+          <li>Ich denke, das ist <b>kein Problem</b>.</li>
+          <li>Das stört mich <b>gar nicht</b>.</li>
+          <li>Das stört mich <b>überhaupt nicht</b>.</li>
+          <li>Das finde ich <b>in Ordnung</b>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="rojo">👎 Das geht nicht</h3>
+        <ul class="kreuz">
+          <li>Das ist (doch) <span class="rojo">verboten</span>.</li>
+          <li>Ich denke, das ist <b>gefährlich</b>.</li>
+          <li>Das ist <b>traurig</b> / <b>unglaublich</b>.</li>
+          <li>Das stört mich <b>sehr</b> / <b>total</b>.</li>
+          <li>Das finde ich <b>schlimm</b>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="amb">💥 Stärker machen</h3>
+        <div class="chips">
+          <span class="chip amber">echt</span><span class="chip amber">wirklich</span>
+          <span class="chip amber">total</span><span class="chip amber">voll</span>
+          <span class="chip amber">super-</span><span class="chip amber">mega-</span>
+        </div>
+        <p style="margin-top:.45em">Das ist <em>echt</em> gefährlich.<br>
+        Baden im See ist <em>mega</em>schön.<br>
+        Der Müll ist <em>super</em>schlimm.<br>
+        Das Grillverbot ist <em>super</em>schade.</p>
+      </div>
+    </div>
+    <div class="gelb">🔎 <b>super-</b> und <b>mega-</b> schreibt man <b>zusammen</b> mit dem Adjektiv: megagefährlich, superschade, megaschön. <b>echt</b>, <b>wirklich</b>, <b>total</b> und <b>voll</b> stehen allein davor.</div>
+  </section>
+
+  <!-- 6 · dürfen + man -->
+  <section class="slide">
+    <div class="kicker">Wiederholung · Grammatik</div>
+    <h2><em>dürfen</em> + <em>man</em>: die Satzklammer 🔒</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>dürfen — Konjugation</h3>
+        <div class="scroll"><table>
+          <tr><th>ich</th><td class="mod">darf</td><th>wir</th><td class="mod">dürfen</td></tr>
+          <tr><th>du</th><td class="mod">darfst</td><th>ihr</th><td class="mod">dürft</td></tr>
+          <tr><th>er/es/sie/<span class="azul">man</span></th><td class="mod">darf</td><th>sie/Sie</th><td class="mod">dürfen</td></tr>
+        </table></div>
+        <div class="note"><b>man</b> = «uno / la gente» und geht immer mit der Form von <b>er/sie</b>: <em>Man darf hier nicht grillen.</em></div>
+      </div>
+      <div class="card">
+        <h3 class="azul">Die Satzklammer</h3>
+        <div class="scroll"><table class="klein">
+          <thead><tr><th>Position 1</th><th>Position 2</th><th>Mitte</th><th>Ende</th></tr></thead>
+          <tbody>
+            <tr><td class="l">Man</td><td class="mod">darf</td><td class="l">hier nicht</td><td class="l"><b>grillen</b>.</td></tr>
+            <tr><td class="l">Man</td><td class="mod">darf</td><td class="l">keinen Müll auf die Straße</td><td class="l"><b>werfen</b>.</td></tr>
+            <tr><td class="mod">Darf</td><td class="l">man</td><td class="l">hier</td><td class="l"><b>rauchen</b>?</td></tr>
+            <tr><td class="l">Hier</td><td class="mod">darf</td><td class="l">man nicht</td><td class="l"><b>parken</b>.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="formel">Modalverb auf <span class="box m">Position 2</span> · Infinitiv am <span class="box v">Ende</span></div>
+      </div>
+    </div>
+    <div class="tip">⚠️ Der klassische Fehler: <b>nicht müssen ≠ nicht dürfen</b>.<br>
+      <em>Du musst nicht kommen.</em> = no hace falta que vengas. · <em>Du darfst nicht kommen.</em> = está prohibido venir.</div>
+  </section>
+
+  <!-- 7 · müssen -->
+  <section class="slide">
+    <div class="kicker">Neu · Das zweite Modalverb der Lektion</div>
+    <h2><em>müssen</em>: die Regel, die niemand mag 📏</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>müssen — Konjugation</h3>
+        <div class="scroll"><table>
+          <tr><th>ich</th><td class="mod">muss</td><th>wir</th><td class="mod">müssen</td></tr>
+          <tr><th>du</th><td class="mod">musst</td><th>ihr</th><td class="mod">müsst</td></tr>
+          <tr><th>er/es/sie/man</th><td class="mod">muss</td><th>sie/Sie</th><td class="mod">müssen</td></tr>
+        </table></div>
+        <div class="gelb">Kein <b>-t</b> bei <b>er/sie/es</b>: <span class="rojo">er muss</span>, nicht <span style="text-decoration:line-through">er musst</span>. Genauso: <span class="rojo">er darf</span>, <span class="rojo">er kann</span>, <span class="rojo">er will</span>.</div>
+      </div>
+      <div class="card">
+        <h3 class="azul">Vier Bedeutungen, vier Sätze</h3>
+        <ul class="check">
+          <li><b>müssen</b> = es ist Pflicht → <em>Man muss die Hausordnung lesen.</em></li>
+          <li><b>sollen</b> = jemand sagt es dir → <em>Die Nachbarn sollen die Hausordnung lesen.</em></li>
+          <li><b>dürfen</b> = es ist erlaubt → <em>Man darf im Garten grillen.</em></li>
+          <li><b>nicht dürfen</b> = es ist verboten → <em>Man darf hier nicht rauchen.</em></li>
+        </ul>
+        <div class="formel" style="margin-top:.4rem">
+          Hier <span class="box m">muss</span> man leise <span class="box v">sein</span>.<br>
+          Hier <span class="box m">darf</span> man nicht <span class="box v">parken</span>.
+        </div>
+      </div>
+    </div>
+    <div class="note">🚏 So sagt man es auch ohne Modalverb: <b>Rauchen verboten.</b> · <b>Zelten erlaubt.</b> · <b>Das ist nicht erlaubt.</b> · <b>Bitte nicht telefonieren!</b></div>
+  </section>
+
+  <!-- 8 · Übung müssen/dürfen -->
+  <section class="slide" id="ue1">
+    <div class="kicker">Übung · Hausordnung Jahnstraße 12</div>
+    <h2>müssen oder dürfen? ✍️</h2>
+    <ul class="quiz">
+      <li><span class="n">1</span> <span class="loesung no-nav" onclick="reveal(this)">Dürft</span> ihr auf dem Balkon grillen? — Ja, das <span class="loesung no-nav" onclick="reveal(this)">dürfen</span> wir. Du nicht?</li>
+      <li><span class="n">2</span> <span class="loesung no-nav" onclick="reveal(this)">Muss</span> ich auch die Treppe putzen? — Ja, das <span class="loesung no-nav" onclick="reveal(this)">musst</span> du einmal im Monat machen.</li>
+      <li><span class="n">3</span> <span class="loesung no-nav" onclick="reveal(this)">Darf</span> mein Nachbar in der Wohnung rauchen? — Nein, er <span class="loesung no-nav" onclick="reveal(this)">muss</span> in den Garten gehen.</li>
+      <li><span class="n">4</span> Die Kinder <span class="loesung no-nav" onclick="reveal(this)">dürfen</span> hier nicht Fußball spielen! — Doch, aber sie <span class="loesung no-nav" onclick="reveal(this)">müssen</span> im Garten bleiben.</li>
+      <li><span class="n">5</span> <span class="loesung no-nav" onclick="reveal(this)">Muss</span> man immer die Haustür schließen? — Ja, unbedingt!</li>
+      <li><span class="n">6</span> <span class="loesung no-nav" onclick="reveal(this)">Darf</span> mein Kind in der Mittagsruhe auf dem Spielplatz sein? — Ja, Kinder <span class="loesung no-nav" onclick="reveal(this)">dürfen</span> immer spielen. Aber bitte nicht zu laut.</li>
+    </ul>
+    <button class="qbtn no-nav" onclick="revealAll('ue1')">👁 Alle Lösungen</button>
+    <div class="tip">🏠 <b>die Hausordnung</b> ist das Papier mit den Regeln vom Haus. Typische Sätze: <em>Die Haustüren müssen immer geschlossen bleiben.</em> · <em>Das Grillen ist auf Balkonen nicht erlaubt.</em></div>
+  </section>
+
+  <!-- 9 · Bildlexikon Schilder -->
+  <section class="slide">
+    <div class="kicker">Neu · Bildlexikon Lektion 21</div>
+    <h2>Die Schilder: Was steht da? 🪧</h2>
+    <div class="schilder">
+      <div class="s ja"><span class="em">⛺</span><b>Zelten erlaubt</b><span>acampar</span></div>
+      <div class="s ja"><span class="em">🏊</span><b>Baden erlaubt</b><span>bañarse / nadar</span></div>
+      <div class="s ja"><span class="em">🎣</span><b>Angeln erlaubt</b><span>pescar</span></div>
+      <div class="s ja"><span class="em">🅿️</span><b>Parken erlaubt</b><span>estacionarse</span></div>
+      <div class="s ja"><span class="em">🚲</span><b>Fahrrad fahren erlaubt</b><span>andar en bici</span></div>
+      <div class="s nein"><span class="em">🚭</span><b>Rauchen verboten</b><span>fumar</span></div>
+      <div class="s nein"><span class="em">🔥</span><b>Grillen verboten</b><span>asar / hacer parrillada</span></div>
+      <div class="s nein"><span class="em">🗑️</span><b>Müll abladen verboten</b><span>tirar basura</span></div>
+      <div class="s"><span class="em">🪖</span><b>Helm tragen</b><span>usar casco</span></div>
+      <div class="s"><span class="em">📵</span><b>Handys ausmachen</b><span>apagar el celular</span></div>
+      <div class="s"><span class="em">🤫</span><b>leise sein</b><span>guardar silencio</span></div>
+      <div class="s"><span class="em">🐕</span><b>Hunde an die Leine</b><span>con correa</span></div>
+    </div>
+    <div class="note">🟢 <b>erlaubt</b> → <em>Hier darf man zelten.</em> · 🔴 <b>verboten</b> → <em>Hier darf man nicht rauchen.</em> · ⚪ <b>Pflicht</b> → <em>Hier muss man einen Helm tragen.</em></div>
+    <div class="gelb">🗣️ Partnerarbeit: A zeigt auf ein Schild, B macht den Satz mit <b>ich · du · man · wir · ihr · Sie</b>. Dann tauscht ihr.</div>
+  </section>
+
+  <!-- 10 · Achtung / Vorsicht -->
+  <section class="slide" id="ue2">
+    <div class="kicker">Neu · Kommunikation</div>
+    <h2>Achtung! Vorsicht! ⚠️</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3 class="rojo">Auf etwas hinweisen</h3>
+        <div class="chips">
+          <span class="chip neg">Achtung!</span><span class="chip neg">Vorsicht!</span>
+          <span class="chip azulchip">Entschuldigung!</span><span class="chip azulchip">Schau mal!</span>
+        </div>
+        <ul class="check" style="margin-top:.5rem">
+          <li><em>Achtung!</em> Man muss hier einen Helm tragen.</li>
+          <li><em>Vorsicht!</em> Hier darf man nicht baden.</li>
+          <li><em>Entschuldigung,</em> hier darf man nicht rauchen.</li>
+          <li><em>Schau mal!</em> Der Mann fährt ohne Helm Fahrrad.</li>
+        </ul>
+        <div class="note"><b>Entschuldigung</b> ist die freundliche Variante — die nimmst du bei fremden Leuten.</div>
+      </div>
+      <div class="card">
+        <h3>Bau die Sätze — klick auf die Lücke</h3>
+        <ul class="quiz">
+          <li><span class="n">1</span> hier / man / nicht / rauchen / darf → <span class="loesung no-nav" onclick="reveal(this)">Man darf hier nicht rauchen.</span></li>
+          <li><span class="n">2</span> müssen / in Deutschland / einen Helm tragen / Sie → <span class="loesung no-nav" onclick="reveal(this)">Sie müssen in Deutschland einen Helm tragen.</span></li>
+          <li><span class="n">3</span> grillen / dürfen / ich / auf meinem Balkon → <span class="loesung no-nav" onclick="reveal(this)">Ich darf auf meinem Balkon grillen.</span></li>
+          <li><span class="n">4</span> wir / hier / nicht dürfen / telefonieren → <span class="loesung no-nav" onclick="reveal(this)">Wir dürfen hier nicht telefonieren.</span></li>
+          <li><span class="n">5</span> müssen / du / hier / langsam fahren → <span class="loesung no-nav" onclick="reveal(this)">Du musst hier langsam fahren.</span></li>
+        </ul>
+        <button class="qbtn no-nav" onclick="revealAll('ue2')">👁 Alle Lösungen</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · Schilderstadt -->
+  <section class="slide" id="ue3">
+    <div class="kicker">Übung · Leben in Schilderstadt</div>
+    <h2>Welches Wort passt? 🧩</h2>
+    <div class="grid2">
+      <div class="card">
+        <div class="chips">
+          <span class="chip">GRILLEN</span><span class="chip">AUSMACHEN</span><span class="chip">WIESE</span>
+          <span class="chip">FAHREN</span><span class="chip">ANGELN</span><span class="chip">TRAGEN</span>
+          <span class="chip">LEINE</span><span class="chip">SCHIEBEN</span><span class="chip">ZELTEN</span>
+        </div>
+        <ul class="quiz" style="margin-top:.5rem">
+          <li><span class="n">1</span> <span class="loesung no-nav" onclick="reveal(this)">Grillen</span> ist erlaubt.</li>
+          <li><span class="n">2</span> <span class="loesung no-nav" onclick="reveal(this)">Zelten</span> ist verboten.</li>
+          <li><span class="n">3</span> Ohne <span class="loesung no-nav" onclick="reveal(this)">Leine</span> sind Hunde nicht erlaubt.</li>
+          <li><span class="n">4</span> Sie müssen Ihr Handy <span class="loesung no-nav" onclick="reveal(this)">ausmachen</span>.</li>
+          <li><span class="n">5</span> <span class="loesung no-nav" onclick="reveal(this)">Angeln</span> ist verboten.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <ul class="quiz">
+          <li><span class="n">6</span> Sie dürfen nicht auf der <span class="loesung no-nav" onclick="reveal(this)">Wiese</span> sitzen.</li>
+          <li><span class="n">7</span> Sie müssen Ihr Fahrrad <span class="loesung no-nav" onclick="reveal(this)">schieben</span>.</li>
+          <li><span class="n">8</span> Man darf keinen Helm <span class="loesung no-nav" onclick="reveal(this)">tragen</span>.</li>
+          <li><span class="n">9</span> Fahrrad <span class="loesung no-nav" onclick="reveal(this)">fahren</span> ist verboten.</li>
+        </ul>
+        <button class="qbtn no-nav" onclick="revealAll('ue3')">👁 Alle Lösungen</button>
+        <div class="gelb">🚗 Und wie schnell darf man fahren?<br>
+          In der Stadt: <b>50 km/h</b> · Autobahn Schweiz: <b>120 km/h</b> · Österreich: <b>130 km/h</b> · Deutschland: <b>auf die Schilder schauen!</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · Meinung sagen und reagieren -->
+  <section class="slide">
+    <div class="kicker">Neu · Kommunikation, das Herz von Lektion 21</div>
+    <h2>Die Meinung sagen — und reagieren 💬</h2>
+    <div class="grid3">
+      <div class="card">
+        <h3 class="azul">Deine Meinung</h3>
+        <ul class="check">
+          <li><em>Ich denke,</em> das ist gut für ihn.</li>
+          <li><em>Ich glaube,</em> das ist verboten.</li>
+          <li><em>Ich finde</em> das superschade.</li>
+          <li><em>Ich meine:</em> Man darf schon grillen.</li>
+          <li><em>Für mich</em> ist das okay.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="verde">👍 Zustimmen</h3>
+        <ul class="check">
+          <li><em>Stimmt!</em></li>
+          <li><em>Das sehe ich auch so.</em></li>
+          <li><em>Das ist in Ordnung.</em></li>
+          <li><em>Genau!</em></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="rojo">👎 Widersprechen</h3>
+        <ul class="kreuz">
+          <li><em>Das sehe ich nicht so.</em></li>
+          <li><em>Wirklich?</em> Aber …</li>
+          <li><em>Das geht so nicht!</em></li>
+          <li><em>Das ist nicht in Ordnung!</em></li>
+        </ul>
+      </div>
+    </div>
+    <div class="formel">
+      §  Schau mal! Der Mann fährt ohne Helm Fahrrad. <span class="box p">Ich denke</span>, das ist <span class="box p">echt</span> gefährlich!<br>
+      §  Das <span class="box v">sehe ich nicht so</span>. Das ist doch erlaubt. Das ist <span class="box v">doch kein Problem</span>.
+    </div>
+    <div class="note">🔤 <b>denken</b> und <b>glauben</b> sind fast gleich. <b>finden</b> geht mit einem Adjektiv: <em>Ich finde das gut / schlimm / interessant.</em></div>
+  </section>
+
+  <!-- 13 · Kursplakate -->
+  <section class="slide">
+    <div class="kicker">Neu · Kursplakate</div>
+    <h2>Drei Themen — und du? 🗳️</h2>
+    <div class="grid3">
+      <div class="card">
+        <h3>🐕 Hunde im Restaurant</h3>
+        <div class="forum">
+          <div class="beitrag pro"><span class="name">Alexej</span><br>In Deutschland darf man oft Hunde mit ins Lokal nehmen. Ich denke, das ist in Ordnung.</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📵 Handyverbot in der Schule</h3>
+        <div class="forum">
+          <div class="beitrag pro"><span class="name">Janina</span><br>Mein Sohn geht in die Grundschule. Er darf kein Handy mitbringen. Ich denke, das ist echt gut für ihn.</div>
+          <div class="beitrag contra"><span class="name">Antonio</span><br>Wirklich? Aber Kinder brauchen doch auch Handys.</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>⛺ Zelten in der Natur</h3>
+        <div class="forum">
+          <div class="beitrag contra"><span class="name">Lasha</span><br>Ich glaube, in Österreich darf man nicht einfach in der Natur zelten. Das finde ich superschade.</div>
+          <div class="beitrag pro"><span class="name">Anna</span><br>Stimmt, Zelten in der Natur ist megaschön.</div>
+          <div class="beitrag contra"><span class="name">David</span><br>Ich seh das nicht so: Das ist nicht gut für die Umwelt.</div>
+        </div>
+      </div>
+    </div>
+    <div class="gelb">🗣️ Wähl ein Thema und sag zwei Sätze: <b>deine Meinung</b> + <b>eine Reaktion</b> auf jemanden aus der Gruppe. Und bei uns in Mexiko — <em>darf man das?</em></div>
+  </section>
+
+  <!-- 14 · Magazin -->
+  <section class="slide">
+    <div class="kicker">Magazin · Sag mal, geht's noch!?</div>
+    <h2>Darf man noch Fleisch essen? 🥩</h2>
+    <div class="grid2 ancho-izq">
+      <div class="card">
+        <h3>Der Blog von Mario Holzemann</h3>
+        <p style="font-size:.98em">Gestern war ich in der Mittagspause mit ein paar <b>Kolleginnen und Kollegen</b> in einem Restaurant. Es war sehr nett und wir haben viel gelacht. Dann <b>habe</b> ich ein T-Bone-Steak <b>bestellt</b>. Auf einmal hat niemand mehr gelacht … Ich war jetzt der „böse Fleischesser“!</p>
+        <p style="font-size:.98em;margin-top:.4em">Ich habe kein Auto. Ich fahre fast immer <b>mit dem Rad</b>. Mein Einkauf kommt in den Rucksack, nicht in die Plastiktüte. Fleisch esse ich zwei- bis dreimal im Monat. <em>Warum darf man das nicht?</em></p>
+        <div class="note">🔎 Im Text: das Perfekt für die Geschichte (<b>habe … bestellt</b>, <b>haben … gelacht</b>) und <b>war</b> für den Zustand.</div>
+      </div>
+      <div class="card">
+        <h3 class="azul">Die Kommentare</h3>
+        <div class="forum">
+          <div class="beitrag pro"><span class="name">Der Hans</span><br>Natürlich darf man Fleisch essen! Ich finde das voll in Ordnung.</div>
+          <div class="beitrag contra"><span class="name">WackelDackel</span><br>Warum darf man so was machen? Tiere sind keine Sachen. Tiere wollen leben.</div>
+          <div class="beitrag"><span class="name">Margret82</span><br>Ich finde, man muss kein Vegetarier sein. Man darf auch mal Fleisch essen. Ich esse nur einmal pro Woche Fleisch.</div>
+        </div>
+      </div>
+    </div>
+    <div class="gelb">🗣️ <b>Sag mal, geht's noch?</b> — Wählt zwei Fragen und sprecht: Muss man ohne Plastik leben? · Darf man viermal im Jahr in den Urlaub fliegen? · Muss man immer Bio-Obst essen? · Darf man in der Stadt noch Auto fahren?</div>
+  </section>
+
+  <!-- 15 · Fokus Beruf -->
+  <section class="slide" id="ue4">
+    <div class="kicker">Fokus Beruf · Teambesprechung</div>
+    <h2>Wer macht was im Team? 💼</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Die Wörter aus der Besprechung</h3>
+        <div class="scroll"><table class="klein">
+          <thead><tr><th>Deutsch</th><th>Spanisch</th></tr></thead>
+          <tbody>
+            <tr><td class="l">die Besprechung, -en</td><td class="l">la junta, la reunión</td></tr>
+            <tr><td class="l">die Projektleitung, -en</td><td class="l">la jefatura del proyecto</td></tr>
+            <tr><td class="l">die Bürogemeinschaft, -en</td><td class="l">oficina compartida</td></tr>
+            <tr><td class="l">das Ziel, -e</td><td class="l">la meta</td></tr>
+            <tr><td class="l">das Programm, -e</td><td class="l">el programa (de compu)</td></tr>
+            <tr><td class="l">das Homeoffice</td><td class="l">el trabajo en casa</td></tr>
+            <tr><td class="l">lösen</td><td class="l">resolver</td></tr>
+            <tr><td class="l">übernehmen (er übernimmt)</td><td class="l">encargarse de</td></tr>
+            <tr><td class="l">unterstützen</td><td class="l">apoyar</td></tr>
+            <tr><td class="l">sich kümmern um</td><td class="l">ocuparse de</td></tr>
+            <tr><td class="l">kommunizieren</td><td class="l">comunicarse</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <h3 class="azul">Aufgaben verteilen — die Sätze</h3>
+        <div class="dialog">
+          <p><span class="a">§</span> <em>Sei so nett und ruf mal bei der Bürogemeinschaft an.</em><br><span class="b">§</span> Ja klar, das mache ich.</p>
+          <p style="margin-top:.4em"><span class="a">§</span> <em>Vielleicht kannst du auch noch Papier bestellen.</em><br><span class="b">§</span> Mach ich.</p>
+          <p style="margin-top:.4em"><span class="a">§</span> <em>Wer kann das übernehmen?</em><br><span class="b">§</span> Ich kann das gern übernehmen.</p>
+          <p style="margin-top:.4em"><span class="a">§</span> <em>Wer kann Walter da unterstützen?</em><br><span class="b">§</span> Ich kann gern helfen. / Ich kümmere mich darum.</p>
+          <p style="margin-top:.4em"><span class="a">§</span> <em>Kannst du bei dem Workshop dabei sein?</em><br><span class="b">§</span> Nee, tut mir leid. Das geht leider nicht.</p>
+        </div>
+        <div class="note">🎭 Rollenspiel zu viert: Teamleitung · Einkauf · Marketing · IT. Jede Person bekommt eine Aufgabe und antwortet mit einem Satz von oben.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 · Modalverben Tabelle -->
+  <section class="slide">
+    <div class="kicker">Tabelle · Zum Nachschlagen</div>
+    <h2>Alle Modalverben im Präsens 📋</h2>
+    <div class="scroll"><table class="klein" id="tab-modal">
+      <thead><tr><th></th><th>müssen<br><span class="es">tener que</span></th><th>sollen<br><span class="es">deber (te lo dicen)</span></th><th>dürfen<br><span class="es">tener permitido</span></th><th>können<br><span class="es">poder (capacidad)</span></th><th>wollen<br><span class="es">querer</span></th><th>mögen<br><span class="es">gustar</span></th><th>möchten<br><span class="es">quisiera</span></th></tr></thead>
+      <tbody>
+        <tr><th>ich</th><td class="irr">muss</td><td class="irr">soll</td><td class="irr">darf</td><td class="irr">kann</td><td class="irr">will</td><td class="irr">mag</td><td>möchte</td></tr>
+        <tr><th>du</th><td>musst</td><td>sollst</td><td>darfst</td><td>kannst</td><td>willst</td><td>magst</td><td>möchtest</td></tr>
+        <tr><th>er/es/sie/man</th><td class="irr">muss</td><td class="irr">soll</td><td class="irr">darf</td><td class="irr">kann</td><td class="irr">will</td><td class="irr">mag</td><td>möchte</td></tr>
+        <tr><th>wir</th><td>müssen</td><td>sollen</td><td>dürfen</td><td>können</td><td>wollen</td><td>mögen</td><td>möchten</td></tr>
+        <tr><th>ihr</th><td>müsst</td><td>sollt</td><td>dürft</td><td>könnt</td><td>wollt</td><td>mögt</td><td>möchtet</td></tr>
+        <tr><th>sie/Sie</th><td>müssen</td><td>sollen</td><td>dürfen</td><td>können</td><td>wollen</td><td>mögen</td><td>möchten</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tip">🔴 Las formas de <b>ich</b> y de <b>er/es/sie</b> son <b>idénticas</b> y no llevan terminación: <em>ich muss</em> / <em>er muss</em>, nunca <span style="text-decoration:line-through">er musst</span>. En el singular cambia la vocal: m<b>ü</b>ssen → ich m<b>u</b>ss · d<b>ü</b>rfen → ich d<b>a</b>rf · k<b>ö</b>nnen → ich k<b>a</b>nn. Solo <b>sollen</b> se queda igual: <em>ich soll</em>, <em>wir sollen</em>.</div>
+    <div class="note">📐 El verbo modal se conjuga y va en <b>posición 2</b>; el otro verbo se queda en <b>infinitivo hasta el final</b>. Los dos abrazan la frase: <em>Ich <b>muss</b> heute im Homeoffice <b>arbeiten</b>.</em></div>
+    <div class="export no-nav">
+      <button class="ebtn" onclick="tabellePDF()">📄 PDF speichern</button>
+      <button class="ebtn" onclick="tabellePNG()">🖼️ Bild speichern</button>
+      <span class="ehinweis">Llévate la tabla al cuaderno o al celular.</span>
+    </div>
+    <div class="gelb">🗣️ <b>sollen</b> no es una obligación tuya: es lo que <b>otra persona</b> te dice, te aconseja o te encarga. Por eso suele venir con un «alguien dice que…»:<br>
+      <em>Mein Arzt sagt, ich soll viele Übungen machen.</em> <span class="es">(el médico me lo recomienda)</span> · <em>Die Laptops sollen 16 GB haben.</em> <span class="es">(así lo pidió el equipo)</span> · <em>Soll ich zum Arzt gehen?</em> <span class="es">(¿qué me aconsejas?)</span></div>
+  </section>
+
+  <!-- 17 · Verbliste -->
+  <section class="slide">
+    <div class="kicker">Tabelle · Die Verben von Lektion 21</div>
+    <h2>Präsens und Perfekt 🔧</h2>
+    <div class="scroll"><table class="klein">
+      <thead><tr><th>Infinitiv</th><th>er/es/sie</th><th>Perfekt</th><th>Spanisch</th></tr></thead>
+      <tbody>
+        <tr><td class="l">werfen</td><td class="irr">wirft</td><td class="l">hat geworfen</td><td class="l">tirar, lanzar</td></tr>
+        <tr><td class="l">weg·werfen</td><td class="irr">wirft weg</td><td class="l">hat weggeworfen</td><td class="l">tirar (a la basura)</td></tr>
+        <tr><td class="l">tragen</td><td class="irr">trägt</td><td class="l">hat getragen</td><td class="l">llevar puesto, cargar</td></tr>
+        <tr><td class="l">ab·laden</td><td class="irr">lädt ab</td><td class="l">hat abgeladen</td><td class="l">descargar (basura)</td></tr>
+        <tr><td class="l">mit·nehmen</td><td class="irr">nimmt mit</td><td class="l">hat mitgenommen</td><td class="l">llevar consigo</td></tr>
+        <tr><td class="l">mit·bringen</td><td>bringt mit</td><td class="l">hat mitgebracht</td><td class="l">traer</td></tr>
+        <tr><td class="l">schieben</td><td>schiebt</td><td class="l">hat geschoben</td><td class="l">empujar (la bici)</td></tr>
+        <tr><td class="l">aus·machen</td><td>macht aus</td><td class="l">hat ausgemacht</td><td class="l">apagar</td></tr>
+        <tr><td class="l">grillen</td><td>grillt</td><td class="l">hat gegrillt</td><td class="l">asar, hacer parrillada</td></tr>
+        <tr><td class="l">stören</td><td>stört</td><td class="l">hat gestört</td><td class="l">molestar</td></tr>
+        <tr><td class="l">zelten</td><td>zeltet</td><td class="l">hat gezeltet</td><td class="l">acampar</td></tr>
+        <tr><td class="l">baden</td><td>badet</td><td class="l">hat gebadet</td><td class="l">bañarse, nadar</td></tr>
+        <tr><td class="l">angeln</td><td>angelt</td><td class="l">hat geangelt</td><td class="l">pescar</td></tr>
+        <tr><td class="l">parken</td><td>parkt</td><td class="l">hat geparkt</td><td class="l">estacionarse</td></tr>
+        <tr><td class="l">nutzen</td><td>nutzt</td><td class="l">hat genutzt</td><td class="l">usar</td></tr>
+        <tr><td class="l">meinen</td><td>meint</td><td class="l">hat gemeint</td><td class="l">opinar</td></tr>
+        <tr><td class="l">lösen</td><td>löst</td><td class="l">hat gelöst</td><td class="l">resolver</td></tr>
+        <tr><td class="l">übernehmen</td><td class="irr">übernimmt</td><td class="l">hat übernommen</td><td class="l">encargarse de</td></tr>
+        <tr><td class="l">unterstützen</td><td>unterstützt</td><td class="l">hat unterstützt</td><td class="l">apoyar</td></tr>
+      </tbody>
+    </table></div>
+    <div class="gelb">⚡ Vokalwechsel nur bei <b>du</b> und <b>er/es/sie</b>: du w<b>i</b>rfst · du tr<b>ä</b>gst · du l<b>ä</b>dst ab · du n<b>i</b>mmst mit. Im Plural ist alles wieder normal.</div>
+  </section>
+
+  <!-- 18 · Wortschatz Nomen -->
+  <section class="slide">
+    <div class="kicker">Wortschatz · Lektion 21 · Nomen</div>
+    <h2>Mit Artikel und Plural lernen 📚</h2>
+    <div class="grid2">
+      <div class="scroll"><table class="klein">
+        <thead><tr><th>Nomen</th><th>Plural</th><th>Spanisch</th></tr></thead>
+        <tbody>
+          <tr><td class="l"><span class="azul">der</span> Helm</td><td>-e</td><td class="l">el casco</td></tr>
+          <tr><td class="l"><span class="azul">der</span> Grill</td><td>-s</td><td class="l">el asador</td></tr>
+          <tr><td class="l"><span class="azul">der</span> Nachbar</td><td>-n</td><td class="l">el vecino</td></tr>
+          <tr><td class="l"><span class="azul">der</span> Mieter</td><td>-</td><td class="l">el inquilino</td></tr>
+          <tr><td class="l"><span class="azul">der</span> Fahrer</td><td>-</td><td class="l">el conductor</td></tr>
+          <tr><td class="l"><span class="azul">der</span> Rauch</td><td>—</td><td class="l">el humo</td></tr>
+          <tr><td class="l"><span class="azul">der</span> Müll</td><td>—</td><td class="l">la basura</td></tr>
+          <tr><td class="l"><span class="azul">der</span> Bekannte</td><td>-n</td><td class="l">el conocido</td></tr>
+          <tr><td class="l"><span class="rojo">die</span> Hausordnung</td><td>-en</td><td class="l">el reglamento del edificio</td></tr>
+          <tr><td class="l"><span class="rojo">die</span> Terrasse</td><td>-n</td><td class="l">la terraza</td></tr>
+          <tr><td class="l"><span class="rojo">die</span> Leine</td><td>-n</td><td class="l">la correa</td></tr>
+          <tr><td class="l"><span class="rojo">die</span> Wiese</td><td>-n</td><td class="l">el prado, el pasto</td></tr>
+        </tbody>
+      </table></div>
+      <div class="scroll"><table class="klein">
+        <thead><tr><th>Nomen</th><th>Plural</th><th>Spanisch</th></tr></thead>
+        <tbody>
+          <tr><td class="l"><span class="rojo">die</span> Region</td><td>-en</td><td class="l">la región</td></tr>
+          <tr><td class="l"><span class="rojo">die</span> Umwelt</td><td>—</td><td class="l">el medio ambiente</td></tr>
+          <tr><td class="l"><span class="rojo">die</span> Grundschule</td><td>-n</td><td class="l">la primaria</td></tr>
+          <tr><td class="l"><span class="rojo">die</span> Besprechung</td><td>-en</td><td class="l">la junta</td></tr>
+          <tr><td class="l"><span class="verde">das</span> Grillfest</td><td>-e</td><td class="l">la carne asada (fiesta)</td></tr>
+          <tr><td class="l"><span class="verde">das</span> Grillfleisch</td><td>—</td><td class="l">la carne para asar</td></tr>
+          <tr><td class="l"><span class="verde">das</span> Gemüse</td><td>—</td><td class="l">la verdura</td></tr>
+          <tr><td class="l"><span class="verde">das</span> Lokal</td><td>-e</td><td class="l">el local, el restaurante</td></tr>
+          <tr><td class="l"><span class="verde">das</span> Verbot</td><td>-e</td><td class="l">la prohibición</td></tr>
+          <tr><td class="l"><span class="verde">das</span> Ziel</td><td>-e</td><td class="l">la meta</td></tr>
+          <tr><td class="l"><span class="verde">das</span> Programm</td><td>-e</td><td class="l">el programa</td></tr>
+          <tr><td class="l"><span class="verde">der</span> Tofu</td><td>—</td><td class="l">el tofu</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="note">💡 Lern das Nomen zusammen mit dem Verb: <b>der Grill</b> – <b>grillen</b> · <b>das Verbot</b> – <b>verboten</b> · <b>der Rauch</b> – <b>rauchen</b> · <b>die Besprechung</b> – <b>besprechen</b>.</div>
+  </section>
+
+  <!-- 19 · Adjektive & Ausdrücke -->
+  <section class="slide">
+    <div class="kicker">Wortschatz · Lektion 21 · Adjektive und Ausdrücke</div>
+    <h2>Wie findest du das? 🎨</h2>
+    <div class="grid3">
+      <div class="card">
+        <h3 class="verde">👍 Positiv</h3>
+        <div class="chips">
+          <span class="chip pos">erlaubt</span><span class="chip pos">gemütlich</span>
+          <span class="chip pos">angenehm</span><span class="chip pos">gemeinsam</span>
+          <span class="chip pos">in Ordnung</span><span class="chip pos">kein Problem</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="rojo">👎 Negativ</h3>
+        <div class="chips">
+          <span class="chip neg">verboten</span><span class="chip neg">gefährlich</span>
+          <span class="chip neg">unglaublich</span><span class="chip neg">unangenehm</span>
+          <span class="chip neg">schlimm</span><span class="chip neg">schwierig</span>
+          <span class="chip neg">traurig</span><span class="chip neg">schade</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="azul">Kleine Wörter</h3>
+        <ul class="check">
+          <li><em>nämlich</em> — es que, resulta que</li>
+          <li><em>darin / drin</em> — ahí dentro</li>
+          <li><em>langsam ↔ schnell</em></li>
+          <li><em>laut ↔ leise</em></li>
+          <li><em>gar nicht / überhaupt nicht</em></li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:.6rem">
+      <div class="card">
+        <h3>Das Gegenteil</h3>
+        <div class="scroll"><table class="klein">
+          <tr><th>erlaubt</th><td>↔</td><td class="l">verboten</td><th>angenehm</th><td>↔</td><td class="l">unangenehm</td></tr>
+          <tr><th>gefährlich</th><td>↔</td><td class="l">ungefährlich</td><th>freundlich</th><td>↔</td><td class="l">unfreundlich</td></tr>
+          <tr><th>sauber</th><td>↔</td><td class="l">schmutzig</td><th>sympathisch</th><td>↔</td><td class="l">unsympathisch</td></tr>
+        </table></div>
+      </div>
+      <div class="card">
+        <h3 class="amb">Was bedeutet das?</h3>
+        <ul class="quiz">
+          <li>Der Müll ist superschlimm. → <span class="loesung no-nav" onclick="reveal(this)">Es ist richtig unangenehm.</span></li>
+          <li>Baden im See ist megaschön. → <span class="loesung no-nav" onclick="reveal(this)">Es ist echt toll.</span></li>
+          <li>Das Grillverbot ist superschade. → <span class="loesung no-nav" onclick="reveal(this)">Das ist total schade.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20 · Wo / Wohin + Pronomen -->
+  <section class="slide">
+    <div class="kicker">Tabelle · Zum Nachschlagen</div>
+    <h2>Wo? Wohin? Und die Pronomen 🧭</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3 class="azul">WO? → Dativ <span class="es">(Position)</span></h3>
+        <div class="scroll"><table class="klein">
+          <tr><th>der / das</th><td class="l"><b>dem</b> → im Park, auf dem Balkon</td></tr>
+          <tr><th>die</th><td class="l"><b>der</b> → auf der Straße, an der Haltestelle</td></tr>
+          <tr><th>Plural</th><td class="l"><b>den</b> → auf den Wiesen</td></tr>
+        </table></div>
+        <p style="margin-top:.4em">Er grillt auf <em>dem</em> Balkon. · Ich war <em>im</em> Kino. · Wir arbeiten <em>an der</em> UNAM.</p>
+      </div>
+      <div class="card">
+        <h3 class="rojo">WOHIN? → Akkusativ <span class="es">(Bewegung)</span></h3>
+        <div class="scroll"><table class="klein">
+          <tr><th>der</th><td class="l"><b>den</b> → in den Park, in den Garten</td></tr>
+          <tr><th>das</th><td class="l"><b>das</b> → ins Kino, ins Restaurant</td></tr>
+          <tr><th>die</th><td class="l"><b>die</b> → auf die Straße, über die Ampel</td></tr>
+        </table></div>
+        <p style="margin-top:.4em">Sie wirft Müll auf <em>die</em> Straße. · Er geht über <em>die</em> Ampel. · Er muss <em>in den</em> Garten gehen.</p>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:.6rem">
+      <div class="card">
+        <h3>Akkusativ-Pronomen <span class="es">— stören, verstehen, brauchen, einladen, abholen</span></h3>
+        <div class="scroll"><table class="klein">
+          <tr><th>ich</th><td class="irr">mich</td><th>wir</th><td>uns</td></tr>
+          <tr><th>du</th><td class="irr">dich</td><th>ihr</th><td>euch</td></tr>
+          <tr><th>er/es/sie</th><td>ihn / es / sie</td><th>sie/Sie</th><td>sie / Sie</td></tr>
+        </table></div>
+        <p style="margin-top:.35em">Das stört <em>mich</em> total! · Ich hole <em>dich</em> ab.</p>
+      </div>
+      <div class="card">
+        <h3 class="azul">Dativ-Pronomen <span class="es">— gefallen, schmecken, helfen, gehören</span></h3>
+        <div class="scroll"><table class="klein">
+          <tr><th>ich</th><td class="mod">mir</td><th>wir</th><td>uns</td></tr>
+          <tr><th>du</th><td class="mod">dir</td><th>ihr</th><td>euch</td></tr>
+          <tr><th>er/es/sie</th><td>ihm / ihm / ihr</td><th>sie/Sie</th><td>ihnen / Ihnen</td></tr>
+        </table></div>
+        <p style="margin-top:.35em">Hat es <em>dir</em> gefallen? · Das Fahrrad gehört <em>mir</em>!</p>
+      </div>
+    </div>
+    <div class="gelb">🔤 Verschmelzungen: in+das=<b>ins</b> · in+dem=<b>im</b> · an+das=<b>ans</b> · an+dem=<b>am</b> · auf+das=<b>aufs</b> · bei+dem=<b>beim</b> · zu+dem=<b>zum</b> · zu+der=<b>zur</b>.</div>
+  </section>
+
+  <!-- 21 · Perfekt Kurzreferenz -->
+  <section class="slide">
+    <div class="kicker">Tabelle · Das bleibt wichtig</div>
+    <h2>Perfekt in einer Minute ⏪</h2>
+    <div class="formel"><span class="box">Position 1</span> <span class="box m">haben / sein</span> … <span class="box v">Partizip II am Ende</span></div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Der Bauplan</h3>
+        <div class="scroll"><table class="klein">
+          <thead><tr><th>Typ</th><th>Bauplan</th><th>Beispiel</th></tr></thead>
+          <tbody>
+            <tr><td class="l">regelmäßig</td><td><b>ge</b> + Stamm + <b>t</b></td><td class="l">grillen → <b>ge</b>grill<b>t</b></td></tr>
+            <tr><td class="l">unregelmäßig</td><td><b>ge</b> + Stamm(±) + <b>en</b></td><td class="l">werfen → <b>ge</b>worf<b>en</b></td></tr>
+            <tr><td class="l">auf <b>-ieren</b></td><td>ohne <b>ge-</b></td><td class="l">telefonieren → telefonier<b>t</b></td></tr>
+            <tr><td class="l">nicht trennbar</td><td>ohne <b>ge-</b></td><td class="l">übernehmen → übernomm<b>en</b></td></tr>
+            <tr><td class="l">trennbar</td><td>Präfix + <b>ge</b> + …</td><td class="l">ausmachen → aus<b>ge</b>mach<b>t</b></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <h3 class="azul">haben oder sein?</h3>
+        <ul class="check">
+          <li><b>sein</b> + Bewegung A → B: <em>Ich bin ins Kino gegangen.</em></li>
+          <li><b>sein</b> + Zustandswechsel: <em>Ich bin aufgestanden.</em></li>
+          <li><b>sein</b> auch bei: sein, bleiben, passieren</li>
+          <li><b>haben</b> für alle anderen: <em>Ich habe gegrillt.</em></li>
+        </ul>
+        <div class="note">Al hablar, casi todo va en <b>Perfekt</b>. Solo <b>sein</b> y <b>haben</b> tienen su forma corta para el pasado: <em>Ich <b>war</b> müde.</em> · <em>Ich <b>hatte</b> keine Zeit.</em></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22 · Schnelltest -->
+  <section class="slide" id="ue5">
+    <div class="kicker">Schnelltest · Kann ich das?</div>
+    <h2>Fünf Minuten, drei Aufgaben ✅</h2>
+    <div class="grid3">
+      <div class="card">
+        <h3>A · Was steht auf dem Schild?</h3>
+        <ul class="quiz">
+          <li><span class="n">1</span> 🚭 <span class="loesung no-nav" onclick="reveal(this)">Rauchen verboten</span></li>
+          <li><span class="n">2</span> 🏊 <span class="loesung no-nav" onclick="reveal(this)">Baden erlaubt</span></li>
+          <li><span class="n">3</span> 📵 <span class="loesung no-nav" onclick="reveal(this)">Handys ausmachen</span></li>
+          <li><span class="n">4</span> 🤫 <span class="loesung no-nav" onclick="reveal(this)">leise sein</span></li>
+          <li><span class="n">5</span> 🔥 <span class="loesung no-nav" onclick="reveal(this)">Grillen verboten</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>B · Ergänze das Modalverb</h3>
+        <ul class="quiz">
+          <li><span class="n">1</span> Man <span class="loesung no-nav" onclick="reveal(this)">darf</span> hier nicht rauchen.</li>
+          <li><span class="n">2</span> Du <span class="loesung no-nav" onclick="reveal(this)">musst</span> hier langsam fahren.</li>
+          <li><span class="n">3</span> Wir <span class="loesung no-nav" onclick="reveal(this)">dürfen</span> hier nicht telefonieren.</li>
+          <li><span class="n">4</span> Sie <span class="loesung no-nav" onclick="reveal(this)">müssen</span> einen Helm tragen.</li>
+          <li><span class="n">5</span> Ich <span class="loesung no-nav" onclick="reveal(this)">darf</span> auf meinem Balkon grillen.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>C · Die Meinung sagen</h3>
+        <p style="font-size:.96em">§ Schau mal! Der Mann fährt ohne Helm.<br>
+        <span class="loesung no-nav" onclick="reveal(this)">Ich denke</span>, das ist <span class="loesung no-nav" onclick="reveal(this)">echt</span> gefährlich!</p>
+        <p style="font-size:.96em;margin-top:.5em">§ Das <span class="loesung no-nav" onclick="reveal(this)">sehe ich nicht so</span>. Das ist doch erlaubt. Das ist <span class="loesung no-nav" onclick="reveal(this)">doch kein Problem</span>.</p>
+        <button class="qbtn no-nav" onclick="revealAll('ue5')">👁 Alle Lösungen</button>
+      </div>
+    </div>
+    <div class="tip">📝 Und zum Schreiben: eine <b>E-Mail an die Nachbarn</b> — die Kinder sind am Abend auf dem Spielplatz, sehr laut, oft mit Musik. Der Spielplatz ist nur bis 21 Uhr offen und du stehst jeden Tag um 4 Uhr auf.</div>
+  </section>
+
+  <!-- 23 · Jetzt ihr -->
+  <section class="slide">
+    <div class="kicker">Jetzt ihr! · Sprechen &amp; Hausaufgabe</div>
+    <h2>Und du? 🗣️</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Sprechen — ganze Sätze bitte</h3>
+        <ul class="check">
+          <li><b>Darf man das bei euch?</b> — auf dem Balkon grillen · im Park zelten · den Hund ohne Leine laufen lassen · im Restaurant rauchen</li>
+          <li><b>Was muss man in deinem Haus machen?</b> (Hausordnung)</li>
+          <li><b>Was stört dich in deiner Stadt?</b> Warum?</li>
+          <li><b>Sag mal, geht's noch?</b> — Darf man in der Stadt noch Auto fahren?</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="azul">📚 Hausaufgabe</h3>
+        <ul class="check">
+          <li><b>Arbeitsbuch S. 136–139</b> — Übungen 1 bis 8</li>
+          <li><b>S. 138</b> — die E-Mail: Wie schnell darf man in D, A und CH fahren?</li>
+          <li><b>S. 139</b> — dein Forumsbeitrag: <em>Handy in der Firma erlaubt?</em></li>
+          <li><b>Lernwortschatz S. 230–232</b> — mit Artikel und Plural</li>
+        </ul>
+        <div class="note">Fürs nächste Mal: <b>Wiederholung S. 140–141</b> und der <b>Test vom Modul 7</b> (Hören, Schreiben, Lesen, Sprechen).</div>
+      </div>
+    </div>
+    <p class="big" style="margin-top:.8rem">Bis zum nächsten Mal! 👋</p>
+  </section>
+
+</div>
+
+<div class="hud no-nav">
+  <button onclick="go(-1)" aria-label="Zurück">‹</button>
+  <span class="count" id="count">1 / 1</span>
+  <button onclick="go(1)" aria-label="Weiter">›</button>
+</div>
+<div class="bar"><i id="prog"></i></div>
+<div id="printbereich" aria-hidden="true"></div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  function render(){
+    slides.forEach((s,n)=>s.classList.toggle('active',n===i));
+    document.getElementById('count').textContent=(i+1)+' / '+slides.length;
+    document.getElementById('prog').style.width=((i+1)/slides.length*100)+'%';
+  }
+  function go(d){i=Math.min(slides.length-1,Math.max(0,i+d));render();}
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){go(1);e.preventDefault();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(-1);e.preventDefault();}
+    else if(e.key==='Home'){i=0;render();}
+    else if(e.key==='End'){i=slides.length-1;render();}
+    else if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement)document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+  document.getElementById('deck').addEventListener('click',e=>{
+    if(e.target.closest('.hud')||e.target.closest('.no-nav')||e.target.closest('.loesung'))return;
+    go(e.clientX > window.innerWidth/2 ? 1 : -1);
+  });
+  function reveal(el){el.classList.toggle('show');}
+  function revealAll(id){document.querySelectorAll('#'+id+' .loesung').forEach(s=>s.classList.add('show'));}
+  window.reveal=reveal;window.revealAll=revealAll;window.go=go;
+
+  /* ---- Würfel für die Blitzrunde ---- */
+  const personen=[
+    {w:'ich',   h:'Ich darf hier … / Ich muss hier …'},
+    {w:'du',    h:'Darfst du hier …? / Du musst hier …'},
+    {w:'man',   h:'Man darf hier … / Man muss hier …'},
+    {w:'wir',   h:'Wir dürfen hier … / Wir müssen hier …'},
+    {w:'ihr',   h:'Dürft ihr hier …? / Ihr müsst hier …'},
+    {w:'Sie',   h:'Sie dürfen hier … / Sie müssen hier …'}
+  ];
+  const schilder=[
+    {t:'Helm tragen',        e:'🪖'},
+    {t:'Zelten erlaubt',     e:'⛺'},
+    {t:'Rauchen verboten',   e:'🚭'},
+    {t:'Handys ausmachen',   e:'📵'},
+    {t:'Baden erlaubt',      e:'🏊'},
+    {t:'Grillen verboten',   e:'🔥'},
+    {t:'Angeln erlaubt',     e:'🎣'},
+    {t:'Fahrrad fahren erlaubt', e:'🚲'},
+    {t:'Müll abladen verboten',  e:'🗑️'},
+    {t:'Parken erlaubt',     e:'🅿️'},
+    {t:'leise sein',         e:'🤫'},
+    {t:'Hunde an die Leine', e:'🐕'}
+  ];
+  function wuerfeln(){
+    const p=personen[Math.floor(Math.random()*personen.length)];
+    const s=schilder[Math.floor(Math.random()*schilder.length)];
+    document.getElementById('w-icon').textContent=s.e;
+    document.getElementById('w-person').textContent=p.w;
+    document.getElementById('w-schild').textContent=s.t;
+    document.getElementById('w-hilfe').textContent=p.h;
+  }
+  window.wuerfeln=wuerfeln;
+
+  /* ---- Die Modalverben-Tabelle mitnehmen: PDF und Bild ---- */
+  const TAB_TITEL='Modalverben im Präsens';
+  const TAB_FUSS='Deutsch A1/A2 · Momente A1.2 · Lektion 21 · 24. August 2026';
+
+  function tabellePDF(){
+    const slide=document.getElementById('tab-modal').closest('.slide');
+    const ziel=document.getElementById('printbereich');
+    ziel.innerHTML='';
+    const kopf=document.createElement('div');
+    kopf.className='drucktitel';
+    kopf.textContent=TAB_FUSS;
+    const titel=document.createElement('h2');
+    titel.textContent=TAB_TITEL;
+    ziel.appendChild(kopf);
+    ziel.appendChild(titel);
+    ziel.appendChild(document.getElementById('tab-modal').cloneNode(true));
+    const kaesten=document.createElement('div');
+    kaesten.className='kaesten';
+    slide.querySelectorAll('.tip,.note,.gelb').forEach(n=>kaesten.appendChild(n.cloneNode(true)));
+    ziel.appendChild(kaesten);
+    const fuss=document.createElement('div');
+    fuss.className='druckfuss';
+    fuss.textContent='Deutschunterricht A1/A2';
+    ziel.appendChild(fuss);
+    document.body.classList.add('drucken');
+    window.print();
+  }
+  window.addEventListener('afterprint',()=>document.body.classList.remove('drucken'));
+
+  function tabellePNG(){
+    const tab=document.getElementById('tab-modal');
+    const S=3;                                  // Skalierung: scharf auch beim Zoomen
+    const c=document.createElement('canvas');
+    const x=c.getContext('2d');
+    const F='"Trebuchet MS","Segoe UI",sans-serif';
+    const fett=g=>'bold '+g+'px '+F, normal=g=>g+'px '+F;
+
+    // Zellen einlesen
+    const zeilen=[...tab.querySelectorAll('tr')].map(tr=>
+      [...tr.children].map(z=>{
+        const es=z.querySelector('.es');
+        const kopie=z.cloneNode(true);
+        kopie.querySelectorAll('.es,br').forEach(n=>n.remove());
+        return {
+          haupt:kopie.textContent.trim(),
+          sub:es?es.textContent.trim():'',
+          kopf:z.tagName==='TH',
+          thead:!!z.closest('thead'),
+          irr:z.classList.contains('irr')
+        };
+      })
+    );
+    const spalten=Math.max(...zeilen.map(z=>z.length));
+
+    // Spaltenbreiten messen
+    const pad=16, breiten=new Array(spalten).fill(70);
+    zeilen.forEach(z=>z.forEach((zelle,i)=>{
+      x.font=zelle.kopf?fett(17):normal(16);
+      let b=x.measureText(zelle.haupt).width;
+      if(zelle.sub){x.font=normal(12.5);b=Math.max(b,x.measureText(zelle.sub).width);}
+      breiten[i]=Math.max(breiten[i],b+pad*2);
+    }));
+
+    const kopfhoehe=62, zeilenhoehe=40, rand=34, titelhoehe=78, fusshoehe=34;
+    const tabbreite=breiten.reduce((a,b)=>a+b,0);
+    const W=tabbreite+rand*2;
+    const H=titelhoehe+kopfhoehe+(zeilen.length-1)*zeilenhoehe+fusshoehe+rand*2;
+    c.width=W*S; c.height=H*S; x.scale(S,S);
+
+    // Papier
+    x.fillStyle='#ffffff'; x.fillRect(0,0,W,H);
+    x.textBaseline='middle';
+
+    // Titel
+    x.fillStyle='#3F5F3A'; x.font=fett(27); x.textAlign='left';
+    x.fillText(TAB_TITEL,rand,rand+18);
+    x.fillStyle='#5A6558'; x.font=normal(13);
+    x.fillText(TAB_FUSS,rand,rand+46);
+
+    // Tabelle
+    let y=rand+titelhoehe;
+    zeilen.forEach((zeile,r)=>{
+      const h=r===0?kopfhoehe:zeilenhoehe;
+      let cx=rand;
+      zeile.forEach((zelle,i)=>{
+        const b=breiten[i];
+        // Hintergrund
+        if(zelle.thead) x.fillStyle='#5E8A58';
+        else if(zelle.irr) x.fillStyle='#fdf3ec';
+        else if(zelle.kopf) x.fillStyle='#f0ead9';
+        else x.fillStyle='#ffffff';
+        x.fillRect(cx,y,b,h);
+        // Rahmen
+        x.strokeStyle='#D8DDD2'; x.lineWidth=1;
+        x.strokeRect(cx+.5,y+.5,b-1,h-1);
+        // Text
+        const links=zelle.kopf&&!zelle.thead;
+        x.textAlign=links?'left':'center';
+        const tx=links?cx+pad:cx+b/2;
+        if(zelle.thead) x.fillStyle='#ffffff';
+        else if(zelle.irr) x.fillStyle='#c0392b';
+        else x.fillStyle='#1E241F';
+        x.font=zelle.kopf?fett(17):normal(16);
+        if(zelle.sub){
+          x.fillText(zelle.haupt,tx,y+h/2-11);
+          x.fillStyle=zelle.thead?'rgba(255,255,255,.88)':'#5A6558';
+          x.font='italic '+normal(12.5);
+          x.fillText(zelle.sub,tx,y+h/2+12);
+        }else{
+          x.fillText(zelle.haupt,tx,y+h/2);
+        }
+        cx+=b;
+      });
+      y+=h;
+    });
+
+    // Fuß
+    x.textAlign='right'; x.fillStyle='#5A6558'; x.font=normal(12.5);
+    x.fillText('Deutschunterricht A1/A2',W-rand,y+20);
+
+    c.toBlob(b=>{
+      const url=URL.createObjectURL(b);
+      const a=document.createElement('a');
+      a.href=url; a.download='modalverben-praesens.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+    },'image/png');
+  }
+  window.tabellePDF=tabellePDF; window.tabellePNG=tabellePNG;
+
+  render();
+</script>
+</body>
+</html>
